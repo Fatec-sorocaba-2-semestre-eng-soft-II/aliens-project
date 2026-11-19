@@ -117,9 +117,53 @@ function usuarioTemPermissao(funcionalidade) {
 
 }
 
+// ========================================
+// 5. PROTEÇÃO DE ACESSO
+// ========================================
+
+function verificarAutenticacao(caminhoLogin = "login.html") {
+
+    const usuario = JSON.parse(
+        sessionStorage.getItem("amsUsuarioAutenticado")
+    );
+
+    if (!usuario) {
+
+        window.location.href = caminhoLogin;
+
+        return false;
+    }
+
+    return true;
+}
 
 // ========================================
-// 5. VALIDAÇÃO DO LOGIN
+// 6. PROTEÇÃO POR PERMISSÃO
+// ========================================
+
+function verificarPermissao(funcionalidade, caminhoLogin = "login.html") {
+
+    // Primeiro verifica se o usuário está autenticado
+    if (!verificarAutenticacao(caminhoLogin)) {
+        return false;
+    }
+
+    // Verifica se o perfil possui a permissão solicitada
+    if (!usuarioTemPermissao(funcionalidade)) {
+
+        alert("Acesso negado! Você não possui permissão para acessar esta funcionalidade.");
+
+        window.history.back();
+
+        return false;
+    }
+
+    return true;
+}
+
+
+// ========================================
+// 7. VALIDAÇÃO DO LOGIN
 // ========================================
 
 const formularioLogin = document.getElementById("loginForm");
@@ -179,3 +223,14 @@ formularioLogin.addEventListener("submit", function (event) {
     }
 
 });
+
+const usuarios = JSON.parse(localStorage.getItem("amsUsuarios"));
+
+usuarios.push({
+    id: 4,
+    login: "PILOTO",
+    senha: "1234",
+    perfil: "Piloto"
+});
+
+localStorage.setItem("amsUsuarios", JSON.stringify(usuarios));
