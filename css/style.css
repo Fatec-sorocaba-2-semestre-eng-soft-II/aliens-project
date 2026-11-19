@@ -757,3 +757,31 @@ h1 {
         grid-column: 1;
     }
 }
+
+/* --- Checkbox: mesmo local de abdução e devolução --- */
+
+.campo input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--green);
+    cursor: pointer;
+}
+
+.campo:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    align-self: end;
+    margin-bottom: 14px;
+}
+
+.campo:has(input[type="checkbox"]) label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 13px;
+    letter-spacing: normal;
+    text-transform: none;
+}
