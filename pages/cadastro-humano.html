@@ -178,7 +178,57 @@
 
                         </div>
                     </section>
+                    <!-- SEÇÃO 02: LOCALIZAÇÃO -->
+                    <section class="card formulario-section">
 
+                        <div class="formulario-titulo">
+                            <span>02</span>
+                            <h2>Localização e Georreferenciamento</h2>
+                            <p>Registre as informações de localização do humano.</p>
+                        </div>
+
+                        <div class="formulario-campos">
+
+                            <div class="campo">
+                                <label for="continente">Continente</label>
+                                <select id="continente" name="continente" required>
+                                    <option value="">Selecione o continente</option>
+                                    <option value="Africa">África</option>
+                                    <option value="America">América</option>
+                                    <option value="Asia">Ásia</option>
+                                    <option value="Europa">Europa</option>
+                                    <option value="Oceania">Oceania</option>
+                                    <option value="Antartida">Antártida</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="endereco">Endereço residencial habitual</label>
+                                <input type="text" id="endereco" name="endereco"
+                                    placeholder="Digite o endereço">
+                            </div>
+
+                            <div class="campo">
+                                <label for="localAbducao">Local de abdução (Ponto Alfa)</label>
+                                <input type="text" id="localAbducao" name="localAbducao"
+                                    placeholder="Digite o local de abdução" required>
+                            </div>
+
+                            <div class="campo">
+                                <label for="localDevolucao">Local de devolução (Ponto Ômega)</label>
+                                <input type="text" id="localDevolucao" name="localDevolucao"
+                                    placeholder="Digite o local de devolução" required>
+                            </div>
+
+                            <div class="campo">
+                                <label>
+                                    <input type="checkbox" id="mesmoLocal" name="mesmoLocal">
+                                    Devolver no mesmo local da abdução
+                                </label>
+                            </div>
+
+                        </div>
+                    </section>
                 </form>
 
             </main>
