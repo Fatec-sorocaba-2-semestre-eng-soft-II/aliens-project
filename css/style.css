@@ -639,3 +639,121 @@ h1 {
 /* ==========================================================================
    TELA: (próxima tela)  ← adicione novos blocos aqui, seguindo o modelo acima
    ========================================================================== */
+
+
+/* ==========================================================================
+   TELA: CADASTRO DE HUMANO
+   ========================================================================== */
+
+/* --- Dados pessoais e biométricos --- */
+
+.formulario-section {
+    padding: 24px;
+    margin-bottom: 24px;
+    border-radius: 10px;
+}
+
+.formulario-titulo {
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.formulario-titulo span {
+    display: inline-block;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+.formulario-titulo h2 {
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.formulario-titulo p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.formulario-campos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px 18px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-nome {
+    grid-column: 1 / -1;
+}
+
+.campo-documento {
+    grid-column: span 2;
+}
+
+.campo label {
+    color: #aab5cc;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 0 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    outline: none;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--green);
+}
+
+.campo input::placeholder {
+    color: var(--muted);
+}
+
+.campo input[type="date"] {
+    color-scheme: dark;
+}
+
+/* --- Responsividade dos campos --- */
+
+@media (max-width: 700px) {
+    .formulario-campos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .campo-documento {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 480px) {
+    .formulario-campos {
+        grid-template-columns: 1fr;
+    }
+
+    .campo-nome,
+    .campo-documento {
+        grid-column: 1;
+    }
+}
