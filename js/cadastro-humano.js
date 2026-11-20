@@ -6,9 +6,18 @@ const campoDataNascimento = document.getElementById('dataNascimento');
 const campoLocalAbducao = document.getElementById('localAbducao');
 const campoLocalDevolucao = document.getElementById('localDevolucao');
 const campoMesmoLocal = document.getElementById('mesmoLocal');
+const campoNome = document.getElementById('nome');
+const campoEndereco = document.getElementById('endereco');
 
 // Limpa mensagens de validação quando o usuário altera os campos
-[campoIdade, campoDataNascimento, campoLocalDevolucao].forEach(campo => {
+[
+    campoNome,
+    campoEndereco,
+    campoIdade,
+    campoDataNascimento,
+    campoLocalAbducao,
+    campoLocalDevolucao
+].forEach(campo => {
     campo.addEventListener('input', function() {
         campo.setCustomValidity('');
     });
@@ -22,6 +31,9 @@ formulario.addEventListener('submit', function(event) {
     campoIdade.setCustomValidity('');
     campoDataNascimento.setCustomValidity('');
     campoLocalDevolucao.setCustomValidity('');
+    campoNome.setCustomValidity('');
+    campoEndereco.setCustomValidity('');
+    campoLocalAbducao.setCustomValidity('');
 
     const idade = Number(campoIdade.value);
     const dataNascimento = campoDataNascimento.value;
@@ -29,6 +41,34 @@ formulario.addEventListener('submit', function(event) {
     const localAbducao = campoLocalAbducao.value.trim();
     const localDevolucao = campoLocalDevolucao.value.trim();
     const mesmoLocal = campoMesmoLocal.checked;
+    
+    // Validação do nome
+    if (campoNome.value.trim() === '') {
+        campoNome.setCustomValidity('Informe o nome completo!');
+        campoNome.reportValidity();
+        return;
+    }
+
+    // Validação do endereço
+    if (campoEndereco.value !== '' && campoEndereco.value.trim() === '') {
+        campoEndereco.setCustomValidity('Informe um endereço válido!');
+        campoEndereco.reportValidity();
+        return;
+    }
+
+    // Validação do local de abdução
+    if (localAbducao === '') {
+        campoLocalAbducao.setCustomValidity('Informe o local de abdução!');
+        campoLocalAbducao.reportValidity();
+        return;
+    }
+
+    // Validação do local de devolução
+    if (campoLocalDevolucao.value !== '' && localDevolucao === '') {
+        campoLocalDevolucao.setCustomValidity('Informe um local de devolução válido!');
+        campoLocalDevolucao.reportValidity();
+        return;
+    }
 
     // Validação da idade
     if (!Number.isInteger(idade) || idade < 0) {
