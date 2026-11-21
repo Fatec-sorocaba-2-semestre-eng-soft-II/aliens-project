@@ -64,3 +64,19 @@ function listarHumanos(lista) {
 }
 
 listarHumanos(humanos);
+
+const campoPesquisa = document.getElementById("pesquisaHumano");
+
+campoPesquisa.addEventListener("input", () => {
+    const pesquisa = campoPesquisa.value.toLowerCase();
+
+    const humanosFiltrados = humanos.filter((humano) => {
+        return (
+            humano.id.toLowerCase().includes(pesquisa) ||
+            humano.nome.toLowerCase().includes(pesquisa) ||
+            humano.localizacao.toLowerCase().includes(pesquisa)
+        );
+    });
+
+    listarHumanos(humanosFiltrados);
+});
