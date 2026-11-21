@@ -6,9 +6,11 @@
    04. Layout geral (sidebar fixa + main com rolagem)
    05. Sidebar: marca, navegação e telemetria
    06. Topbar
-   07. Tela: Dashboard / Lista de pesquisas
-   08. Tela: Pesquisa - Cadastro
-   09. Responsividade (todas as media queries)
+   07. Tela: Pesquisa - Visão Geral (lista)
+   08. Tela: Pesquisa - Detalhes (inclui modal de exclusão)
+   09. Tela: Pesquisa - Cadastro
+   10. Tela: Pesquisa - Edição (variante do formulário, escopo .form-edit)
+   11. Responsividade (todas as media queries)
    ========================================================================== */
 
 
@@ -27,7 +29,7 @@
     --bg-card-alt: #172030;
     /* Variação de cartão */
     --bg-card-hover: #182030;
-    /* Linha da tabela ao passar o cursor */
+    /* Hover de linhas e botões */
     --bg-input: #0c1018;
     /* Inputs e badges (fundo rebaixado) */
     --bg-hover: rgba(255, 255, 255, 0.04);
@@ -54,7 +56,7 @@
     --accent-amber: #fbbf24;
     /* Inconclusiva / alerta */
     --accent-red: #f87171;
-    /* Abortada / veto */
+    /* Abortada / veto / exclusão */
     --accent-purple: #a78bfa;
     /* Avatares de cientistas */
 
@@ -89,47 +91,14 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-label,
-.sub-label {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
+[hidden] {
+    display: none !important;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
-}
-
-input[type="text"],
-select,
-textarea {
-    width: 100%;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-family: var(--font-sans);
-    font-size: 12.5px;
-    padding: 10px 12px;
-    transition: border-color 0.2s;
-}
-
-input[type="text"]:focus,
-select:focus,
-textarea:focus {
-    outline: none;
-    border-color: var(--accent-cyan);
-}
-
-textarea {
-    resize: vertical;
-    line-height: 1.5;
 }
 
 
@@ -184,21 +153,20 @@ textarea {
     height: 15px;
 }
 
-/* Indicadores circulares de status */
+/* Indicador circular de status.
+   O padrão já é verde com brilho (equivale a .online); .cyan troca a cor. */
 .dot-status {
     width: 6px;
     height: 6px;
     border-radius: 50%;
     display: inline-block;
-}
-
-.dot-status.online {
     background-color: var(--accent-green);
     box-shadow: 0 0 8px var(--accent-green);
 }
 
 .dot-status.cyan {
     background-color: var(--accent-cyan);
+    box-shadow: none;
 }
 
 
@@ -391,21 +359,21 @@ textarea {
     gap: 12px;
     padding: 10px 12px;
     margin-bottom: 4px;
-    border-radius: 8px;
+    border-radius: 6px;
     text-decoration: none;
-    font-size: 13.5px;
+    font-size: 13px;
     font-weight: 500;
-    color: #aab5cc;
-    transition: background-color 0.15s, color 0.15s;
+    color: var(--text-secondary);
+    transition: all 0.2s;
 }
 
 .nav-item:hover {
-    background-color: var(--bg-card);
+    background-color: var(--bg-hover);
     color: var(--text-primary);
 }
 
 .nav-item.active {
-    background-color: #16213a;
+    background-color: rgba(56, 189, 248, 0.1);
     color: var(--accent-green);
     border: 1px solid rgba(56, 189, 248, 0.2);
 }
@@ -453,6 +421,7 @@ textarea {
     padding-top: 16px;
 }
 
+/* O espaçamento entre as linhas vem do gap (vale para .telemetry-status e .telemetry-top) */
 .telemetry-card {
     display: flex;
     flex-direction: column;
@@ -480,7 +449,6 @@ textarea {
 
 .telemetry-top {
     font-size: 10px;
-    margin-bottom: 6px;
 }
 
 .telemetry-label {
@@ -550,9 +518,20 @@ textarea {
 
 .breadcrumb {
     display: flex;
+    align-items: center;
     gap: 8px;
     font-family: var(--font-mono);
     font-size: 12px;
+}
+
+.breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.breadcrumb a:hover {
+    color: var(--text-primary);
 }
 
 .breadcrumb .muted,
@@ -592,6 +571,11 @@ textarea {
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
+    transition: color 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--text-primary);
 }
 
 .icon-btn svg {
@@ -620,10 +604,10 @@ textarea {
 
 
 /* ==========================================================================
-   07. TELA: DASHBOARD / LISTA DE PESQUISAS
+   07. TELA: PESQUISA - VISÃO GERAL (LISTA)
    ========================================================================== */
 
-/* --- 07.1 Corpo e cabeçalho da página --------------------------------- */
+/* --- 07.1 Corpo e cabeçalho da página (compartilhado) ----------------- */
 .dashboard-body {
     width: 100%;
     max-width: 1280px;
@@ -876,8 +860,19 @@ tbody tr:last-child td {
     /* Evita duplicar com a borda do card */
 }
 
-tbody tr:hover {
+tbody tr:hover,
+tr.research-row:hover {
     background-color: var(--bg-card-hover);
+}
+
+/* Linha clicável (abre os detalhes) */
+tr.research-row {
+    cursor: pointer;
+}
+
+tr.research-row:focus {
+    outline: 1px solid var(--accent-cyan);
+    outline-offset: -2px;
 }
 
 .id-code {
@@ -1081,10 +1076,795 @@ tbody tr:hover {
 
 
 /* ==========================================================================
-   08. TELA: PESQUISA - CADASTRO
+   08. TELA: PESQUISA - DETALHES
+   Mesma identidade visual da visão geral.
    ========================================================================== */
 
-/* --- 08.1 Container e cabeçalho --------------------------------------- */
+/* --- 08.1 Barra de ações (voltar, editar, excluir) -------------------- */
+.action-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.action-row .sector-tag {
+    margin-bottom: 0;
+}
+
+.action-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.back-link,
+.edit-link,
+.delete-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.back-link svg,
+.edit-link svg,
+.delete-link svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.back-link:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+}
+
+.edit-link {
+    margin-left: auto;
+    /* Sem efeito dentro de .action-actions; alinha à direita se estiver solto na .action-row */
+    background-color: rgba(56, 189, 248, 0.08);
+    border-color: rgba(56, 189, 248, 0.25);
+    color: var(--accent-cyan);
+}
+
+.edit-link:hover {
+    background-color: rgba(56, 189, 248, 0.16);
+    border-color: rgba(56, 189, 248, 0.45);
+}
+
+.delete-link {
+    background-color: rgba(248, 113, 113, 0.08);
+    border-color: rgba(248, 113, 113, 0.25);
+    color: var(--accent-red);
+}
+
+.delete-link:hover {
+    background-color: rgba(248, 113, 113, 0.16);
+    border-color: rgba(248, 113, 113, 0.45);
+}
+
+/* --- 08.2 Cartão principal (hero) ------------------------------------- */
+.hero-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 28px;
+    margin-bottom: 20px;
+    padding: 24px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.hero-main {
+    min-width: 0;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.detail-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    background-color: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.25);
+    border-radius: 20px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent-green);
+}
+
+.detail-status.progress {
+    background-color: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.25);
+    color: var(--accent-cyan);
+}
+
+.detail-status.completed {
+    background-color: rgba(52, 211, 153, 0.1);
+    border-color: rgba(52, 211, 153, 0.25);
+    color: var(--accent-green);
+}
+
+.detail-status.inconclusive {
+    background-color: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.25);
+    color: var(--accent-amber);
+}
+
+.detail-status.aborted {
+    background-color: rgba(248, 113, 113, 0.1);
+    border-color: rgba(248, 113, 113, 0.25);
+    color: var(--accent-red);
+}
+
+.hero-card h1 {
+    margin: 12px 0 8px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    line-height: 1.3;
+    color: var(--text-primary);
+}
+
+.hero-summary {
+    max-width: 750px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+.hero-dates {
+    min-width: 240px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 4px 0 4px 24px;
+    border-left: 1px solid var(--border-color);
+}
+
+.hero-dates div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Rótulos em caixa-alta no estilo tático */
+.hero-dates span,
+.metadata-item span,
+.text-block>span,
+.subheading {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.hero-dates strong {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--accent-cyan);
+}
+
+/* --- 08.3 Abas de navegação interna ----------------------------------- */
+.tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+    padding: 6px;
+    overflow-x: auto;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.tab {
+    padding: 9px 14px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab:hover {
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.tab svg {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+.tab.active {
+    background-color: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.3);
+    color: var(--accent-green);
+}
+
+/* --- 08.4 Grade de conteúdo e painéis --------------------------------- */
+.content-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.7fr) minmax(260px, 0.8fr);
+    gap: 20px;
+}
+
+.main-column,
+.side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Painel base (compartilhado com o cadastro, que usa raio maior: ver seção 09) */
+.panel-card {
+    padding: 20px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.panel-card.compact {
+    padding: 16px;
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.panel-heading h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.panel-heading>svg {
+    width: 16px;
+    height: 16px;
+    color: var(--accent-cyan);
+}
+
+.section-number {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
+
+.panel-meta {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.metadata-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    padding: 2px 0 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.metadata-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.metadata-item strong {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.text-block {
+    margin-top: 18px;
+}
+
+.text-block p {
+    min-height: 44px;
+    margin-top: 8px;
+    padding: 14px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    color: var(--text-secondary);
+}
+
+.subheading {
+    margin: 20px 0 10px;
+}
+
+/* --- 08.5 Cartão de pesquisador / responsável ------------------------- */
+.person-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.person-avatar {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background-color: rgba(56, 189, 248, 0.12);
+    border-radius: 50%;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
+
+.person-card div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.person-card strong {
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.person-card small {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.online-dot {
+    width: 7px;
+    height: 7px;
+    margin-left: auto;
+    border-radius: 50%;
+    background-color: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+}
+
+/* --- 08.6 Listas e amostras ------------------------------------------- */
+.simple-list,
+.file-list,
+.human-list {
+    list-style: none;
+}
+
+/* Na tela de detalhes .file-list é uma <ul> com divisórias; anula o gap do cadastro */
+ul.file-list {
+    gap: 0;
+}
+
+.simple-list li,
+.file-list li,
+.human-list li {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
+.simple-list li:last-child,
+.file-list li:last-child,
+.human-list li:last-child {
+    border-bottom: none;
+}
+
+.file-list li,
+.human-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+.file-list small,
+.human-list span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+.muted-item {
+    color: var(--text-muted) !important;
+    font-style: italic;
+}
+
+.sample-total {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+    padding: 14px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--accent-green);
+    border-radius: 6px;
+}
+
+.sample-total strong {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent-green);
+}
+
+.sample-total span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+/* --- 08.7 Histórico e logs -------------------------------------------- */
+.history-entry {
+    display: flex;
+    gap: 14px;
+    padding: 12px 4px;
+}
+
+.history-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    margin-top: 5px;
+    border-radius: 50%;
+    background-color: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+}
+
+.history-entry strong {
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.history-entry p {
+    margin-top: 3px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* --- 08.8 Estado "não encontrado" e rodapé da página ------------------ */
+.not-found {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.not-found>svg {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 12px;
+    color: var(--accent-amber);
+}
+
+.action-link {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    text-decoration: none;
+    color: var(--accent-cyan);
+}
+
+.action-link:hover {
+    text-decoration: underline;
+}
+
+.page-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    padding: 14px 2px;
+    border-top: 1px solid var(--border-color);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+}
+
+.page-footer>span:first-child {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* --- 08.9 Modal: solicitar exclusão da pesquisa ----------------------- */
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: rgba(5, 8, 14, 0.78);
+    backdrop-filter: blur(3px);
+}
+
+.modal-card {
+    width: 100%;
+    max-width: 520px;
+    padding: 22px 24px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.modal-title-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-icon-box {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-color: rgba(248, 113, 113, 0.12);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    border-radius: 6px;
+    color: var(--accent-red);
+}
+
+.modal-icon-box svg {
+    width: 16px;
+    height: 16px;
+}
+
+.modal-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text-primary);
+}
+
+.modal-registro {
+    display: inline-block;
+    margin-top: 3px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--accent-cyan);
+}
+
+.modal-close-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background: none;
+    border: none;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.2s, background-color 0.2s;
+}
+
+.modal-close-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.modal-close-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.modal-notice {
+    margin-bottom: 18px;
+    padding: 14px 16px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+}
+
+.modal-notice-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 8px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent-red);
+}
+
+.modal-notice-title svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+}
+
+.modal-notice p {
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.modal-notice p+p {
+    margin-top: 6px;
+}
+
+.modal-field-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.modal-field-header label {
+    margin-bottom: 0;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+}
+
+.modal-required-tag {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: var(--accent-red);
+}
+
+.modal-form textarea {
+    width: 100%;
+    min-height: 104px;
+    padding: 12px;
+    resize: vertical;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 7px;
+    outline: none;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    transition: border-color 0.2s;
+}
+
+.modal-form textarea::placeholder {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.modal-form textarea:focus {
+    border-color: rgba(248, 113, 113, 0.55);
+}
+
+.modal-signature {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.5;
+    color: var(--text-muted);
+}
+
+.modal-signature strong {
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.btn-modal-cancel {
+    padding: 9px 16px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-modal-cancel:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+}
+
+.btn-modal-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    background-color: var(--accent-red);
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 20px rgba(248, 113, 113, 0.22);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 700;
+    color: #190608;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+
+.btn-modal-submit:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0 24px rgba(248, 113, 113, 0.36);
+    filter: brightness(1.04);
+}
+
+.btn-modal-submit svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* ==========================================================================
+   09. TELA: PESQUISA - CADASTRO
+   ========================================================================== */
+
+/* --- 09.1 Container e cabeçalho --------------------------------------- */
 .form-container {
     width: 100%;
     max-width: 1240px;
@@ -1193,7 +1973,7 @@ tbody tr:hover {
     background-color: var(--border-color);
 }
 
-/* --- 08.2 Grade de 2 colunas ------------------------------------------ */
+/* --- 09.2 Grade de 2 colunas ------------------------------------------ */
 .form-grid {
     display: grid;
     grid-template-columns: 1.65fr 1fr;
@@ -1208,10 +1988,8 @@ tbody tr:hover {
     gap: 20px;
 }
 
-.panel-card {
-    padding: 20px;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
+/* No cadastro os painéis usam raio maior e meta menor que na tela de detalhes */
+.form-grid .panel-card {
     border-radius: 10px;
 }
 
@@ -1222,6 +2000,11 @@ tbody tr:hover {
     padding-bottom: 14px;
     margin-bottom: 18px;
     border-bottom: 1px solid var(--border-color);
+}
+
+.panel-header .panel-meta {
+    font-size: 9.5px;
+    letter-spacing: 0.6px;
 }
 
 .panel-title {
@@ -1253,14 +2036,47 @@ tbody tr:hover {
     color: var(--accent-green);
 }
 
-.panel-meta {
+/* --- 09.3 Campos de formulário ---------------------------------------- */
+
+/* Rótulos e controles padrão: valem só dentro do cadastro (:where mantém a
+   especificidade baixa) para não vazar para a busca da lista, o modal e a edição */
+:where(.form-container) label,
+.sub-label {
+    display: block;
     font-family: var(--font-mono);
-    font-size: 9.5px;
-    letter-spacing: 0.6px;
-    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
 }
 
-/* --- 08.3 Campos de formulário ---------------------------------------- */
+:where(.form-grid) input[type="text"],
+:where(.form-grid) select,
+:where(.form-grid) textarea {
+    width: 100%;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: 12.5px;
+    padding: 10px 12px;
+    transition: border-color 0.2s;
+}
+
+:where(.form-grid) input[type="text"]:focus,
+:where(.form-grid) select:focus,
+:where(.form-grid) textarea:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+}
+
+:where(.form-grid) textarea {
+    resize: vertical;
+    line-height: 1.5;
+}
+
 .row-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1330,7 +2146,7 @@ tbody tr:hover {
     pointer-events: none;
 }
 
-/* --- 08.4 Colaboradores (checkboxes em grade) ------------------------- */
+/* --- 09.4 Colaboradores (checkboxes em grade) ------------------------- */
 .assistants-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1400,7 +2216,7 @@ tbody tr:hover {
     color: var(--text-muted);
 }
 
-/* --- 08.5 Coluna direita: status -------------------------------------- */
+/* --- 09.5 Coluna direita: status -------------------------------------- */
 .status-tag {
     padding: 2px 8px;
     border-radius: 4px;
@@ -1455,7 +2271,7 @@ tbody tr:hover {
     box-shadow: inset 0 0 0 3px var(--accent-cyan);
 }
 
-/* --- 08.6 Coluna direita: associações táticas ------------------------- */
+/* --- 09.6 Coluna direita: associações táticas ------------------------- */
 .assoc-block {
     margin-bottom: 16px;
 }
@@ -1577,7 +2393,7 @@ tbody tr:hover {
     color: var(--accent-red);
 }
 
-/* --- 08.7 Coluna direita: upload e anexos ----------------------------- */
+/* --- 09.7 Coluna direita: upload e anexos ----------------------------- */
 .dropzone {
     margin-bottom: 12px;
     padding: 18px 14px;
@@ -1647,7 +2463,7 @@ tbody tr:hover {
     color: var(--text-muted);
 }
 
-/* --- 08.8 Barra inferior: validação e botões -------------------------- */
+/* --- 09.8 Barra inferior: validação e botões -------------------------- */
 .form-footer-bar {
     grid-column: 1 / -1;
     /* Ocupa as duas colunas da grade */
@@ -1725,10 +2541,369 @@ tbody tr:hover {
 
 
 /* ==========================================================================
-   09. RESPONSIVIDADE
+   10. TELA: PESQUISA - EDIÇÃO
+   Variante do formulário com o layout da tela de detalhes (metadata-item,
+   text-block, panel-heading) e controles nativos (radio/checkbox visíveis).
+   O cadastro usa os mesmos nomes de classe com outro visual, por isso tudo
+   aqui fica restrito a .form-edit.
+
+   Uso: <form class="form-grid form-edit"> ... </form>
+   ========================================================================== */
+.form-grid.form-edit {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+}
+
+/* Painéis com o mesmo raio da tela de detalhes */
+.form-edit .panel-card {
+    border-radius: 8px;
+}
+
+/* --- 10.1 Rótulos e campos -------------------------------------------- */
+/* Só labels filhos diretos: não pega os <label class="radio-option"> do grupo de estado */
+.form-edit .metadata-item>label,
+.form-edit .text-block>label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.form-edit .text-block>span {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.form-edit input[type="text"],
+.form-edit input[type="date"],
+.form-edit select,
+.form-edit textarea {
+    width: 100%;
+    padding: 10px 12px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    outline: none;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.form-edit input[type="text"],
+.form-edit input[type="date"],
+.form-edit select {
+    height: 40px;
+}
+
+.form-edit input[readonly] {
+    background-color: rgba(13, 17, 26, 0.75);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--accent-cyan);
+    cursor: not-allowed;
+}
+
+.form-edit input[type="date"] {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color-scheme: dark;
+}
+
+.form-edit input:focus,
+.form-edit select:focus,
+.form-edit textarea:focus {
+    background-color: var(--bg-card-hover);
+    border-color: var(--accent-cyan);
+}
+
+.form-edit textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.form-edit #descricao-metodologia {
+    min-height: 140px;
+}
+
+/* --- 10.2 Estado da investigação (radio buttons) ---------------------- */
+.form-edit .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.form-edit .radio-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.form-edit .radio-option:hover {
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+}
+
+/* O cadastro esconde o input e usa .radio-dot; aqui o radio nativo aparece */
+.form-edit .radio-option input[type="radio"] {
+    display: inline-block;
+    accent-color: var(--accent-cyan);
+    cursor: pointer;
+}
+
+.form-edit .radio-option.active-progress,
+.form-edit .radio-option:has(input[type="radio"]:checked) {
+    background-color: rgba(56, 189, 248, 0.1);
+    border-color: rgba(56, 189, 248, 0.35);
+    color: var(--accent-cyan);
+}
+
+/* --- 10.3 Cientistas auxiliares --------------------------------------- */
+.form-edit .assistants-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.form-edit .assistant-card {
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.form-edit .assistant-card:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--text-muted);
+}
+
+.form-edit .assistant-card.checked,
+.form-edit .assistant-card:has(input[type="checkbox"]:checked) {
+    background-color: rgba(52, 211, 153, 0.08);
+    border-color: rgba(52, 211, 153, 0.4);
+}
+
+/* O cadastro esconde o checkbox e usa .check-box; aqui o nativo aparece */
+.form-edit .assistant-card input[type="checkbox"] {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    accent-color: var(--accent-green);
+    cursor: pointer;
+}
+
+.form-edit .assistant-info {
+    gap: 2px;
+    min-width: 0;
+}
+
+/* --- 10.4 Associações táticas ----------------------------------------- */
+.form-edit .assoc-block {
+    margin-bottom: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-edit .assoc-block .panel-heading {
+    margin-bottom: 12px;
+}
+
+.form-edit .assoc-block .panel-heading h3 {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.form-edit .link-action {
+    margin-left: auto;
+    padding: 5px 10px;
+    background: none;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 5px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent-cyan);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.form-edit .link-action:hover {
+    background-color: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.5);
+}
+
+.form-edit .mission-chip {
+    gap: 8px;
+    padding: 6px 10px;
+    background-color: var(--bg-input);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    color: var(--text-primary);
+}
+
+.form-edit .mission-chip button,
+.form-edit .remove-btn {
+    padding: 0 2px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.form-edit .mission-chip button:hover,
+.form-edit .remove-btn:hover {
+    color: var(--accent-red);
+}
+
+.form-edit .monitored-item {
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+}
+
+.form-edit .monitored-item .remove-btn {
+    margin-left: auto;
+}
+
+.form-edit .monitored-avatar {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background-color: rgba(56, 189, 248, 0.12);
+    font-size: 13px;
+}
+
+.form-edit .monitored-info {
+    gap: 2px;
+}
+
+.form-edit .monitored-info strong {
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.form-edit .monitored-info .mono {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+/* --- 10.5 Anexos ------------------------------------------------------ */
+.form-edit .dropzone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 0;
+    padding: 24px 16px;
+    border: 1px dashed var(--border-color);
+    transition: all 0.2s;
+}
+
+.form-edit .dropzone:hover,
+.form-edit .dropzone.drag-over {
+    background-color: rgba(56, 189, 248, 0.06);
+    border-color: var(--accent-cyan);
+}
+
+.form-edit .dropzone svg {
+    width: 22px;
+    height: 22px;
+    color: var(--accent-cyan);
+}
+
+.form-edit .file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.form-edit .file-item {
+    gap: 10px;
+    padding: 10px 12px;
+}
+
+.form-edit .file-item svg {
+    width: 15px;
+    height: 15px;
+}
+
+.form-edit .file-name {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-primary);
+}
+
+.form-edit .file-size {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text-muted);
+}
+
+/* --- 10.6 Botões do rodapé -------------------------------------------- */
+.form-edit .action-row {
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 4px;
+    margin-bottom: 0;
+}
+
+.form-edit .btn-cancel {
+    padding: 10px 18px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.form-edit .btn-cancel:hover {
+    background-color: var(--bg-card-hover);
+    border-color: var(--text-muted);
+    color: var(--text-primary);
+}
+
+
+/* ==========================================================================
+   11. RESPONSIVIDADE
    Ordem decrescente de largura (mais larga primeiro) para a cascata funcionar.
    ========================================================================== */
 @media (max-width: 1100px) {
+
+    /* Visão geral */
     .kpi-grid {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -1741,9 +2916,27 @@ tbody tr:hover {
     .search-box {
         width: 100%;
     }
+
+    /* Detalhes */
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-card {
+        flex-direction: column;
+    }
+
+    .hero-dates {
+        padding: 16px 0 0;
+        grid-template-columns: repeat(3, 1fr);
+        border-left: none;
+        border-top: 1px solid var(--border-color);
+    }
 }
 
 @media (max-width: 1050px) {
+
+    /* Cadastro */
     .form-grid {
         grid-template-columns: 1fr;
     }
@@ -1758,9 +2951,17 @@ tbody tr:hover {
     }
 }
 
+@media (max-width: 900px) {
+
+    /* Edição */
+    .form-edit .assistants-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 768px) {
 
-    /* Sidebar oculta: o conteúdo ocupa toda a largura */
+    /* Layout: sidebar oculta, conteúdo ocupa toda a largura */
     .sidebar {
         display: none;
     }
@@ -1769,10 +2970,61 @@ tbody tr:hover {
         margin-left: 0;
     }
 
+    .topbar {
+        height: auto;
+        min-height: 60px;
+        padding: 12px 16px;
+    }
+
+    .topbar-actions {
+        gap: 12px;
+    }
+
+    .level-badge {
+        display: none;
+    }
+
+    .dashboard-body {
+        padding: 20px 16px;
+    }
+
+    /* Visão geral */
     .kpi-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
+    /* Detalhes */
+    .action-row {
+        flex-wrap: wrap;
+    }
+
+    .sector-tag {
+        order: 3;
+        width: 100%;
+    }
+
+    .hero-card {
+        padding: 18px;
+    }
+
+    .hero-card h1 {
+        font-size: 20px;
+    }
+
+    .hero-dates {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .metadata-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-footer {
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    /* Cadastro */
     .row-2,
     .assistants-grid,
     .radio-grid {
