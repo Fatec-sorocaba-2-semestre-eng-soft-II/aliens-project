@@ -640,4 +640,272 @@ h1 {
    TELA: (próxima tela)  ← adicione novos blocos aqui, seguindo o modelo acima
    ========================================================================== */
 
-   
+
+
+/* ==========================================================================
+   TELA: CADASTRO DE HUMANO
+   ========================================================================== */
+
+/* --- Dados pessoais e biométricos --- */
+
+.formulario-section {
+    padding: 24px;
+    margin-bottom: 24px;
+    border-radius: 10px;
+}
+
+.formulario-titulo {
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.formulario-titulo span {
+    display: inline-block;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 12px;
+    margin-right: 8px;
+}
+
+.formulario-titulo h2 {
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.formulario-titulo p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.formulario-campos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px 18px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo-nome {
+    grid-column: 1 / -1;
+}
+
+.campo-documento {
+    grid-column: span 2;
+}
+
+.campo label {
+    color: #aab5cc;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    min-width: 0;
+    height: 42px;
+    padding: 0 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    outline: none;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: var(--green);
+}
+
+.campo input::placeholder {
+    color: var(--muted);
+}
+
+.campo input[type="date"] {
+    color-scheme: dark;
+}
+
+/* --- Responsividade dos campos --- */
+
+@media (max-width: 700px) {
+    .formulario-campos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .campo-documento {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 480px) {
+    .formulario-campos {
+        grid-template-columns: 1fr;
+    }
+
+    .campo-nome,
+    .campo-documento {
+        grid-column: 1;
+    }
+}
+
+/* --- Checkbox: mesmo local de abdução e devolução --- */
+
+.campo input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--green);
+    cursor: pointer;
+}
+
+.campo:has(input[type="checkbox"]) {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    align-self: end;
+    margin-bottom: 14px;
+}
+
+.campo:has(input[type="checkbox"]) label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-family: var(--font);
+    font-size: 13px;
+    letter-spacing: normal;
+    text-transform: none;
+}
+
+/* --- Ações do formulário --- */
+
+.formulario-acoes {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+/* Estilos exclusivos da Gestão de Humanos */
+.content-humanos {
+    max-width: none;
+}
+
+/* Barra de ferramentas da gestão de humanos */
+.humanos-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px;
+    margin-bottom: 24px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+}
+
+.campo-pesquisa {
+    flex: 1;
+}
+
+.campo-pesquisa input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    outline: none;
+}
+
+.campo-pesquisa input::placeholder {
+    color: var(--muted);
+}
+
+.btn-filtro,
+.btn-setor {
+    padding: 12px 18px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-filtro:hover,
+.btn-setor:hover {
+    border-color: var(--accent);
+}
+
+.humanos-toolbar .btn-primary {
+    white-space: nowrap;
+}
+
+/* Lista de humanos */
+.humanos-lista {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+    padding: 20px;
+}
+
+.lista-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.lista-cabecalho h2 {
+    color: var(--text);
+    font-size: 18px;
+    margin: 0;
+}
+
+.lista-cabecalho span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Tabela de humanos */
+.tabela-humanos {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabela-humanos th,
+.tabela-humanos td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.tabela-humanos th {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tabela-humanos td {
+    color: var(--text);
+    font-size: 13px;
+}
+
+.tabela-humanos tbody td[colspan="5"] {
+    text-align: center;
+    padding: 30px 12px;
+    color: var(--muted);
+}
