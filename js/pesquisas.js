@@ -102,13 +102,7 @@
             });
         }
 
-        document.querySelectorAll(".nav-item").forEach(link => {
-            const label = link.textContent.trim().toLowerCase();
-
-            if (label.includes("pesquisas") || label.includes("visão geral")) {
-                link.href = overviewUrl();
-            }
-        });
+        
 
         const cancelButton = document.querySelector(".btn-cancel:not([data-action='cancel-edit'])");
 

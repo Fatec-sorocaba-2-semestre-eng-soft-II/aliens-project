@@ -212,7 +212,7 @@ formularioLogin.addEventListener("submit", function (event) {
         mensagemLogin.className = "login-message success";
 
         console.log("Usuário autenticado:", usuarioAutenticado);
-
+        window.location.href = "visao-geral.html";
     } else {
 
         mensagemLogin.textContent =
