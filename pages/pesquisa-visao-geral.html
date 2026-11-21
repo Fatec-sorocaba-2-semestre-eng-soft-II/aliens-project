@@ -18,57 +18,89 @@
 
 <body>
     <div class="app-layout">
-        <!-- BARRA LATERAL (SIDEBAR) -->
         <aside class="sidebar">
             <div>
+                <!-- Identidade / Brand -->
                 <div class="brand">
                     <div class="brand-logo">
                         <span class="dot-status online"></span>
-                        <span class="brand-title">AMS</span>
                     </div>
-                    <span class="brand-subtitle">CENTRAL<br>TÁTICA</span>
+                    <div class="brand-info">
+                        <span class="brand-title">AMS</span>
+                        <span class="brand-subtitle">CENTRAL TÁTICA</span>
+                    </div>
                 </div>
 
-                <nav class="nav-menu">
-                    <div class="nav-section">
+                <!-- Navegação Principal -->
+                <nav class="sidebar-nav">
+                    <!-- Seção 1: Comando Operacional -->
+                    <div class="nav-group">
                         <span class="nav-label">COMANDO OPERACIONAL</span>
-                        <a href="#" class="nav-item">
-                            <i data-lucide="layout-grid"></i>
-                            <span>Visão Geral</span>
-                        </a>
-                        <a href="#" class="nav-item">
-                            <i data-lucide="compass"></i>
-                            <span>Missões</span>
-                        </a>
+                        <ul class="nav-list">
+                            <li>
+                                <a href="visao-geral.html" class="nav-link">
+                                    <i data-lucide="layout-grid"></i>
+                                    <span>Visão Geral</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="compass"></i>
+                                    <span>Missões</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="file-check-2"></i>
+                                    <span>Solicitação de Missão</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
 
-                    <div class="nav-section">
+                    <!-- Seção 2: Espécimes & Recursos -->
+                    <div class="nav-group">
                         <span class="nav-label">ESPÉCIMES & RECURSOS</span>
-                        <a href="#" class="nav-item">
-                            <i data-lucide="user"></i>
-                            <span>Humanos</span>
-                        </a>
-                        <a href="#" class="nav-item">
-                            <i data-lucide="users"></i>
-                            <span>Tripulação</span>
-                        </a>
-                        <a href="#" class="nav-item active">
-                            <i data-lucide="flask-conical"></i>
-                            <span>Pesquisas</span>
-                            <span class="nav-badge">CIENTISTA</span>
-                        </a>
+                        <ul class="nav-list">
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="user"></i>
+                                    <span>Humanos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="users"></i>
+                                    <span>Tripulação</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="rocket"></i>
+                                    <span>Naves</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pesquisa-visao-geral.html" class="nav-link active">
+                                    <i data-lucide="flask-conical"></i>
+                                    <span>Pesquisas</span>
+                                    <span class="nav-badge">CIENTISTA</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </nav>
             </div>
 
-            <div class="telemetry-card">
-                <div class="telemetry-top">
-                    <span class="dot-status online"></span>
-                    <span class="telemetry-label">TELEMETRIA CORE</span>
-                    <span class="telemetry-value">99.98%</span>
-                </div>
-                <div class="telemetry-bottom">
-                    SECTOR 001-ORIONV 4.12.0
+            <!-- Rodapé: Telemetria -->
+            <div class="sidebar-footer">
+                <div class="telemetry-card">
+                    <div class="telemetry-status">
+                        <span class="dot-status online"></span>
+                        <span>TELEMETRIA CORE</span>
+                        <span class="telemetry-value">99.98%</span>
+                    </div>
+                    <div class="telemetry-sector">SECTOR 001-ORION V 4.12.0</div>
                 </div>
             </div>
         </aside>
