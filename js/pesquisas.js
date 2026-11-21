@@ -1,100 +1,148 @@
-/* Integração das telas de Pesquisas AMS
-   Armazenamento demonstrativo no navegador (localStorage).
-*/
+
+/* ==========================================================================
+   INTEGRAÇÃO DO MÓDULO DE PESQUISAS AMS
+   Cadastro, edição, detalhes, exclusão, associações e visão geral.
+   Armazenamento demonstrativo utilizando localStorage.
+   ========================================================================== */
 
 (() => {
     "use strict";
 
+    // ==========================================
+    // CONFIGURAÇÕES
+    // ==========================================
+
     const STORAGE_KEY = "ams_pesquisas";
     const DELETION_REQUESTS_KEY = "ams_solicitacoes_exclusao";
+
     const OVERVIEW_PAGE = "pesquisa-visao-geral.html";
     const FORM_PAGE = "pesquisa-cadastro.html";
     const DETAILS_PAGE = "pesquisa-detalhes.html";
     const EDIT_PAGE = "pesquisa-editar.html";
+
     const MAX_FILE_SIZE = 25 * 1024 * 1024;
     const ALLOWED_EXTENSIONS = [".pdf", ".holo", ".png"];
 
-    const readAll = () => {
+    // ==========================================
+    // ARMAZENAMENTO
+    // ==========================================
+
+    function readAll() {
         try {
-            const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+            const data = JSON.parse(
+                localStorage.getItem(STORAGE_KEY) || "[]"
+            );
+
             return Array.isArray(data) ? data : [];
-        } catch {
+        } catch (error) {
+            console.error("Erro ao ler pesquisas:", error);
             return [];
         }
-    };
+    }
 
-    const writeAll = (items) => {
+    function writeAll(items) {
         try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
             return true;
         } catch (error) {
-            console.error("Erro ao salvar no localStorage:", error);
-            alert("Não foi possível salvar os dados. O armazenamento do navegador pode estar cheio.");
+            console.error("Erro ao salvar pesquisas:", error);
+
+            alert(
+                "Não foi possível salvar os dados. " +
+                "O armazenamento do navegador pode estar cheio."
+            );
+
             return false;
         }
-    };
+    }
 
-    const escapeHTML = (value) => String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[char]);
+    function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, char => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#39;"
+        })[char]);
+    }
 
-    const normalizeStatus = (value) => {
-        const text = String(value || "").trim().toLowerCase();
+    // ==========================================
+    // STATUS
+    // ==========================================
+
+    function normalizeStatus(value) {
+        const text = String(value || "")
+            .trim()
+            .toLowerCase();
 
         const map = {
             progresso: "Em progresso",
             "em progresso": "Em progresso",
+            "em andamento": "Em progresso",
+
+            pausada: "Pausada",
+
             concluida: "Concluída",
             "concluída": "Concluída",
+
             inconclusiva: "Inconclusiva",
+
             abortada: "Abortada",
             abordada: "Abortada"
         };
 
         return map[text] || value || "Em progresso";
-    };
+    }
 
-    const statusClass = (status) => ({
-        "Em progresso": "progress",
-        "Concluída": "completed",
-        "Inconclusiva": "inconclusive",
-        "Abortada": "aborted"
-    }[status] || "progress");
+    function statusClass(status) {
+        return {
+            "Em progresso": "progress",
+            "Pausada": "paused",
+            "Concluída": "completed",
+            "Inconclusiva": "inconclusive",
+            "Abortada": "aborted"
+        }[normalizeStatus(status)] || "progress";
+    }
 
-    const overviewUrl = () =>
-        new URL(OVERVIEW_PAGE, window.location.href).href;
+    // ==========================================
+    // NAVEGAÇÃO
+    // ==========================================
 
-    const formUrl = () =>
-        new URL(FORM_PAGE, window.location.href).href;
+    function overviewUrl() {
+        return new URL(OVERVIEW_PAGE, window.location.href).href;
+    }
 
-    const detailsUrl = id => {
+    function formUrl() {
+        return new URL(FORM_PAGE, window.location.href).href;
+    }
+
+    function detailsUrl(id) {
         const url = new URL(DETAILS_PAGE, window.location.href);
         url.searchParams.set("id", id);
         return url.href;
-    };
+    }
 
-    const editUrl = id => {
+    function editUrl(id) {
         const url = new URL(EDIT_PAGE, window.location.href);
         url.searchParams.set("id", id);
         return url.href;
-    };
-
-    // ==========================================
-    // NAVEGAÇÃO ENTRE AS TELAS
-    // ==========================================
+    }
 
     function connectNavigation() {
         const path = window.location.pathname.toLowerCase();
-        const isForm = path.endsWith(FORM_PAGE) || Boolean(document.querySelector(".form-grid:not([data-edit-form])"));
-        const isEdit = path.endsWith(EDIT_PAGE) || Boolean(document.querySelector("[data-edit-form]"));
+
+        const isForm =
+            path.endsWith(FORM_PAGE) ||
+            Boolean(document.querySelector(".form-grid:not([data-edit-form])"));
+
+        const isEdit =
+            path.endsWith(EDIT_PAGE) ||
+            Boolean(document.querySelector("[data-edit-form]"));
+
         const newButton = document.querySelector(".btn-primary");
 
         if (!isForm && !isEdit && newButton) {
-            newButton.addEventListener("click", (event) => {
+            newButton.addEventListener("click", event => {
                 if (!newButton.closest("form")) {
                     event.preventDefault();
                     window.location.href = formUrl();
@@ -102,15 +150,9 @@
             });
         }
 
-        document.querySelectorAll(".nav-item").forEach(link => {
-            const label = link.textContent.trim().toLowerCase();
-
-            if (label.includes("pesquisas") || label.includes("visão geral")) {
-                link.href = overviewUrl();
-            }
-        });
-
-        const cancelButton = document.querySelector(".btn-cancel:not([data-action='cancel-edit'])");
+        const cancelButton = document.querySelector(
+            ".btn-cancel:not([data-action='cancel-edit'])"
+        );
 
         if (cancelButton) {
             cancelButton.addEventListener("click", () => {
@@ -120,18 +162,22 @@
     }
 
     // ==========================================
-    // GERAÇÃO AUTOMÁTICA DO ID
+    // GERAÇÃO AUTOMÁTICA DO CÓDIGO
     // ==========================================
 
     function nextId(existingRows = []) {
         const stored = readAll();
+
         const ids = [
             ...stored.map(item => item.id),
             ...existingRows.map(row => row.id)
         ];
 
         const highest = ids.reduce((max, id) => {
-            const number = Number(String(id || "").match(/(\d+)$/)?.[1] || 0);
+            const number = Number(
+                String(id || "").match(/(\d+)$/)?.[1] || 0
+            );
+
             return Math.max(max, number);
         }, 6);
 
@@ -139,7 +185,31 @@
     }
 
     // ==========================================
-    // FORMATAÇÃO DE ARQUIVOS
+    // DATAS
+    // ==========================================
+
+    function dateForInput(value) {
+        if (!value) return "";
+
+        const text = String(value).trim();
+
+        // Já está no formato YYYY-MM-DD.
+        if (/^\d{4}-\d{2}-\d{2}$/.test(text)) {
+            return text;
+        }
+
+        // Formato DD/MM/YYYY.
+        const brDate = text.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+
+        if (brDate) {
+            return `${brDate[3]}-${brDate[2]}-${brDate[1]}`;
+        }
+
+        return text;
+    }
+
+    // ==========================================
+    // ARQUIVOS
     // ==========================================
 
     function formatFileSize(bytes) {
@@ -152,135 +222,62 @@
 
     function getFileExtension(filename) {
         const index = filename.lastIndexOf(".");
-        return index >= 0 ? filename.slice(index).toLowerCase() : "";
+        return index >= 0
+            ? filename.slice(index).toLowerCase()
+            : "";
     }
 
-    // ==========================================
-    // ASSOCIAÇÕES TÁTICAS
-    // ==========================================
+    function createFileElement(file) {
+        const item = document.createElement("div");
+        item.className = "file-item";
 
-    function setupAssociations() {
-        const missionBlock = document.querySelector(".chips-row");
-        const monitoredList = document.querySelector(".monitored-list");
+        const icon = document.createElement("i");
+        icon.setAttribute("data-lucide", "file-text");
+        icon.className = "text-cyan";
 
-        if (!missionBlock || !monitoredList) return;
+        const name = document.createElement("span");
+        name.className = "file-name mono";
+        name.textContent = file.nome;
 
-        missionBlock.addEventListener("click", event => {
-            const button = event.target.closest("button");
-            if (button) button.closest(".mission-chip")?.remove();
-        });
+        const size = document.createElement("span");
+        size.className = "file-size mono";
+        size.textContent = file.tamanho || "";
 
-        monitoredList.addEventListener("click", event => {
-            const button = event.target.closest(".remove-btn");
-            if (button) button.closest(".monitored-item")?.remove();
-        });
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "remove-btn";
+        removeButton.setAttribute(
+            "aria-label",
+            `Remover arquivo ${file.nome}`
+        );
+        removeButton.textContent = "×";
 
-        const missionButton = missionBlock
-            .closest(".assoc-block")
-            ?.querySelector(".link-action");
+        item.append(icon, name, size, removeButton);
 
-        if (missionButton) {
-            missionButton.addEventListener("click", () => {
-                const mission = prompt("Informe o nome ou número da missão:");
-                if (!mission || !mission.trim()) return;
-
-                const name = mission.trim();
-                const alreadyExists = [
-                    ...missionBlock.querySelectorAll(".mission-chip")
-                ].some(chip => {
-                    const clone = chip.cloneNode(true);
-                    clone.querySelector("button")?.remove();
-                    return clone.textContent.trim().toLowerCase() === name.toLowerCase();
-                });
-
-                if (alreadyExists) {
-                    alert("Essa missão já está vinculada.");
-                    return;
-                }
-
-                const chip = document.createElement("span");
-                chip.className = "mission-chip";
-
-                const dot = document.createElement("span");
-                dot.className = "dot-status cyan";
-
-                const removeButton = document.createElement("button");
-                removeButton.type = "button";
-                removeButton.setAttribute("aria-label", `Remover ${name}`);
-                removeButton.textContent = "×";
-
-                chip.append(dot, document.createTextNode(` ${name} `), removeButton);
-                missionBlock.appendChild(chip);
-            });
-        }
-
-        const humanButton = monitoredList
-            .closest(".assoc-block")
-            ?.querySelector(".link-action");
-
-        if (humanButton) {
-            humanButton.addEventListener("click", () => {
-                const name = prompt("Informe o nome do humano monitorado:");
-                if (!name || !name.trim()) return;
-
-                const id = prompt("Informe o ID do humano:");
-                if (!id || !id.trim()) return;
-
-                const cleanName = name.trim();
-                const cleanId = id.trim();
-
-                const alreadyExists = [
-                    ...monitoredList.querySelectorAll(".monitored-item")
-                ].some(item =>
-                    item.querySelector(".monitored-info .mono")
-                        ?.textContent.trim().toLowerCase() === cleanId.toLowerCase()
-                );
-
-                if (alreadyExists) {
-                    alert("Esse ID já está vinculado.");
-                    return;
-                }
-
-                const item = document.createElement("div");
-                item.className = "monitored-item";
-
-                const avatar = document.createElement("span");
-                avatar.className = "monitored-avatar";
-                avatar.textContent = "Ψ";
-
-                const info = document.createElement("div");
-                info.className = "monitored-info";
-
-                const strong = document.createElement("strong");
-                strong.textContent = cleanName;
-
-                const idSpan = document.createElement("span");
-                idSpan.className = "mono";
-                idSpan.textContent = cleanId;
-
-                const removeButton = document.createElement("button");
-                removeButton.type = "button";
-                removeButton.className = "remove-btn";
-                removeButton.setAttribute("aria-label", `Remover ${cleanName}`);
-                removeButton.textContent = "×";
-
-                info.append(strong, idSpan);
-                item.append(avatar, info, removeButton);
-                monitoredList.appendChild(item);
-            });
-        }
+        return item;
     }
-
-    // ==========================================
-    // ARQUIVOS E HOLOGRAFIAS
-    // ==========================================
 
     function setupFiles() {
         const dropzone = document.querySelector(".dropzone");
         const fileList = document.querySelector(".file-list");
+
+        // A edição também possui uma lista de arquivos,
+        // mesmo sem possuir uma área de arrastar arquivos.
+        if (fileList) {
+            fileList.addEventListener("click", event => {
+                const button = event.target.closest(".remove-btn");
+
+                if (button) {
+                    button.closest(".file-item")?.remove();
+                }
+            });
+        }
+
         if (!dropzone || !fileList) return;
 
-        let fileInput = dropzone.querySelector("input[type='file']");
+        let fileInput = dropzone.querySelector(
+            "input[type='file']"
+        );
 
         if (!fileInput) {
             fileInput = document.createElement("input");
@@ -289,43 +286,11 @@
             fileInput.multiple = true;
             fileInput.hidden = true;
             fileInput.className = "file-input";
+
             dropzone.appendChild(fileInput);
         }
 
-        const renderFile = (file) => {
-            const item = document.createElement("div");
-            item.className = "file-item";
-
-            const icon = document.createElement("i");
-            icon.setAttribute("data-lucide", "file-text");
-            icon.className = "text-cyan";
-
-            const name = document.createElement("span");
-            name.className = "file-name mono";
-            name.textContent = file.name;
-
-            const size = document.createElement("span");
-            size.className = "file-size mono";
-            size.textContent = formatFileSize(file.size);
-
-            const removeButton = document.createElement("button");
-            removeButton.type = "button";
-            removeButton.className = "remove-btn";
-            removeButton.setAttribute("aria-label", `Remover arquivo ${file.name}`);
-            removeButton.textContent = "×";
-
-            item.append(icon, name, size, removeButton);
-            fileList.appendChild(item);
-
-            if (window.lucide) window.lucide.createIcons();
-        };
-
-        fileList.addEventListener("click", event => {
-            const button = event.target.closest(".remove-btn");
-            if (button) button.closest(".file-item")?.remove();
-        });
-
-        const processFiles = (files) => {
+        function processFiles(files) {
             [...files].forEach(file => {
                 const extension = getFileExtension(file.name);
 
@@ -335,14 +300,17 @@
                 }
 
                 if (file.size > MAX_FILE_SIZE) {
-                    alert(`O arquivo ${file.name} ultrapassa o limite de 25 MB.`);
+                    alert(
+                        `O arquivo ${file.name} ultrapassa o limite de 25 MB.`
+                    );
                     return;
                 }
 
                 const alreadyExists = [
                     ...fileList.querySelectorAll(".file-name")
                 ].some(element =>
-                    element.textContent.toLowerCase() === file.name.toLowerCase()
+                    element.textContent.toLowerCase() ===
+                    file.name.toLowerCase()
                 );
 
                 if (alreadyExists) {
@@ -350,14 +318,23 @@
                     return;
                 }
 
-                renderFile(file);
+                fileList.appendChild(createFileElement({
+                    nome: file.name,
+                    tamanho: formatFileSize(file.size)
+                }));
             });
 
             fileInput.value = "";
-        };
+        }
 
         dropzone.addEventListener("click", event => {
-            if (event.target === fileInput || event.target.closest("button")) return;
+            if (
+                event.target === fileInput ||
+                event.target.closest("button")
+            ) {
+                return;
+            }
+
             fileInput.click();
         });
 
@@ -368,7 +345,9 @@
             }
         });
 
-        fileInput.addEventListener("change", () => processFiles(fileInput.files));
+        fileInput.addEventListener("change", () => {
+            processFiles(fileInput.files);
+        });
 
         dropzone.addEventListener("dragover", event => {
             event.preventDefault();
@@ -389,39 +368,367 @@
         });
     }
 
+    function collectFiles(root = document) {
+        return [
+            ...root.querySelectorAll(".file-list .file-item")
+        ].map(item => {
+            const nome = item.querySelector(".file-name")
+                ?.textContent.trim() || "";
+
+            return {
+                nome,
+                tamanho: item.querySelector(".file-size")
+                    ?.textContent.trim() || "",
+                tipo: getFileExtension(nome)
+            };
+        }).filter(file => file.nome);
+    }
+
     // ==========================================
-    // CAPTURA DAS ASSOCIAÇÕES E ARQUIVOS
+    // ASSOCIAÇÕES: MISSÕES E HUMANOS
+    // UTILIZADAS NO CADASTRO
     // ==========================================
 
-    function collectMissions() {
+    function createMissionChip(name) {
+        const chip = document.createElement("span");
+        chip.className = "mission-chip";
+
+        const dot = document.createElement("span");
+        dot.className = "dot-status cyan";
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.setAttribute(
+            "aria-label",
+            `Remover ${name}`
+        );
+        removeButton.textContent = "×";
+
+        chip.append(
+            dot,
+            document.createTextNode(` ${name} `),
+            removeButton
+        );
+
+        return chip;
+    }
+
+    function createMonitoredItem(name, id) {
+        const item = document.createElement("div");
+        item.className = "monitored-item";
+
+        const avatar = document.createElement("span");
+        avatar.className = "monitored-avatar";
+        avatar.textContent = "Ψ";
+
+        const info = document.createElement("div");
+        info.className = "monitored-info";
+
+        const strong = document.createElement("strong");
+        strong.textContent = name;
+
+        const idSpan = document.createElement("span");
+        idSpan.className = "mono";
+        idSpan.textContent = id;
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "remove-btn";
+        removeButton.setAttribute(
+            "aria-label",
+            `Remover ${name}`
+        );
+        removeButton.textContent = "×";
+
+        info.append(strong, idSpan);
+        item.append(avatar, info, removeButton);
+
+        return item;
+    }
+
+    function setupAssociations() {
+        const form = document.querySelector(
+            ".form-grid:not([data-edit-form])"
+        );
+
+        if (form) {
+            const missionBlock = form.querySelector(".chips-row");
+            const monitoredList = form.querySelector(".monitored-list");
+
+            if (missionBlock) {
+                missionBlock.addEventListener("click", event => {
+                    const button = event.target.closest("button");
+
+                    if (button) {
+                        button.closest(".mission-chip")?.remove();
+                    }
+                });
+
+                const missionButton = missionBlock
+                    .closest(".assoc-block")
+                    ?.querySelector(".link-action");
+
+                missionButton?.addEventListener("click", () => {
+                    const mission = prompt(
+                        "Informe o nome ou número da missão:"
+                    );
+
+                    if (!mission || !mission.trim()) return;
+
+                    const name = mission.trim();
+
+                    const exists = [
+                        ...missionBlock.querySelectorAll(".mission-chip")
+                    ].some(chip => {
+                        const clone = chip.cloneNode(true);
+                        clone.querySelector("button")?.remove();
+
+                        return clone.textContent.trim().toLowerCase() ===
+                            name.toLowerCase();
+                    });
+
+                    if (exists) {
+                        alert("Essa missão já está vinculada.");
+                        return;
+                    }
+
+                    missionBlock.appendChild(
+                        createMissionChip(name)
+                    );
+                });
+            }
+
+            if (monitoredList) {
+                monitoredList.addEventListener("click", event => {
+                    const button = event.target.closest(".remove-btn");
+
+                    if (button) {
+                        button.closest(".monitored-item")?.remove();
+                    }
+                });
+
+                const humanButton = monitoredList
+                    .closest(".assoc-block")
+                    ?.querySelector(".link-action");
+
+                humanButton?.addEventListener("click", () => {
+                    const name = prompt(
+                        "Informe o nome do humano monitorado:"
+                    );
+
+                    if (!name || !name.trim()) return;
+
+                    const id = prompt("Informe o ID do humano:");
+
+                    if (!id || !id.trim()) return;
+
+                    const cleanName = name.trim();
+                    const cleanId = id.trim();
+
+                    const exists = [
+                        ...monitoredList.querySelectorAll(".monitored-item")
+                    ].some(item =>
+                        item.querySelector(".monitored-info .mono")
+                            ?.textContent.trim().toLowerCase() ===
+                        cleanId.toLowerCase()
+                    );
+
+                    if (exists) {
+                        alert("Esse ID já está vinculado.");
+                        return;
+                    }
+
+                    monitoredList.appendChild(
+                        createMonitoredItem(cleanName, cleanId)
+                    );
+                });
+            }
+        }
+
+        // Associações da tela de edição:
+        // auxiliares e amostras.
+        const editForm = document.querySelector("[data-edit-form]");
+
+        if (!editForm) return;
+
+        const auxiliaryBlock = editForm.querySelector(
+            "[data-edit-auxiliares]"
+        );
+
+        const sampleList = editForm.querySelector(
+            "[data-edit-amostras]"
+        );
+
+        if (auxiliaryBlock) {
+            auxiliaryBlock.addEventListener("click", event => {
+                const button = event.target.closest("button");
+
+                if (button) {
+                    button.closest(".mission-chip")?.remove();
+                }
+            });
+
+            const addButton = auxiliaryBlock
+                .closest(".assoc-block")
+                ?.querySelector(".link-action");
+
+            addButton?.addEventListener("click", () => {
+                const name = prompt(
+                    "Informe o nome do cientista auxiliar:"
+                );
+
+                if (!name || !name.trim()) return;
+
+                const cleanName = name.trim();
+
+                const exists = [
+                    ...auxiliaryBlock.querySelectorAll(".mission-chip")
+                ].some(chip => {
+                    const clone = chip.cloneNode(true);
+                    clone.querySelector("button")?.remove();
+
+                    return clone.textContent.trim().toLowerCase() ===
+                        cleanName.toLowerCase();
+                });
+
+                if (exists) {
+                    alert("Esse auxiliar já está vinculado.");
+                    return;
+                }
+
+                auxiliaryBlock.appendChild(
+                    createMissionChip(cleanName)
+                );
+            });
+        }
+
+        if (sampleList) {
+            sampleList.addEventListener("click", event => {
+                const button = event.target.closest(".remove-btn");
+
+                if (button) {
+                    button.closest(".monitored-item")?.remove();
+                }
+            });
+
+            const addButton = sampleList
+                .closest(".assoc-block")
+                ?.querySelector(".link-action");
+
+            addButton?.addEventListener("click", () => {
+                const name = prompt("Informe o nome da amostra:");
+
+                if (!name || !name.trim()) return;
+
+                const id = prompt("Informe o código da amostra:");
+
+                if (!id || !id.trim()) return;
+
+                const cleanName = name.trim();
+                const cleanId = id.trim();
+
+                const exists = [
+                    ...sampleList.querySelectorAll(".monitored-item")
+                ].some(item =>
+                    item.querySelector(".monitored-info .mono")
+                        ?.textContent.trim().toLowerCase() ===
+                    cleanId.toLowerCase()
+                );
+
+                if (exists) {
+                    alert("Essa amostra já está vinculada.");
+                    return;
+                }
+
+                sampleList.appendChild(
+                    createMonitoredItem(cleanName, cleanId)
+                );
+            });
+        }
+    }
+
+    function collectMissions(root = document) {
         return [
-            ...document.querySelectorAll(".chips-row .mission-chip")
+            ...root.querySelectorAll(".chips-row .mission-chip")
         ].map(chip => {
             const clone = chip.cloneNode(true);
             clone.querySelector("button")?.remove();
+
             return clone.textContent.trim();
         }).filter(Boolean);
     }
 
-    function collectHumans() {
+    function collectHumans(root = document) {
         return [
-            ...document.querySelectorAll(".monitored-list .monitored-item")
+            ...root.querySelectorAll(".monitored-list .monitored-item")
         ].map(item => ({
-            nome: item.querySelector(".monitored-info strong")?.textContent.trim() || "",
-            id: item.querySelector(".monitored-info .mono")?.textContent.trim() || ""
-        })).filter(human => human.nome && human.id);
+            nome: item.querySelector(".monitored-info strong")
+                ?.textContent.trim() || "",
+            id: item.querySelector(".monitored-info .mono")
+                ?.textContent.trim() || ""
+        })).filter(item => item.nome && item.id);
     }
 
-    function collectFiles() {
+    function collectChips(root, selector) {
+        const container = root.querySelector(selector);
+
+        if (!container) return [];
+
         return [
-            ...document.querySelectorAll(".file-list .file-item")
+            ...container.querySelectorAll(".mission-chip")
+        ].map(chip => {
+            const clone = chip.cloneNode(true);
+            clone.querySelector("button")?.remove();
+
+            return clone.textContent.trim();
+        }).filter(Boolean);
+    }
+
+    function collectSamples(root) {
+        const container = root.querySelector("[data-edit-amostras]");
+
+        if (!container) return [];
+
+        return [
+            ...container.querySelectorAll(".monitored-item")
         ].map(item => ({
-            nome: item.querySelector(".file-name")?.textContent.trim() || "",
-            tamanho: item.querySelector(".file-size")?.textContent.trim() || "",
-            tipo: getFileExtension(
-                item.querySelector(".file-name")?.textContent.trim() || ""
+            nome: item.querySelector(".monitored-info strong")
+                ?.textContent.trim() || "",
+            id: item.querySelector(".monitored-info .mono")
+                ?.textContent.trim() || ""
+        })).filter(item => item.nome && item.id);
+    }
+
+    // ==========================================
+    // CIENTISTAS AUXILIARES: CADASTRO
+    // ==========================================
+
+    function setupAssistants() {
+        document.querySelectorAll(".assistant-card").forEach(card => {
+            const checkbox = card.querySelector(
+                'input[type="checkbox"]'
+            );
+
+            if (!checkbox) return;
+
+            card.classList.toggle("checked", checkbox.checked);
+
+            checkbox.addEventListener("change", () => {
+                card.classList.toggle("checked", checkbox.checked);
+            });
+        });
+    }
+
+    function collectAssistants(root) {
+        return [
+            ...root.querySelectorAll(
+                ".assistants-grid input[type='checkbox']:checked"
             )
-        })).filter(file => file.nome);
+        ].map(input =>
+            input.closest(".assistant-card")
+                ?.querySelector(".assistant-info strong")
+                ?.textContent.trim()
+        ).filter(Boolean);
     }
 
     // ==========================================
@@ -429,23 +736,37 @@
     // ==========================================
 
     function setupForm() {
-        const form = document.querySelector(".form-grid:not([data-edit-form])");
+        const form = document.querySelector(
+            ".form-grid:not([data-edit-form])"
+        );
+
         if (!form) return;
 
         const idField = form.querySelector("#id-pesquisa");
-        if (idField) idField.value = nextId();
+
+        if (idField) {
+            idField.value = nextId();
+        }
 
         form.querySelectorAll("input[id], select[id], textarea[id]")
             .forEach(field => {
-                if (!field.name) field.name = field.id;
+                if (!field.name) {
+                    field.name = field.id;
+                }
             });
 
-        const syncRadioStates = () => {
+        function syncRadioStates() {
             form.querySelectorAll(".radio-option").forEach(option => {
-                const input = option.querySelector('input[type="radio"]');
-                option.classList.toggle("active-progress", Boolean(input?.checked));
+                const input = option.querySelector(
+                    'input[type="radio"]'
+                );
+
+                option.classList.toggle(
+                    "active-progress",
+                    Boolean(input?.checked)
+                );
             });
-        };
+        }
 
         syncRadioStates();
 
@@ -455,6 +776,7 @@
 
         form.addEventListener("submit", event => {
             event.preventDefault();
+
             if (!form.reportValidity()) return;
 
             const value = id =>
@@ -464,159 +786,289 @@
                 'input[name="estado"]:checked'
             )?.value || "progresso";
 
-            const assistants = [
-                ...form.querySelectorAll(
-                    ".assistants-grid input[type='checkbox']:checked"
-                )
-            ].map(input =>
-                input.closest(".assistant-card")
-                    ?.querySelector(".assistant-info strong")
-                    ?.textContent.trim()
-            ).filter(Boolean);
+            const area = form.querySelector(
+                "#area-cientifica option:checked"
+            )?.textContent.trim() || "";
 
             const record = {
                 id: value("id-pesquisa") || nextId(),
+
                 nome: value("nome-pesquisa"),
-                area: form.querySelector("#area-cientifica option:checked")
-                    ?.textContent.trim() || "",
+                area,
+
                 dataInicio: value("data-inicio"),
                 objetivo: value("objetivo-central"),
                 metodologia: value("descricao-metodologia"),
                 cientista: value("cientista-responsavel"),
-                auxiliares: assistants,
+
+                auxiliares: collectAssistants(form),
+
                 status: normalizeStatus(statusValue),
-                missoes: collectMissions(),
-                humanosMonitorados: collectHumans(),
-                arquivos: collectFiles(),
+
+                missoes: collectMissions(form),
+                humanosMonitorados: collectHumans(form),
+
+                // Campos que também podem ser utilizados
+                // pela tela de detalhes e pela edição.
+                amostras: [],
+                arquivos: collectFiles(form),
+
                 criadoEm: new Date().toISOString()
             };
 
             const items = readAll();
+
+            // Evita duplicação caso o código já exista.
+            const alreadyExists = items.some(
+                item => item.id === record.id
+            );
+
+            if (alreadyExists) {
+                alert("Já existe uma pesquisa com esse código.");
+                return;
+            }
+
             items.push(record);
 
             if (!writeAll(items)) return;
 
             alert("Pesquisa cadastrada com sucesso!");
+
             window.location.href = overviewUrl();
         });
     }
 
     // ==========================================
-    // VISÃO GERAL DAS PESQUISAS + PAGINAÇÃO
+    // REGISTROS INICIAIS DA VISÃO GERAL
+    // ==========================================
+
+    function getInitialOverviewRecords() {
+        const tbody = document.querySelector(
+            ".table-container tbody"
+        );
+
+        if (!tbody) return [];
+
+        return [
+            ...tbody.querySelectorAll("tr[data-research-id]")
+        ].map(row => {
+            const cells = row.querySelectorAll("td");
+
+            if (cells.length < 5) return null;
+
+            return {
+                id: row.dataset.researchId,
+
+                nome: cells[1].querySelector(".research-title")
+                    ?.textContent.trim() || "",
+
+                resumo: cells[1].querySelector(".research-sub")
+                    ?.textContent.trim() || "",
+
+                area: cells[2].textContent.trim(),
+
+                cientista: cells[3].textContent.trim(),
+
+                status: normalizeStatus(
+                    cells[4].textContent.replace(/[•]/g, "").trim()
+                )
+            };
+        }).filter(Boolean);
+    }
+
+    function getInitialDetailRecords() {
+        return {
+            "PESQ-001": {
+                id: "PESQ-001",
+                nome: "Análise de Resposta Neural...",
+                area: "Neurologia Humana",
+                cientista: "Cientista Etriz",
+                status: "Em progresso",
+                resumo: "Amostra: 14 Espécimes // Setor Beta-3 // Taxa de Adaptação: 68%"
+            },
+
+            "PESQ-002": {
+                id: "PESQ-002",
+                nome: "Mutação Genética Induzida por...",
+                area: "Xenobiologia",
+                cientista: "Cientista Alielaine",
+                status: "Concluída",
+                resumo: "Sequenciamento Genômico Cruzado // Telômeros Estabilizados"
+            },
+
+            "PESQ-003": {
+                id: "PESQ-003",
+                nome: "Comportamento Social sob...",
+                area: "Comportamento Terrestre",
+                cientista: "Cientista Etmorg",
+                status: "Inconclusiva",
+                resumo: "Câmara Hiperbárica 04 // Desvio Psicométrico Inesperado"
+            },
+
+            "PESQ-004": {
+                id: "PESQ-004",
+                nome: "Mapeamento Biocelular de...",
+                area: "Bioquímica",
+                cientista: "Cientista Etriz",
+                status: "Em progresso",
+                resumo: "Origem: Quadrante América do Sul // Proteínas Sintéticas Estáveis"
+            },
+
+            "PESQ-005": {
+                id: "PESQ-005",
+                nome: "Cinética de Regeneração...",
+                area: "Bioquímica",
+                cientista: "Cientista Alielaine",
+                status: "Concluída",
+                resumo: "Aceleração com Gel Dérmico Xenomorfo // Eficiência +340%"
+            },
+
+            "PESQ-006": {
+                id: "PESQ-006",
+                nome: "Ressonância Quântica em...",
+                area: "Neurologia Humana",
+                cientista: "Cientista Etmorg",
+                status: "Abortada",
+                resumo: "Interrupção por Risco de Colapso Mental // Veto do Comando Alpha"
+            }
+        };
+    }
+
+    // ==========================================
+    // VISÃO GERAL
+    // BUSCA, FILTROS, INDICADORES E PAGINAÇÃO
     // ==========================================
 
     function setupOverview() {
-        const tbody = document.querySelector(".table-container tbody");
+        const tbody = document.querySelector(
+            ".table-container tbody"
+        );
+
         if (!tbody) return;
 
         const ITEMS_PER_PAGE = 6;
 
-        const originalRows = [...tbody.querySelectorAll("tr")]
-            .map(row => {
-                const cells = row.querySelectorAll("td");
-                if (cells.length < 5) return null;
+        const staticRecords = getInitialOverviewRecords();
+        const storedRecords = readAll();
 
-                return {
-                    id: cells[0].innerText.replace("•", "").trim(),
-                    nome: cells[1].querySelector(".research-title")
-                        ?.textContent.trim() || "",
-                    resumo: cells[1].querySelector(".research-sub")
-                        ?.textContent.trim() || "",
-                    area: cells[2].textContent.trim(),
-                    cientista: cells[3].textContent.trim(),
-                    status: normalizeStatus(
-                        cells[4].textContent.replace(/[•]/g, "").trim()
-                    )
-                };
-            })
-            .filter(Boolean);
+        // Quando uma pesquisa inicial é editada, o registro salvo
+        // substitui a versão estática, sem criar duplicação.
+        const storedIds = new Set(
+            storedRecords.map(item => String(item.id))
+        );
 
         const records = [
-            ...originalRows,
-            ...readAll().map(item => ({
+            ...staticRecords.filter(
+                item => !storedIds.has(String(item.id))
+            ),
+
+            ...storedRecords.map(item => ({
                 ...item,
-                id: item.id,
-                nome: item.nome,
-                resumo: item.objetivo || "Pesquisa cadastrada",
-                area: item.area,
-                cientista: item.cientista,
+                resumo: item.objetivo || item.resumo || "Pesquisa cadastrada",
                 status: normalizeStatus(item.status)
             }))
         ];
 
-        const searchInput = document.querySelector(".search-box input");
-        const pills = [...document.querySelectorAll(".filter-pills .pill")];
+        const searchInput = document.querySelector(
+            ".search-box input"
+        );
+
+        const filterContainer = document.querySelector(
+            ".filter-pills"
+        );
+
         const count = document.querySelector(".table-count");
+        const pageInfo = document.querySelector(".page-info");
         const pagination = document.querySelector(".pagination");
-        const pageInfo = pagination?.querySelector(".page-info");
         const pageControls = pagination?.querySelector(".page-controls");
-
-        const openResearchDetails = row => {
-            const id = row?.dataset.researchId;
-            if (id) window.location.href = detailsUrl(id);
-        };
-
-        tbody.addEventListener("click", event => {
-            const row = event.target.closest("tr[data-research-id]");
-            if (row) openResearchDetails(row);
-        });
-
-        tbody.addEventListener("keydown", event => {
-            if (event.key !== "Enter" && event.key !== " ") return;
-            const row = event.target.closest("tr[data-research-id]");
-            if (!row) return;
-            event.preventDefault();
-            openResearchDetails(row);
-        });
 
         let activeFilter = "todos";
         let currentPage = 1;
 
-        const filterFromLabel = label => {
-            const text = label.toLowerCase();
+        const filterNames = {
+            todos: "Todas",
+            "Em progresso": "Em Progresso",
+            "Pausada": "Pausadas",
+            "Concluída": "Concluídas",
+            "Inconclusiva": "Inconclusivas",
+            "Abortada": "Abortadas"
+        };
 
-            if (text.includes("progresso")) return "Em progresso";
+        function getFilterFromLabel(label) {
+            const text = String(label).toLowerCase();
+
+            if (text.includes("pausad")) return "Pausada";
+            if (text.includes("progresso") || text.includes("andamento")) {
+                return "Em progresso";
+            }
             if (text.includes("inconclus")) return "Inconclusiva";
             if (text.includes("conclu")) return "Concluída";
             if (text.includes("abort")) return "Abortada";
+
             return "todos";
-        };
+        }
 
-        const filterLabels = {
-            todos: "TODOS",
-            "Em progresso": "EM PROGRESSO",
-            "Concluída": "CONCLUÍDA",
-            "Inconclusiva": "INCONCLUSIVA",
-            "Abortada": "ABORTADA"
-        };
+        // Cria um filtro de pausadas caso exista alguma pesquisa
+        // com esse status.
+        if (
+            filterContainer &&
+            records.some(item => normalizeStatus(item.status) === "Pausada") &&
+            ![...filterContainer.querySelectorAll(".pill")]
+                .some(pill => getFilterFromLabel(pill.textContent) === "Pausada")
+        ) {
+            const pill = document.createElement("button");
+            pill.type = "button";
+            pill.className = "pill";
+            pill.textContent = "Pausadas";
 
-        const countByStatus = status =>
-            records.filter(item => status === "todos" || item.status === status).length;
+            filterContainer.appendChild(pill);
+        }
+
+        const pills = filterContainer
+            ? [...filterContainer.querySelectorAll(".pill")]
+            : [];
+
+        function getCountByStatus(status) {
+            return records.filter(item =>
+                status === "todos" ||
+                normalizeStatus(item.status) === status
+            ).length;
+        }
 
         function updateCounters() {
             const counts = {
-                total: records.length,
-                progress: countByStatus("Em progresso"),
-                completed: countByStatus("Concluída"),
-                inconclusive: countByStatus("Inconclusiva"),
-                aborted: countByStatus("Abortada")
+                total: getCountByStatus("todos"),
+                progress: getCountByStatus("Em progresso"),
+                completed: getCountByStatus("Concluída"),
+                inconclusive: getCountByStatus("Inconclusiva"),
+                aborted: getCountByStatus("Abortada")
             };
 
-            const keys = {
+            const statusCounts = {
                 todos: counts.total,
                 "Em progresso": counts.progress,
+                "Pausada": getCountByStatus("Pausada"),
                 "Concluída": counts.completed,
                 "Inconclusiva": counts.inconclusive,
                 "Abortada": counts.aborted
             };
 
             pills.forEach(pill => {
-                const status = filterFromLabel(pill.textContent);
-                const label = filterLabels[status] || filterLabels.todos;
+                const status = getFilterFromLabel(pill.textContent);
 
-                pill.textContent = `${label} (${keys[status]})`;
-                pill.classList.toggle("active", activeFilter === status);
-                pill.setAttribute("aria-pressed", String(activeFilter === status));
+                pill.textContent =
+                    `${filterNames[status] || filterNames.todos} ` +
+                    `(${statusCounts[status] ?? counts.total})`;
+
+                pill.classList.toggle(
+                    "active",
+                    activeFilter === status
+                );
+
+                pill.setAttribute(
+                    "aria-pressed",
+                    String(activeFilter === status)
+                );
             });
 
             Object.entries(counts).forEach(([key, amount]) => {
@@ -624,7 +1076,9 @@
                     `.kpi-card.${key} .kpi-number`
                 );
 
-                if (element) element.textContent = String(amount).padStart(2, "0");
+                if (element) {
+                    element.textContent = String(amount).padStart(2, "0");
+                }
             });
         }
 
@@ -642,45 +1096,52 @@
                 ].join(" ").toLocaleLowerCase("pt-BR");
 
                 const matchesSearch = searchableText.includes(term);
+
                 const matchesStatus =
-                    activeFilter === "todos" || item.status === activeFilter;
+                    activeFilter === "todos" ||
+                    normalizeStatus(item.status) === activeFilter;
 
                 return matchesSearch && matchesStatus;
             });
         }
 
         function renderPagination(totalPages) {
-            if (!pagination || !pageControls) return;
-
-            if (pageInfo) {
-                pageInfo.textContent =
-                    `PÁGINA ${String(currentPage).padStart(2, "0")} DE ${String(totalPages).padStart(2, "0")}`;
-            }
+            if (!pageControls) return;
 
             pageControls.innerHTML = "";
 
-            const createButton = (label, page, options = {}) => {
+            function createButton(label, page, options = {}) {
                 const button = document.createElement("button");
+
                 button.type = "button";
                 button.className = "page-btn";
                 button.textContent = label;
                 button.disabled = Boolean(options.disabled);
 
                 if (options.active) {
-                    button.classList.add("active");
+                    button.classList.add("selected");
                     button.setAttribute("aria-current", "page");
                 }
 
                 button.addEventListener("click", () => {
-                    if (page < 1 || page > totalPages || page === currentPage) return;
+                    if (
+                        page < 1 ||
+                        page > totalPages ||
+                        page === currentPage
+                    ) {
+                        return;
+                    }
+
                     currentPage = page;
                     render();
                 });
 
                 pageControls.appendChild(button);
-            };
+            }
 
-            createButton("<", currentPage - 1, { disabled: currentPage === 1 });
+            createButton("‹", currentPage - 1, {
+                disabled: currentPage === 1
+            });
 
             for (let page = 1; page <= totalPages; page++) {
                 createButton(String(page), page, {
@@ -688,18 +1149,25 @@
                 });
             }
 
-            createButton(">", currentPage + 1, {
+            createButton("›", currentPage + 1, {
                 disabled: currentPage === totalPages
             });
         }
 
         function render() {
             const filtered = getFilteredRecords();
-            const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
 
-            if (currentPage > totalPages) currentPage = totalPages;
+            const totalPages = Math.max(
+                1,
+                Math.ceil(filtered.length / ITEMS_PER_PAGE)
+            );
+
+            if (currentPage > totalPages) {
+                currentPage = totalPages;
+            }
 
             const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+
             const pageRecords = filtered.slice(
                 startIndex,
                 startIndex + ITEMS_PER_PAGE
@@ -716,38 +1184,52 @@
             } else {
                 tbody.innerHTML = pageRecords.map(item => {
                     const css = statusClass(item.status);
+
                     const name = escapeHTML(item.nome);
+
                     const shortName = name.length > 38
                         ? `${name.slice(0, 38)}...`
                         : name;
 
                     return `
-                        <tr class="research-row" data-research-id="${escapeHTML(item.id)}" tabindex="0" role="link" aria-label="Ver detalhes da pesquisa ${escapeHTML(item.id)}">
+                        <tr
+                            class="research-row"
+                            data-research-id="${escapeHTML(item.id)}"
+                            tabindex="0"
+                            role="link"
+                            aria-label="Ver detalhes da pesquisa ${escapeHTML(item.id)}"
+                        >
                             <td>
-                                <span class="id-code text-cyan">
+                                <span class="id-code mono">
                                     • ${escapeHTML(item.id)}
                                 </span>
                             </td>
+
                             <td>
-                                <div class="research-title">${shortName}</div>
+                                <div class="research-title">
+                                    ${shortName}
+                                </div>
+
                                 <div class="research-sub">
                                     ${escapeHTML(item.resumo || "—")}
                                 </div>
                             </td>
+
                             <td>
                                 <span class="category-badge">
-                                    ${escapeHTML(item.area)}
+                                    ${escapeHTML(item.area || "—")}
                                 </span>
                             </td>
+
                             <td>
-                                <div class="scientist">
-                                    <span class="avatar-icon cyan-tint">Ψ</span>
-                                    <span>${escapeHTML(item.cientista)}</span>
-                                </div>
+                                <span class="scientist">
+                                    ${escapeHTML(item.cientista || "—")}
+                                </span>
                             </td>
+
                             <td>
                                 <span class="status-pill ${css}">
-                                    • ${escapeHTML(item.status)}
+                                    • ${escapeHTML(normalizeStatus(item.status))}
                                 </span>
                             </td>
                         </tr>
@@ -755,32 +1237,61 @@
                 }).join("");
             }
 
-            if (count) {
-                const first = filtered.length === 0 ? 0 : startIndex + 1;
-                const last = Math.min(startIndex + ITEMS_PER_PAGE, filtered.length);
+            const first = filtered.length === 0
+                ? 0
+                : startIndex + 1;
 
-                count.innerHTML = `
-                    Exibindo <strong>${first}–${last}</strong>
-                    de ${filtered.length} registros
-                `;
+            const last = Math.min(
+                startIndex + ITEMS_PER_PAGE,
+                filtered.length
+            );
+
+            if (count) {
+                count.textContent =
+                    `${filtered.length} REGISTROS`;
+            }
+
+            if (pageInfo) {
+                pageInfo.textContent =
+                    `Exibindo ${first}–${last} de ${filtered.length} pesquisas`;
             }
 
             updateCounters();
             renderPagination(totalPages);
 
-            if (window.lucide) window.lucide.createIcons();
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
         }
 
-        if (searchInput) {
-            searchInput.addEventListener("input", () => {
-                currentPage = 1;
-                render();
-            });
-        }
+        tbody.addEventListener("click", event => {
+            const row = event.target.closest("tr[data-research-id]");
+
+            if (row) {
+                window.location.href = detailsUrl(row.dataset.researchId);
+            }
+        });
+
+        tbody.addEventListener("keydown", event => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+
+            const row = event.target.closest("tr[data-research-id]");
+
+            if (!row) return;
+
+            event.preventDefault();
+
+            window.location.href = detailsUrl(row.dataset.researchId);
+        });
+
+        searchInput?.addEventListener("input", () => {
+            currentPage = 1;
+            render();
+        });
 
         pills.forEach(pill => {
             pill.addEventListener("click", () => {
-                activeFilter = filterFromLabel(pill.textContent);
+                activeFilter = getFilterFromLabel(pill.textContent);
                 currentPage = 1;
                 render();
             });
@@ -790,58 +1301,96 @@
     }
 
     // ==========================================
-    // DETALHES DINÂMICOS DA PESQUISA E MODAL
+    // MODAL DE SOLICITAÇÃO DE EXCLUSÃO
     // ==========================================
 
     function setupDeletionModal(record) {
-        const trigger = document.querySelector('[data-action="delete"]');
-        const modal = document.getElementById("modalSolicitarExclusao");
+        const trigger = document.querySelector(
+            '[data-action="delete"]'
+        );
+
+        const modal = document.getElementById(
+            "modalSolicitarExclusao"
+        );
+
         if (!trigger || !modal || !record) return;
 
         const form = modal.querySelector("#formSolicitarExclusao");
         const textarea = modal.querySelector("#motivoExclusao");
-        const idLabel = modal.querySelector('[data-field="id"]');
-        const scientistLabel = modal.querySelector('[data-field="cientista"]');
-        const closeButtons = modal.querySelectorAll("[data-modal-close]");
 
-        const openModal = () => {
-            if (idLabel) idLabel.textContent = `REGISTRO ${record.id}`;
-            if (scientistLabel) scientistLabel.textContent = record.cientista || "Cientista Responsável";
+        const idLabel = modal.querySelector(
+            '[data-field="id"]'
+        );
+
+        const scientistLabel = modal.querySelector(
+            '[data-field="cientista"]'
+        );
+
+        const closeButtons = modal.querySelectorAll(
+            "[data-modal-close]"
+        );
+
+        function openModal() {
+            if (idLabel) {
+                idLabel.textContent = `REGISTRO ${record.id}`;
+            }
+
+            if (scientistLabel) {
+                scientistLabel.textContent =
+                    record.cientista || "Cientista Responsável";
+            }
 
             modal.hidden = false;
             modal.setAttribute("aria-hidden", "false");
-            textarea?.focus();
-        };
 
-        const closeModal = () => {
+            textarea?.focus();
+        }
+
+        function closeModal() {
             modal.hidden = true;
             modal.setAttribute("aria-hidden", "true");
+
             form?.reset();
-        };
+        }
 
         trigger.addEventListener("click", openModal);
-        closeButtons.forEach(btn => btn.addEventListener("click", closeModal));
+
+        closeButtons.forEach(button => {
+            button.addEventListener("click", closeModal);
+        });
 
         modal.addEventListener("click", event => {
-            if (event.target === modal) closeModal();
+            if (event.target === modal) {
+                closeModal();
+            }
         });
 
         document.addEventListener("keydown", event => {
-            if (event.key === "Escape" && !modal.hidden) closeModal();
+            if (event.key === "Escape" && !modal.hidden) {
+                closeModal();
+            }
         });
 
         form?.addEventListener("submit", event => {
             event.preventDefault();
+
             const motivo = textarea?.value.trim();
+
             if (!motivo) {
                 textarea?.focus();
                 return;
             }
 
             let requests = [];
+
             try {
-                requests = JSON.parse(localStorage.getItem(DELETION_REQUESTS_KEY) || "[]");
-                if (!Array.isArray(requests)) requests = [];
+                requests = JSON.parse(
+                    localStorage.getItem(DELETION_REQUESTS_KEY) || "[]"
+                );
+
+                if (!Array.isArray(requests)) {
+                    requests = [];
+                }
             } catch {
                 requests = [];
             }
@@ -857,127 +1406,362 @@
             });
 
             try {
-                localStorage.setItem(DELETION_REQUESTS_KEY, JSON.stringify(requests));
+                localStorage.setItem(
+                    DELETION_REQUESTS_KEY,
+                    JSON.stringify(requests)
+                );
             } catch (error) {
-                console.error("Erro ao salvar solicitação de exclusão:", error);
-                alert("Não foi possível registrar a solicitação no armazenamento do navegador.");
+                console.error(
+                    "Erro ao salvar solicitação de exclusão:",
+                    error
+                );
+
+                alert(
+                    "Não foi possível registrar a solicitação."
+                );
+
                 return;
             }
 
-            alert("Solicitação de exclusão registrada e encaminhada para auditoria do CEO.");
+            alert(
+                "Solicitação de exclusão registrada e encaminhada " +
+                "para auditoria do CEO."
+            );
+
             closeModal();
         });
     }
 
+    // ==========================================
+    // DETALHES DA PESQUISA
+    // ==========================================
+
     function setupDetails() {
-        const page = document.querySelector("[data-research-details]");
+        const page = document.querySelector(
+            "[data-research-details]"
+        );
+
         if (!page) return;
 
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get("id");
-        const stored = readAll().find(item => String(item.id) === String(id));
+        const params = new URLSearchParams(
+            window.location.search
+        );
 
-        const initialRecords = {
-            "PESQ-001": { id: "PESQ-001", nome: "Análise de Resposta Neural...", area: "Neurologia Humana", cientista: "Cientista Etriz", status: "Em progresso", resumo: "Amostra: 14 Espécimes // Setor Beta-3 // Taxa de Adaptação: 68%" },
-            "PESQ-002": { id: "PESQ-002", nome: "Mutação Genética Induzida por...", area: "Xenobiologia", cientista: "Cientista Alielaine", status: "Concluída", resumo: "Sequenciamento Genômico Cruzado // Telômeros Estabilizados" },
-            "PESQ-003": { id: "PESQ-003", nome: "Comportamento Social sob...", area: "Comportamento Terrestre", cientista: "Cientista Etmorg", status: "Inconclusiva", resumo: "Câmara Hiperbárica 04 // Desvio Psicométrico Inesperado" },
-            "PESQ-004": { id: "PESQ-004", nome: "Mapeamento Biocelular de...", area: "Bioquímica", cientista: "Cientista Etriz", status: "Em progresso", resumo: "Origem: Quadrante América do Sul // Proteínas Sintéticas Estáveis" },
-            "PESQ-005": { id: "PESQ-005", nome: "Cinética de Regeneração...", area: "Bioquímica", cientista: "Cientista Alielaine", status: "Concluída", resumo: "Aceleração com Gel Dérmico Xenomorfo // Eficiência +340%" },
-            "PESQ-006": { id: "PESQ-006", nome: "Ressonância Quântica em...", area: "Neurologia Humana", cientista: "Cientista Etmorg", status: "Abortada", resumo: "Interrupção por Risco de Colapso Mental // Veto do Comando Alpha" }
-        };
+        const id = params.get("id");
+
+        const stored = readAll().find(
+            item => String(item.id) === String(id)
+        );
+
+        const initialRecords = getInitialDetailRecords();
 
         const record = stored || initialRecords[id];
-        const setText = (selector, value, fallback = "Não informado") => {
+
+        function setText(selector, value, fallback = "Não informado") {
             page.querySelectorAll(selector).forEach(element => {
-                element.textContent = value == null || value === "" ? fallback : value;
+                element.textContent =
+                    value == null || value === ""
+                        ? fallback
+                        : value;
             });
-        };
-        const safe = value => escapeHTML(value == null || value === "" ? "Não informado" : value);
-        const listMarkup = (items, formatter) => items?.length
-            ? items.map(formatter).join("")
-            : '<li class="muted-item">Nenhum registro informado.</li>';
+        }
+
+        function safe(value) {
+            return escapeHTML(
+                value == null || value === ""
+                    ? "Não informado"
+                    : value
+            );
+        }
+
+        function listMarkup(items, formatter) {
+            return items?.length
+                ? items.map(formatter).join("")
+                : '<li class="muted-item">Nenhum registro informado.</li>';
+        }
 
         if (!record) {
-            page.querySelector(".details-content").innerHTML = `
-                <section class="panel-card not-found">
-                    <i data-lucide="file-question"></i>
-                    <h2>Pesquisa não encontrada</h2>
-                    <p>Não foi possível localizar o registro solicitado.</p>
-                    <a class="action-link" href="${OVERVIEW_PAGE}">Voltar para Pesquisas</a>
-                </section>`;
-            if (window.lucide) window.lucide.createIcons();
+            const content = page.querySelector(".details-content");
+
+            if (content) {
+                content.innerHTML = `
+                    <section class="panel-card not-found">
+                        <i data-lucide="file-question"></i>
+
+                        <h2>Pesquisa não encontrada</h2>
+
+                        <p>
+                            Não foi possível localizar o registro solicitado.
+                        </p>
+
+                        <a class="action-link" href="${escapeHTML(OVERVIEW_PAGE)}">
+                            Voltar para Pesquisas
+                        </a>
+                    </section>
+                `;
+            }
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+
             return;
         }
 
-        document.title = `AMS - ${record.id} | Detalhes da Pesquisa`;
+        document.title =
+            `AMS - ${record.id} | Detalhes da Pesquisa`;
+
         setText("[data-field='id']", record.id);
         setText("[data-field='area']", record.area);
         setText("[data-field='nome']", record.nome);
-        setText("[data-field='status']", normalizeStatus(record.status));
+        setText(
+            "[data-field='status']",
+            normalizeStatus(record.status)
+        );
         setText("[data-field='cientista']", record.cientista);
-        setText("[data-field='data-criacao']", record.dataCriacao || record.criadoEm ? new Date(record.criadoEm || record.dataCriacao).toLocaleString("pt-BR") : "Não informado");
+
+        const creationDate = record.criadoEm || record.dataCriacao;
+
+        setText(
+            "[data-field='data-criacao']",
+            creationDate
+                ? new Date(creationDate).toLocaleString("pt-BR")
+                : ""
+        );
+
         setText("[data-field='data-inicio']", record.dataInicio);
         setText("[data-field='data-conclusao']", record.dataConclusao);
-        setText("[data-field='resumo']", record.resumo || record.objetivo);
+
+        setText(
+            "[data-field='resumo']",
+            record.resumo || record.objetivo
+        );
+
         setText("[data-field='objetivo']", record.objetivo);
         setText("[data-field='metodologia']", record.metodologia);
         setText("[data-field='relatorio']", record.relatorio);
         setText("[data-field='historico']", record.historico);
-        setText("[data-field='total-amostras']", record.amostras?.length ? String(record.amostras.length) : "Não informado");
+
+        const totalSamples =
+            record.amostras?.length ||
+            record.humanosMonitorados?.length ||
+            0;
+
+        setText(
+            "[data-field='total-amostras']",
+            totalSamples ? String(totalSamples) : ""
+        );
 
         const status = page.querySelector(".detail-status");
-        if (status) status.classList.add(statusClass(normalizeStatus(record.status)));
 
-        const missions = page.querySelector("[data-list='missoes']");
-        if (missions) missions.innerHTML = listMarkup(record.missoes, item => `<li>${safe(item)}</li>`);
-        const humans = page.querySelector("[data-list='humanos']");
-        if (humans) humans.innerHTML = listMarkup(record.humanosMonitorados, item => `<li><strong>${safe(item.nome)}</strong><span>${safe(item.id)}</span></li>`);
-        const assistants = page.querySelector("[data-list='auxiliares']");
-        if (assistants) assistants.innerHTML = listMarkup(record.auxiliares, item => `<li>${safe(item)}</li>`);
-        const files = page.querySelector("[data-list='arquivos']");
-        if (files) files.innerHTML = listMarkup(record.arquivos, item => `<li><span>${safe(item.nome)}</span><small>${safe(item.tamanho)}</small></li>`);
-        const samples = page.querySelector("[data-list='amostras']");
-        if (samples) samples.innerHTML = listMarkup(record.amostras, item => `<li>${safe(typeof item === "string" ? item : item.nome || item.tipo)}</li>`);
+        if (status) {
+            status.classList.remove(
+                "progress",
+                "paused",
+                "completed",
+                "inconclusive",
+                "aborted"
+            );
 
-        const back = page.querySelector("[data-action='back']");
-        if (back) back.href = OVERVIEW_PAGE;
+            status.classList.add(
+                statusClass(record.status)
+            );
+        }
 
-        const edit = document.querySelector("[data-action='edit']");
-        if (edit) edit.href = editUrl(record.id);
+        const missions = page.querySelector(
+            "[data-list='missoes']"
+        );
+
+        if (missions) {
+            missions.innerHTML = listMarkup(
+                record.missoes,
+                item => `<li>${safe(item)}</li>`
+            );
+        }
+
+        const humans = page.querySelector(
+            "[data-list='humanos']"
+        );
+
+        if (humans) {
+            humans.innerHTML = listMarkup(
+                record.humanosMonitorados,
+                item => `
+                    <li>
+                        <strong>${safe(item.nome)}</strong>
+                        <span>${safe(item.id)}</span>
+                    </li>
+                `
+            );
+        }
+
+        const assistants = page.querySelector(
+            "[data-list='auxiliares']"
+        );
+
+        if (assistants) {
+            assistants.innerHTML = listMarkup(
+                record.auxiliares,
+                item => `<li>${safe(item)}</li>`
+            );
+        }
+
+        const files = page.querySelector(
+            "[data-list='arquivos']"
+        );
+
+        if (files) {
+            files.innerHTML = listMarkup(
+                record.arquivos,
+                item => `
+                    <li>
+                        <span>${safe(item.nome)}</span>
+                        <small>${safe(item.tamanho)}</small>
+                    </li>
+                `
+            );
+        }
+
+        const samples = page.querySelector(
+            "[data-list='amostras']"
+        );
+
+        if (samples) {
+            samples.innerHTML = listMarkup(
+                record.amostras,
+                item => `
+                    <li>
+                        ${safe(
+                            typeof item === "string"
+                                ? item
+                                : item.nome || item.tipo
+                        )}
+                    </li>
+                `
+            );
+        }
+
+        const back = page.querySelector(
+            "[data-action='back']"
+        );
+
+        if (back) {
+            back.href = overviewUrl();
+        }
+
+        const edit = page.querySelector(
+            "[data-action='edit']"
+        );
+
+        if (edit) {
+            edit.href = editUrl(record.id);
+        }
 
         setupDeletionModal(record);
 
         page.querySelectorAll("[data-tab]").forEach(button => {
             button.addEventListener("click", () => {
                 const target = button.dataset.tab;
+
                 page.querySelectorAll("[data-tab]").forEach(tab => {
                     const active = tab === button;
+
                     tab.classList.toggle("active", active);
-                    tab.setAttribute("aria-selected", String(active));
+
+                    tab.setAttribute(
+                        "aria-selected",
+                        String(active)
+                    );
                 });
+
                 page.querySelectorAll("[data-panel]").forEach(panel => {
                     panel.hidden = panel.dataset.panel !== target;
                 });
             });
         });
 
-        if (window.lucide) window.lucide.createIcons();
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
     }
 
     // ==========================================
-    // CHECKBOXES DOS CIENTISTAS AUXILIARES
+    // STATUS DA TELA DE EDIÇÃO
     // ==========================================
 
-    function setupAssistants() {
-        document.querySelectorAll(".assistant-card").forEach(card => {
-            const checkbox = card.querySelector('input[type="checkbox"]');
-            if (!checkbox) return;
+    function setupEditStatuses(form, currentStatus) {
+        const normalized = normalizeStatus(currentStatus);
 
-            card.classList.toggle("checked", checkbox.checked);
+        const statusMap = {
+            "Em andamento": "Em progresso",
+            "Pausada": "Pausada",
+            "Concluída": "Concluída",
+            "Inconclusiva": "Inconclusiva",
+            "Abortada": "Abortada"
+        };
 
-            checkbox.addEventListener("change", () => {
-                card.classList.toggle("checked", checkbox.checked);
+        const existingOptions = [
+            ...form.querySelectorAll(".status-option")
+        ];
+
+        const parent = existingOptions[0]?.parentElement;
+
+        // A edição também precisa permitir os mesmos status
+        // disponíveis no cadastro.
+        if (parent) {
+            ["Inconclusiva", "Abortada"].forEach(status => {
+                const exists = form.querySelector(
+                    `input[name="estado"][value="${status}"]`
+                );
+
+                if (exists) return;
+
+                const label = document.createElement("label");
+                label.className = "status-option";
+
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "estado";
+                input.value = status;
+
+                const text = document.createElement("span");
+                text.textContent = status;
+
+                label.append(input, text);
+                parent.appendChild(label);
             });
+        }
+
+        const radio = [
+            ...form.querySelectorAll('input[name="estado"]')
+        ].find(input => {
+            const value = input.value.trim();
+
+            return normalizeStatus(value) === normalized ||
+                statusMap[value] === normalized;
+        });
+
+        if (radio) {
+            radio.checked = true;
+        }
+
+        function sync() {
+            form.querySelectorAll(".status-option").forEach(option => {
+                const input = option.querySelector(
+                    'input[name="estado"]'
+                );
+
+                option.classList.toggle(
+                    "active-progress",
+                    Boolean(input?.checked)
+                );
+            });
+        }
+
+        sync();
+
+        form.querySelectorAll('input[name="estado"]').forEach(input => {
+            input.addEventListener("change", sync);
         });
     }
 
@@ -986,219 +1770,355 @@
     // ==========================================
 
     function setupEditForm() {
-        const form = document.querySelector("[data-edit-form]");
+        const form = document.querySelector(
+            "[data-edit-form]"
+        );
+
         if (!form) return;
 
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
         const id = params.get("id");
+
         const items = readAll();
-        const existingIndex = items.findIndex(item => String(item.id) === String(id));
-        const currentRecord = existingIndex >= 0 ? items[existingIndex] : null;
 
-        const backDetailsLink = document.querySelector('[data-action="back-details"]');
-        const cancelEditButton = document.querySelector('[data-action="cancel-edit"]');
-        const targetDetailsUrl = id ? detailsUrl(id) : overviewUrl();
+        const existingIndex = items.findIndex(
+            item => String(item.id) === String(id)
+        );
 
-        if (backDetailsLink) backDetailsLink.href = targetDetailsUrl;
-        if (cancelEditButton) {
-            cancelEditButton.addEventListener("click", () => {
-                window.location.href = targetDetailsUrl;
-            });
+        // Permite editar também as pesquisas iniciais da tabela.
+        const initialRecord = getInitialDetailRecords()[id];
+
+        const currentRecord = existingIndex >= 0
+            ? items[existingIndex]
+            : initialRecord
+                ? {
+                    ...initialRecord,
+                    auxiliares: [],
+                    missoes: [],
+                    humanosMonitorados: [],
+                    amostras: [],
+                    arquivos: []
+                }
+                : null;
+
+        const backDetailsLink = document.querySelector(
+            '[data-action="back-details"]'
+        );
+
+        const cancelEditButton = document.querySelector(
+            '[data-action="cancel-edit"]'
+        );
+
+        const targetDetailsUrl = id
+            ? detailsUrl(id)
+            : overviewUrl();
+
+        if (backDetailsLink) {
+            backDetailsLink.href = targetDetailsUrl;
         }
+
+        cancelEditButton?.addEventListener("click", event => {
+            event.preventDefault();
+            window.location.href = targetDetailsUrl;
+        });
 
         if (!currentRecord) {
             form.innerHTML = `
                 <section class="panel-card not-found">
                     <i data-lucide="file-question"></i>
+
                     <h2>Pesquisa não encontrada para edição</h2>
-                    <p>Não foi possível localizar o registro solicitado no armazenamento local.</p>
-                    <a class="action-link" href="${overviewUrl()}">Voltar para Pesquisas</a>
+
+                    <p>
+                        Não foi possível localizar o registro solicitado.
+                    </p>
+
+                    <a class="action-link" href="${escapeHTML(overviewUrl())}">
+                        Voltar para Pesquisas
+                    </a>
                 </section>
             `;
-            if (window.lucide) window.lucide.createIcons();
+
+            if (window.lucide) {
+                window.lucide.createIcons();
+            }
+
             return;
         }
 
-        const headerId = document.querySelector("[data-edit-id]");
-        if (headerId) headerId.textContent = currentRecord.id;
+        // --------------------------------------
+        // IDENTIFICAÇÃO
+        // --------------------------------------
 
-        const setVal = (selector, val) => {
-            const el = form.querySelector(selector);
-            if (el && val != null) el.value = val;
-        };
+        const headerId = form.querySelector("[data-edit-id]");
 
-        setVal("#id-pesquisa", currentRecord.id);
-        setVal("#nome-pesquisa", currentRecord.nome);
-        setVal("#data-inicio", currentRecord.dataInicio);
-        setVal("#objetivo-central", currentRecord.objetivo);
-        setVal("#descricao-metodologia", currentRecord.metodologia);
-        setVal("#cientista-responsavel", currentRecord.cientista);
+        if (headerId) {
+            if ("value" in headerId) {
+                headerId.value = currentRecord.id;
+            } else {
+                headerId.textContent = currentRecord.id;
+            }
+        }
 
-        const areaSelect = form.querySelector("#area-cientifica");
+        function setValue(selectors, value) {
+            const selectorsArray = Array.isArray(selectors)
+                ? selectors
+                : [selectors];
+
+            for (const selector of selectorsArray) {
+                const element = form.querySelector(selector);
+
+                if (element && value != null) {
+                    element.value = value;
+                    return;
+                }
+            }
+        }
+
+        setValue(
+            ["#protocolo", "#id-pesquisa"],
+            currentRecord.protocolo || currentRecord.id
+        );
+
+        setValue(
+            ["#titulo", "#nome-pesquisa"],
+            currentRecord.nome
+        );
+
+        setValue(
+            ["#dataInicio", "#data-inicio"],
+            dateForInput(currentRecord.dataInicio)
+        );
+
+        setValue(
+            ["#objetivo", "#objetivo-central"],
+            currentRecord.objetivo
+        );
+
+        setValue(
+            ["#metodologia", "#descricao-metodologia"],
+            currentRecord.metodologia
+        );
+
+        setValue(
+            ["#cientista", "#cientista-responsavel"],
+            currentRecord.cientista
+        );
+
+        // --------------------------------------
+        // ÁREA CIENTÍFICA
+        // --------------------------------------
+
+        const areaSelect = form.querySelector(
+            "#area, #area-cientifica"
+        );
+
         if (areaSelect && currentRecord.area) {
-            const matchOption = [...areaSelect.options].find(
-                opt => opt.textContent.trim().toLowerCase() === String(currentRecord.area).trim().toLowerCase() ||
-                    opt.value.toLowerCase() === String(currentRecord.area).trim().toLowerCase()
+            const area = String(currentRecord.area)
+                .trim()
+                .toLowerCase();
+
+            const matchOption = [
+                ...areaSelect.options
+            ].find(option =>
+                option.textContent.trim().toLowerCase() === area ||
+                option.value.trim().toLowerCase() === area
             );
-            if (matchOption) areaSelect.value = matchOption.value;
+
+            if (matchOption) {
+                areaSelect.value = matchOption.value;
+            }
         }
 
-        const normalizedStatus = normalizeStatus(currentRecord.status);
-        const statusValueMap = {
-            "Em progresso": "progresso",
-            "Concluída": "concluida",
-            "Inconclusiva": "inconclusiva",
-            "Abortada": "abortada"
-        };
-        const radioValue = statusValueMap[normalizedStatus] || "progresso";
-        const targetRadio = form.querySelector(`input[name="estado"][value="${radioValue}"]`);
-        if (targetRadio) {
-            targetRadio.checked = true;
-            form.querySelectorAll(".radio-option").forEach(opt => opt.classList.remove("active-progress"));
-            targetRadio.closest(".radio-option")?.classList.add("active-progress");
-        }
+        // --------------------------------------
+        // STATUS
+        // --------------------------------------
 
-        const assistants = Array.isArray(currentRecord.auxiliares) ? currentRecord.auxiliares : [];
-        form.querySelectorAll(".assistants-grid input[type='checkbox']").forEach(checkbox => {
-            const labelName = checkbox.closest(".assistant-card")?.querySelector(".assistant-info strong")?.textContent.trim();
-            const isChecked = assistants.includes(checkbox.value) || assistants.includes(labelName);
-            checkbox.checked = isChecked;
-            checkbox.closest(".assistant-card")?.classList.toggle("checked", isChecked);
-        });
+        setupEditStatuses(form, currentRecord.status);
 
-        const missionBlock = form.querySelector(".chips-row");
-        if (missionBlock && Array.isArray(currentRecord.missoes)) {
-            missionBlock.innerHTML = "";
-            currentRecord.missoes.forEach(missionName => {
-                const chip = document.createElement("span");
-                chip.className = "mission-chip";
+        // --------------------------------------
+        // AUXILIARES
+        // --------------------------------------
 
-                const dot = document.createElement("span");
-                dot.className = "dot-status cyan";
+        const auxiliaryBlock = form.querySelector(
+            "[data-edit-auxiliares]"
+        );
 
-                const removeButton = document.createElement("button");
-                removeButton.type = "button";
-                removeButton.setAttribute("aria-label", `Remover ${missionName}`);
-                removeButton.textContent = "×";
+        if (auxiliaryBlock) {
+            auxiliaryBlock.innerHTML = "";
 
-                chip.append(dot, document.createTextNode(` ${missionName} `), removeButton);
-                missionBlock.appendChild(chip);
+            (currentRecord.auxiliares || []).forEach(name => {
+                auxiliaryBlock.appendChild(
+                    createMissionChip(name)
+                );
             });
         }
 
-        const monitoredList = form.querySelector(".monitored-list");
-        if (monitoredList && Array.isArray(currentRecord.humanosMonitorados)) {
-            monitoredList.innerHTML = "";
-            currentRecord.humanosMonitorados.forEach(human => {
-                if (!human?.nome || !human?.id) return;
-                const item = document.createElement("div");
-                item.className = "monitored-item";
+        // --------------------------------------
+        // AMOSTRAS
+        // --------------------------------------
 
-                const avatar = document.createElement("span");
-                avatar.className = "monitored-avatar";
-                avatar.textContent = "Ψ";
+        const sampleList = form.querySelector(
+            "[data-edit-amostras]"
+        );
 
-                const info = document.createElement("div");
-                info.className = "monitored-info";
+        if (sampleList) {
+            sampleList.innerHTML = "";
 
-                const strong = document.createElement("strong");
-                strong.textContent = human.nome;
+            (currentRecord.amostras || []).forEach(sample => {
+                if (typeof sample === "string") {
+                    sampleList.appendChild(
+                        createMonitoredItem(sample, "—")
+                    );
 
-                const idSpan = document.createElement("span");
-                idSpan.className = "mono";
-                idSpan.textContent = human.id;
+                    return;
+                }
 
-                const removeButton = document.createElement("button");
-                removeButton.type = "button";
-                removeButton.className = "remove-btn";
-                removeButton.setAttribute("aria-label", `Remover ${human.nome}`);
-                removeButton.textContent = "×";
-
-                info.append(strong, idSpan);
-                item.append(avatar, info, removeButton);
-                monitoredList.appendChild(item);
+                if (sample?.nome && sample?.id) {
+                    sampleList.appendChild(
+                        createMonitoredItem(sample.nome, sample.id)
+                    );
+                }
             });
         }
+
+        // --------------------------------------
+        // ARQUIVOS
+        // --------------------------------------
 
         const fileList = form.querySelector(".file-list");
-        if (fileList && Array.isArray(currentRecord.arquivos)) {
+
+        if (fileList) {
             fileList.innerHTML = "";
-            currentRecord.arquivos.forEach(file => {
-                if (!file?.nome) return;
-                const item = document.createElement("div");
-                item.className = "file-item";
 
-                const icon = document.createElement("i");
-                icon.setAttribute("data-lucide", "file-text");
-                icon.className = "text-cyan";
-
-                const name = document.createElement("span");
-                name.className = "file-name mono";
-                name.textContent = file.nome;
-
-                const size = document.createElement("span");
-                size.className = "file-size mono";
-                size.textContent = file.tamanho || "";
-
-                const removeButton = document.createElement("button");
-                removeButton.type = "button";
-                removeButton.className = "remove-btn";
-                removeButton.setAttribute("aria-label", `Remover arquivo ${file.nome}`);
-                removeButton.textContent = "×";
-
-                item.append(icon, name, size, removeButton);
-                fileList.appendChild(item);
+            (currentRecord.arquivos || []).forEach(file => {
+                if (file?.nome) {
+                    fileList.appendChild(
+                        createFileElement(file)
+                    );
+                }
             });
-            if (window.lucide) window.lucide.createIcons();
         }
 
-        form.querySelectorAll('input[name="estado"]').forEach(radio => {
-            radio.addEventListener("change", () => {
-                form.querySelectorAll(".radio-option").forEach(option => {
-                    option.classList.remove("active-progress");
-                });
-                radio.closest(".radio-option")?.classList.add("active-progress");
-            });
-        });
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
+
+        // --------------------------------------
+        // SALVAR ALTERAÇÕES
+        // --------------------------------------
 
         form.addEventListener("submit", event => {
             event.preventDefault();
+
             if (!form.reportValidity()) return;
 
-            const value = fieldId => form.querySelector(`#${fieldId}`)?.value.trim() || "";
-            const statusValue = form.querySelector('input[name="estado"]:checked')?.value || "progresso";
+            function getFieldValue(selectors) {
+                const selectorsArray = Array.isArray(selectors)
+                    ? selectors
+                    : [selectors];
 
-            const assistantsSelected = [
-                ...form.querySelectorAll(".assistants-grid input[type='checkbox']:checked")
-            ].map(input =>
-                input.closest(".assistant-card")?.querySelector(".assistant-info strong")?.textContent.trim()
-            ).filter(Boolean);
+                for (const selector of selectorsArray) {
+                    const element = form.querySelector(selector);
+
+                    if (element) {
+                        return element.value.trim();
+                    }
+                }
+
+                return "";
+            }
+
+            const selectedStatus = form.querySelector(
+                'input[name="estado"]:checked'
+            )?.value;
+
+            const area = form.querySelector(
+                "#area option:checked, #area-cientifica option:checked"
+            )?.textContent.trim() || currentRecord.area;
 
             const updatedRecord = {
                 ...currentRecord,
+
+                // O código original nunca muda.
                 id: currentRecord.id,
-                nome: value("nome-pesquisa"),
-                area: form.querySelector("#area-cientifica option:checked")?.textContent.trim() || currentRecord.area,
-                dataInicio: value("data-inicio"),
-                objetivo: value("objetivo-central"),
-                metodologia: value("descricao-metodologia"),
-                cientista: value("cientista-responsavel"),
-                auxiliares: assistantsSelected,
-                status: normalizeStatus(statusValue),
-                missoes: collectMissions(),
-                humanosMonitorados: collectHumans(),
-                arquivos: collectFiles(),
+
+                protocolo: getFieldValue("#protocolo") ||
+                    currentRecord.protocolo ||
+                    currentRecord.id,
+
+                nome: getFieldValue([
+                    "#titulo",
+                    "#nome-pesquisa"
+                ]),
+
+                area,
+
+                dataInicio: getFieldValue([
+                    "#dataInicio",
+                    "#data-inicio"
+                ]),
+
+                objetivo: getFieldValue([
+                    "#objetivo",
+                    "#objetivo-central"
+                ]),
+
+                metodologia: getFieldValue([
+                    "#metodologia",
+                    "#descricao-metodologia"
+                ]),
+
+                cientista: getFieldValue([
+                    "#cientista",
+                    "#cientista-responsavel"
+                ]),
+
+                status: normalizeStatus(
+                    selectedStatus || currentRecord.status
+                ),
+
+                // Na edição, os chips representam auxiliares.
+                auxiliares: collectChips(
+                    form,
+                    "[data-edit-auxiliares]"
+                ),
+
+                // Na edição, a lista representa amostras.
+                amostras: collectSamples(form),
+
+                // Preserva missões e humanos já cadastrados,
+                // pois eles não possuem campos nesta tela.
+                missoes: currentRecord.missoes || [],
+                humanosMonitorados:
+                    currentRecord.humanosMonitorados || [],
+
+                arquivos: collectFiles(form),
+
                 atualizadoEm: new Date().toISOString()
             };
 
             const latestItems = readAll();
-            const idx = latestItems.findIndex(item => String(item.id) === String(currentRecord.id));
-            if (idx >= 0) {
-                latestItems[idx] = updatedRecord;
-                if (!writeAll(latestItems)) return;
+
+            const index = latestItems.findIndex(
+                item => String(item.id) === String(currentRecord.id)
+            );
+
+            if (index >= 0) {
+                latestItems[index] = updatedRecord;
+            } else {
+                // Caso seja uma pesquisa inicial estática,
+                // passa a ser salva no localStorage.
+                latestItems.push(updatedRecord);
             }
 
+            if (!writeAll(latestItems)) return;
+
             alert("Alterações da pesquisa salvas com sucesso!");
+
             window.location.href = detailsUrl(currentRecord.id);
         });
     }
@@ -1209,15 +2129,20 @@
 
     document.addEventListener("DOMContentLoaded", () => {
         connectNavigation();
+
         setupForm();
         setupEditForm();
+
         setupAssociations();
         setupAssistants();
         setupFiles();
+
         setupOverview();
         setupDetails();
 
-        if (window.lucide) window.lucide.createIcons();
+        if (window.lucide) {
+            window.lucide.createIcons();
+        }
     });
 
 })();

@@ -1,0 +1,884 @@
+
+/* ==========================================================================
+   AMS CENTRAL TÁTICA — PÁGINA DE PESQUISAS
+   Arquivo: pesquisa-visao-geral.css
+
+   Estrutura visual baseada em missoes.css.
+   CSS independente.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. VARIÁVEIS
+   ========================================================================== */
+
+:root {
+    --bg: #080d19;
+    --sidebar: #0b1120;
+    --card: #0f1729;
+    --card-2: #131d33;
+    --border: #1b2740;
+
+    --text: #e8edf7;
+    --muted: #7d8aa6;
+
+    --green: #6df5b2;
+    --green-bg: rgba(109, 245, 178, .14);
+
+    --cyan: #4cc9ee;
+    --cyan-bg: rgba(76, 201, 238, .14);
+
+    --red: #f26a85;
+    --red-bg: rgba(242, 106, 133, .12);
+
+    --amber: #f3b74f;
+    --amber-bg: rgba(243, 183, 79, .16);
+
+    --font: "Space Grotesk", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+
+
+/* ==========================================================================
+   2. BASE
+   ========================================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+}
+
+.mono {
+    font-family: var(--mono);
+}
+
+.dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    vertical-align: middle;
+}
+
+
+/* ==========================================================================
+   3. ESTRUTURA GERAL
+   ========================================================================== */
+
+.app {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    min-height: 100vh;
+}
+
+.main {
+    min-width: 0;
+}
+
+.content {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.content-pesquisas {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+
+/* ==========================================================================
+   4. MENU LATERAL
+   ========================================================================== */
+
+.sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 24px 12px 20px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+}
+
+.brand {
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+.brand strong {
+    display: block;
+    font-size: 18px;
+    letter-spacing: .02em;
+}
+
+.brand span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.brand .dot {
+    margin-right: 4px;
+}
+
+.nav-title {
+    margin: 18px 0 8px;
+    padding: 0 12px;
+    color: var(--muted);
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #aab5cc;
+    font-size: 13.5px;
+    text-decoration: none;
+    transition: background .15s, color .15s;
+}
+
+.nav-item svg {
+    width: 17px;
+    height: 17px;
+}
+
+.nav-item:hover {
+    background: var(--card);
+    color: var(--text);
+}
+
+.nav-item.active {
+    background: #16213a;
+    color: var(--green);
+}
+
+.tag {
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--cyan-bg);
+    color: var(--cyan);
+    font-size: 9.5px;
+    letter-spacing: .06em;
+}
+
+.telemetry {
+    margin-top: auto;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+    font-size: 10.5px;
+}
+
+.telemetry-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.telemetry-row b {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.telemetry-sub {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+}
+
+
+/* ==========================================================================
+   5. BARRA SUPERIOR
+   ========================================================================== */
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    padding: 0 24px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(11, 17, 32, .6);
+}
+
+.breadcrumb {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.breadcrumb span {
+    margin: 0 6px;
+}
+
+.breadcrumb b {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.level {
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--card-2);
+    font-size: 11px;
+}
+
+.icon-btn {
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    color: var(--text);
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    padding-left: 18px;
+    border-left: 1px solid var(--border);
+}
+
+.user strong {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.user span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+
+/* ==========================================================================
+   6. CABEÇALHO DA PÁGINA
+   ========================================================================== */
+
+.page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -.01em;
+}
+
+.page-head p {
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+
+/* ==========================================================================
+   7. BOTÕES E COMPONENTES COMPARTILHADOS
+   ========================================================================== */
+
+.btn-primary {
+    padding: 11px 20px;
+    border: 0;
+    border-radius: 10px;
+    background: var(--green);
+    color: #052a1b;
+    font: 600 13px var(--font);
+    cursor: pointer;
+    transition: filter .15s, transform .15s;
+    white-space: nowrap;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+}
+
+.card {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--card);
+}
+
+
+/* ==========================================================================
+   8. INDICADORES DE PESQUISAS
+   ========================================================================== */
+
+.research-stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.kpi-card {
+    min-width: 0;
+    padding: 16px;
+    transition: border-color .2s, transform .2s;
+}
+
+.kpi-card:hover {
+    border-color: #30405e;
+    transform: translateY(-2px);
+}
+
+.research-stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: #c3cce0;
+    font-size: 11px;
+}
+
+.research-stat-icon {
+    display: grid;
+    place-items: center;
+    width: 31px;
+    height: 31px;
+    flex-shrink: 0;
+    border-radius: 8px;
+}
+
+.research-stat-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.research-stat-icon.cyan {
+    background: var(--cyan-bg);
+    color: var(--cyan);
+}
+
+.research-stat-icon.green {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.research-stat-icon.amber {
+    background: var(--amber-bg);
+    color: var(--amber);
+}
+
+.research-stat-icon.red {
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+.kpi-number {
+    display: block;
+    margin-top: 15px;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -.03em;
+}
+
+.kpi-card.progress .kpi-number {
+    color: var(--cyan);
+}
+
+.kpi-card.completed .kpi-number {
+    color: var(--green);
+}
+
+.kpi-card.inconclusive .kpi-number {
+    color: var(--amber);
+}
+
+.kpi-card.aborted .kpi-number {
+    color: var(--red);
+}
+
+.kpi-card > small {
+    display: block;
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+
+/* ==========================================================================
+   9. FILTROS E PESQUISA
+   ========================================================================== */
+
+.research-filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 14px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 200px;
+    gap: 10px;
+    padding: 0 12px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--muted);
+    transition: border-color .2s;
+}
+
+.search-box:focus-within {
+    border-color: var(--cyan);
+}
+
+.search-box svg {
+    width: 17px;
+    height: 17px;
+}
+
+.search-box input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.search-box input::placeholder {
+    color: var(--muted);
+}
+
+.search-box input:focus-visible {
+    outline: none;
+}
+
+.filter-pills {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.pill {
+    padding: 8px 11px;
+    border: 1px solid var(--border);
+    border-radius: 7px;
+    background: transparent;
+    color: #aab5cc;
+    font-size: 10.5px;
+    cursor: pointer;
+    transition: background .15s, color .15s, border-color .15s;
+}
+
+.pill:hover {
+    border-color: #30405e;
+    color: var(--text);
+}
+
+.pill.active {
+    border-color: rgba(109, 245, 178, .3);
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+
+/* ==========================================================================
+   10. TABELA DE PESQUISAS
+   ========================================================================== */
+
+.table-container {
+    overflow: hidden;
+}
+
+.research-table-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.research-table-head h2 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.research-table-head p {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 11.5px;
+}
+
+.table-count {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card-2);
+    color: var(--cyan);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.research-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.research-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.research-table th {
+    padding: 13px 16px;
+    background: rgba(19, 29, 51, .55);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.research-table th:first-child,
+.research-table td:first-child {
+    padding-left: 22px;
+}
+
+.research-table th:last-child,
+.research-table td:last-child {
+    padding-right: 22px;
+}
+
+.research-table td {
+    padding: 16px;
+    border-top: 1px solid var(--border);
+    color: #b9c4d9;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.research-table tbody tr {
+    transition: background .15s;
+    cursor: pointer;
+}
+
+.research-table tbody tr:hover {
+    background: rgba(255, 255, 255, .025);
+}
+
+.research-table tbody tr:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: -2px;
+}
+
+.research-title {
+    display: block;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.research-sub {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 10.5px;
+}
+
+.id-code {
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: var(--cyan-bg);
+    color: var(--cyan);
+    font-size: 10.5px;
+}
+
+.scientist {
+    color: #c3cce0;
+    font-size: 11.5px;
+}
+
+
+/* ==========================================================================
+   11. STATUS DAS PESQUISAS
+   ========================================================================== */
+
+.status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 95px;
+    padding: 5px 9px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 500;
+}
+
+.status-pill::before {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: currentColor;
+    content: "";
+}
+
+.status-pill.progress {
+    background: var(--cyan-bg);
+    color: var(--cyan);
+}
+
+.status-pill.completed {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.status-pill.inconclusive {
+    background: var(--amber-bg);
+    color: var(--amber);
+}
+
+.status-pill.aborted {
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+
+/* ==========================================================================
+   12. RODAPÉ E PAGINAÇÃO
+   ========================================================================== */
+
+.research-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px 22px;
+    border-top: 1px solid var(--border);
+}
+
+.page-info {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.page-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.page-controls button {
+    display: grid;
+    place-items: center;
+    min-width: 29px;
+    height: 29px;
+    padding: 0 7px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: transparent;
+    color: #aab5cc;
+    font-size: 11px;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+}
+
+.page-controls button:hover:not(:disabled) {
+    background: var(--card-2);
+    color: var(--text);
+}
+
+.page-controls button.selected {
+    border-color: rgba(109, 245, 178, .3);
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.page-controls button:disabled {
+    opacity: .35;
+    cursor: not-allowed;
+}
+
+
+/* ==========================================================================
+   13. RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+    .research-stats {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .research-table {
+        min-width: 850px;
+    }
+}
+
+@media (max-width: 900px) {
+    .app {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: static;
+        height: auto;
+    }
+
+    .telemetry {
+        margin-top: 24px;
+    }
+
+    .research-filters {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .search-box {
+        flex-basis: auto;
+        width: 100%;
+    }
+
+    .filter-pills {
+        width: 100%;
+    }
+}
+
+@media (max-width: 560px) {
+    .topbar {
+        padding: 0 14px;
+    }
+
+    .level,
+    .user span {
+        display: none;
+    }
+
+    .content {
+        padding: 16px;
+    }
+
+    .content-pesquisas {
+        gap: 18px;
+    }
+
+    .page-head {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .page-head .btn-primary {
+        width: 100%;
+    }
+
+    h1 {
+        font-size: 21px;
+    }
+
+    .research-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .kpi-card {
+        padding: 16px;
+    }
+
+    .kpi-number {
+        font-size: 28px;
+    }
+
+    .filter-pills {
+        gap: 6px;
+    }
+
+    .pill {
+        flex: 1;
+    }
+
+    .research-table-head {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 18px 16px;
+    }
+
+    .research-table-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 16px;
+    }
+}
