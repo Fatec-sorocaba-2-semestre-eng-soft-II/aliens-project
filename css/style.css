@@ -850,3 +850,61 @@ h1 {
 .humanos-toolbar .btn-primary {
     white-space: nowrap;
 }
+
+/* Lista de humanos */
+.humanos-lista {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    margin-top: 24px;
+    padding: 20px;
+}
+
+.lista-cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.lista-cabecalho h2 {
+    color: var(--text);
+    font-size: 18px;
+    margin: 0;
+}
+
+.lista-cabecalho span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* Tabela de humanos */
+.tabela-humanos {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabela-humanos th,
+.tabela-humanos td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.tabela-humanos th {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tabela-humanos td {
+    color: var(--text);
+    font-size: 13px;
+}
+
+.tabela-humanos tbody td[colspan="5"] {
+    text-align: center;
+    padding: 30px 12px;
+    color: var(--muted);
+}
