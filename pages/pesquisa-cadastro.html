@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMS - Cadastro de Pesquisa Científica</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/pesquisa-cadastro.css">
+</head>
+
+<body>
+    <div class="app-layout">
+        <!-- BARRA LATERAL -->
+        <aside class="sidebar">
+            <div>
+                <div class="brand">
+                    <div class="brand-logo">
+                        <span class="dot-status online"></span>
+                        <span class="brand-title">AMS</span>
+                    </div>
+                    <span class="brand-subtitle">CENTRAL<br>TÁTICA</span>
+                </div>
+
+                <nav class="nav-menu">
+                    <div class="nav-section">
+                        <span class="nav-label">COMANDO OPERACIONAL</span>
+                        <a href="#" class="nav-item">
+                            <i data-lucide="layout-grid"></i>
+                            <span>Visão Geral</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i data-lucide="compass"></i>
+                            <span>Missões</span>
+                        </a>
+                    </div>
+
+                    <div class="nav-section">
+                        <span class="nav-label">ESPÉCIMES & RECURSOS</span>
+                        <a href="#" class="nav-item">
+                            <i data-lucide="user"></i>
+                            <span>Humanos</span>
+                        </a>
+                        <a href="#" class="nav-item">
+                            <i data-lucide="users"></i>
+                            <span>Tripulação</span>
+                        </a>
+                        <a href="#" class="nav-item active">
+                            <i data-lucide="flask-conical"></i>
+                            <span>Pesquisas</span>
+                            <span class="nav-badge">CIENTISTA</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="telemetry-card">
+                <div class="telemetry-top">
+                    <span class="dot-status online"></span>
+                    <span class="telemetry-label">TELEMETRIA CORE</span>
+                    <span class="telemetry-value">99.98%</span>
+                </div>
+                <div class="telemetry-bottom">
+                    SECTOR 001-ORIONV 4.12.0
+                </div>
+            </div>
+        </aside>
+
+        <!-- ÁREA PRINCIPAL -->
+        <main class="main-content">
+            <div class="form-container">
+                <!-- CABEÇALHO DO FORMULÁRIO -->
+                <header class="form-header">
+                    <div class="form-header-left">
+                        <div class="breadcrumb-mini">
+                            <i data-lucide="flask-conical" class="text-green"></i>
+                            <span>PESQUISAS / <strong class="text-green">NOVA PESQUISA</strong></span>
+                        </div>
+                        <div class="title-with-badge">
+                            <h1>Cadastro de Pesquisa Científica</h1>
+                            <span class="node-pill"><span class="dot-status cyan"></span> NODE ALPHA-4</span>
+                        </div>
+                        <p class="form-subtitle">
+                            Preencha os dados do protocolo de investigação, responsáveis e associações bio-táticas.
+                        </p>
+                    </div>
+
+                    <div class="security-box">
+                        <div class="security-col">
+                            <span class="sec-label">SEGURANÇA DE DADOS</span>
+                            <span class="sec-value text-green"><i data-lucide="lock"></i> CRIPTOGRAFIA ATIVA</span>
+                        </div>
+                        <div class="security-divider"></div>
+                        <div class="security-col">
+                            <span class="sec-label">PROTOCOLO BASE</span>
+                            <span class="sec-value mono">XENO-STD v4.2</span>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- CORPO EM DUAS COLUNAS -->
+                <form class="form-grid" action="#" method="post">
+                    <!-- COLUNA ESQUERDA (PRINCIPAL) -->
+                    <div class="col-main">
+                        <!-- 01 Identificação da Pesquisa -->
+                        <section class="panel-card">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <span class="step-badge cyan">01</span>
+                                    <h2>Identificação da Pesquisa</h2>
+                                </div>
+                                <span class="panel-meta">PARÂMETROS INICIAIS</span>
+                            </div>
+
+                            <div class="row-2">
+                                <div class="field-group">
+                                    <div class="field-label-row">
+                                        <label for="id-pesquisa">ID DA PESQUISA</label>
+                                        <span class="auto-badge">AUTO</span>
+                                    </div>
+                                    <div class="input-icon-right">
+                                        <input type="text" id="id-pesquisa" class="mono" value="PESQ-007 (Auto-gerado)"
+                                            readonly>
+                                        <i data-lucide="settings" class="muted-icon"></i>
+                                    </div>
+                                </div>
+
+                                <div class="field-group">
+                                    <label for="area-cientifica">ÁREA CIENTÍFICA <span class="req">*</span></label>
+                                    <select id="area-cientifica" required>
+                                        <option value="xenobiologia" selected>Xenobiologia</option>
+                                        <option value="neurologia">Neurologia Humana</option>
+                                        <option value="bioquimica">Bioquímica</option>
+                                        <option value="comportamento">Comportamento Terrestre</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <label for="nome-pesquisa">NOME DA PESQUISA <span class="req">*</span></label>
+                                <input type="text" id="nome-pesquisa"
+                                    value="Mapeamento da Resposta Endócrina sob Estresse Atmosférico" required>
+                            </div>
+
+                            <div class="row-2">
+                                <div class="field-group">
+                                    <label for="data-criacao">DATA DE CRIAÇÃO (ZULU)</label>
+                                    <div class="input-icon-right">
+                                        <input type="text" id="data-criacao" class="mono"
+                                            value="18/04/2026 - 19:40 ZULU" readonly>
+                                        <i data-lucide="clock" class="muted-icon"></i>
+                                    </div>
+                                </div>
+
+                                <div class="field-group">
+                                    <label for="data-inicio">DATA PREVISTA DE INÍCIO <span class="req">*</span></label>
+                                    <div class="input-icon-right">
+                                        <input type="text" id="data-inicio" class="mono" value="04/20/2026" required>
+                                        <i data-lucide="calendar" class="muted-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 02 Objetivo e Escopo Metodológico -->
+                        <section class="panel-card">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <span class="step-badge cyan">02</span>
+                                    <h2>Objetivo e Escopo Metodológico</h2>
+                                </div>
+                                <span class="panel-meta">HIPÓTESES E METAS</span>
+                            </div>
+
+                            <div class="field-group">
+                                <label for="objetivo-central">OBJETIVO CENTRAL DA INVESTIGAÇÃO <span
+                                        class="req">*</span></label>
+                                <textarea id="objetivo-central" rows="2"
+                                    required>Quantificar variações nos níveis de cortisol e epinefrina de espécimes em cabine hiperbárica.</textarea>
+                            </div>
+
+                            <div class="field-group">
+                                <div class="field-label-row">
+                                    <label for="descricao-metodologia">DESCRIÇÃO DETALHADA &amp; METODOLOGIA</label>
+                                    <span class="field-hint">2-3 Linhas / Max 1000 carac.</span>
+                                </div>
+                                <textarea id="descricao-metodologia"
+                                    rows="3">O protocolo submete os espécimes a simulações de transição rápida de pressão barométrica durante 120 minutos. Amostras salivares e venosas serão coletadas imediatamente antes, durante os picos gravitacionais e 30 minutos após estabilização ambiental em recinto controlado.</textarea>
+                            </div>
+                        </section>
+
+                        <!-- 03 Corpo Científico & Responsáveis -->
+                        <section class="panel-card">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <span class="step-badge cyan">03</span>
+                                    <h2>Corpo Científico &amp; Responsáveis</h2>
+                                </div>
+                                <span class="panel-meta text-cyan">PREFIXOS ALIEN / ET</span>
+                            </div>
+
+                            <div class="field-group">
+                                <label for="cientista-responsavel">CIENTISTA RESPONSÁVEL (SELEÇÃO ÚNICA) <span
+                                        class="req">*</span></label>
+                                <div class="input-icon-right">
+                                    <input type="text" id="cientista-responsavel" class="mono"
+                                        value="Cientista Etriz [Alocado - Chefe Setorial]" required>
+                                    <i data-lucide="flask-conical" class="muted-icon"></i>
+                                </div>
+                                <span class="field-caption">Assinatura criptográfica vinculará autenticidade ao chefe de
+                                    setor.</span>
+                            </div>
+
+                            <div class="field-group">
+                                <label>CIENTISTAS AJUDANTES (COLABORADORES VINCULADOS)</label>
+                                <div class="assistants-grid">
+                                    <label class="assistant-card">
+                                        <input type="checkbox" checked>
+                                        <span class="check-box"><i data-lucide="check"></i></span>
+                                        <span class="assistant-info">
+                                            <strong>Cientis</strong>
+                                            <small class="text-green">Genômica</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="assistant-card">
+                                        <input type="checkbox" checked>
+                                        <span class="check-box"><i data-lucide="check"></i></span>
+                                        <span class="assistant-info">
+                                            <strong>Cientista</strong>
+                                            <small class="text-green">Bioquímica</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="assistant-card">
+                                        <input type="checkbox">
+                                        <span class="check-box"><i data-lucide="check"></i></span>
+                                        <span class="assistant-info">
+                                            <strong>Cientista</strong>
+                                            <small>Neurologia</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="assistant-card">
+                                        <input type="checkbox">
+                                        <span class="check-box"><i data-lucide="check"></i></span>
+                                        <span class="assistant-info">
+                                            <strong>Cientist</strong>
+                                            <small>Patologia</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="assistant-card">
+                                        <input type="checkbox">
+                                        <span class="check-box"><i data-lucide="check"></i></span>
+                                        <span class="assistant-info">
+                                            <strong>Cientista Eti</strong>
+                                            <small>Bioestatística</small>
+                                        </span>
+                                    </label>
+
+                                    <label class="assistant-card">
+                                        <input type="checkbox">
+                                        <span class="check-box"><i data-lucide="check"></i></span>
+                                        <span class="assistant-info">
+                                            <strong>Cientista Al:</strong>
+                                            <small>Xenofisiologia</small>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                    <!-- COLUNA DIREITA (SIDEBAR DO FORMULÁRIO) -->
+                    <aside class="col-side">
+                        <!-- 04 Status Inicial -->
+                        <section class="panel-card">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <span class="step-badge green">04</span>
+                                    <h2>Status Inicial</h2>
+                                </div>
+                                <span class="status-tag">ATIVO</span>
+                            </div>
+
+                            <span class="sub-label">ESTADO DA INVESTIGAÇÃO</span>
+                            <div class="radio-grid">
+                                <label class="radio-option active-progress">
+                                    <input type="radio" name="estado" value="progresso" checked>
+                                    <span class="radio-dot"></span>
+                                    <span>Em progresso</span>
+                                </label>
+
+                                <label class="radio-option">
+                                    <input type="radio" name="estado" value="concluida">
+                                    <span class="radio-dot"></span>
+                                    <span>Concluída</span>
+                                </label>
+
+                                <label class="radio-option">
+                                    <input type="radio" name="estado" value="inconclusiva">
+                                    <span class="radio-dot"></span>
+                                    <span class="text-amber">Inconclusiva</span>
+                                </label>
+
+                                <label class="radio-option">
+                                    <input type="radio" name="estado" value="abortada">
+                                    <span class="radio-dot"></span>
+                                    <span class="text-red">Abortada</span>
+                                </label>
+                            </div>
+                        </section>
+
+                        <!-- 05 Associações Táticas -->
+                        <section class="panel-card">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <span class="step-badge green">05</span>
+                                    <h2>Associações Táticas</h2>
+                                </div>
+                                <i data-lucide="share-2" class="muted-icon"></i>
+                            </div>
+
+                            <div class="assoc-block">
+                                <div class="assoc-header">
+                                    <span>MISSÕES</span>
+                                    <button type="button" class="link-action">+ + Vincular</button>
+                                </div>
+                                <div class="chips-row">
+                                    <span class="mission-chip">
+                                        <span class="dot-status cyan"></span> Missão 088
+                                        <button type="button" aria-label="Remover Missão 088">&times;</button>
+                                    </span>
+                                    <span class="mission-chip">
+                                        <span class="dot-status cyan"></span> Missão 042
+                                        <button type="button" aria-label="Remover Missão 042">&times;</button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="assoc-block">
+                                <div class="assoc-header">
+                                    <span>HUMANOS MONITORADOS</span>
+                                    <button type="button" class="link-action"><i data-lucide="user-plus"></i> +
+                                        Vincular</button>
+                                </div>
+                                <div class="monitored-list">
+                                    <div class="monitored-item">
+                                        <span class="monitored-avatar">Ψ</span>
+                                        <div class="monitored-info">
+                                            <strong>Lucas R.</strong>
+                                            <span class="mono">ID000008</span>
+                                        </div>
+                                        <button type="button" class="remove-btn"
+                                            aria-label="Remover Lucas R.">&times;</button>
+                                    </div>
+
+                                    <div class="monitored-item">
+                                        <span class="monitored-avatar">Ψ</span>
+                                        <div class="monitored-info">
+                                            <strong>Mariana S.</strong>
+                                            <span class="mono">ID143827</span>
+                                        </div>
+                                        <button type="button" class="remove-btn"
+                                            aria-label="Remover Mariana S.">&times;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- 06 Arquivos & Holografias -->
+                        <section class="panel-card">
+                            <div class="panel-header">
+                                <div class="panel-title">
+                                    <span class="step-badge green">06</span>
+                                    <h2>Arquivos &amp; Holografias</h2>
+                                </div>
+                                <span class="panel-meta">MAX 25MB</span>
+                            </div>
+
+                            <div class="dropzone" role="button" tabindex="0"
+                                aria-label="Selecionar arquivos para anexar">
+                                <i data-lucide="upload" class="dropzone-icon"></i>
+                                <p>Arraste ou clique para anexar</p>
+                                <span class="mono">(.pdf, .holo, .png)</span>
+                                <input type="file" class="file-input" accept=".pdf,.holo,.png" multiple hidden>
+                            </div>
+
+                            <div class="file-list">
+                                <div class="file-item">
+                                    <i data-lucide="file-text" class="text-cyan"></i>
+                                    <span class="file-name mono">espectrografia_atmos_v2.holo</span>
+                                    <span class="file-size mono">8.4 MB</span>
+                                    <button type="button" class="remove-btn"
+                                        aria-label="Remover arquivo">&times;</button>
+                                </div>
+
+                                <div class="file-item">
+                                    <i data-lucide="file-text" class="text-green"></i>
+                                    <span class="file-name mono">protocolo_endocrino_07.pdf</span>
+                                    <span class="file-size mono">1.2 MB</span>
+                                    <button type="button" class="remove-btn"
+                                        aria-label="Remover arquivo">&times;</button>
+                                </div>
+                            </div>
+                        </section>
+                    </aside>
+
+                    <!-- BARRA INFERIOR DE VALIDAÇÃO E AÇÕES -->
+                    <footer class="form-footer-bar">
+                        <div class="validation-msg">
+                            <i data-lucide="check-circle-2" class="text-green"></i>
+                            <span>Formulário validado pelo Tratado Bio-Orbital 2026.</span>
+                        </div>
+
+                        <div class="footer-actions">
+                            <button type="button" class="btn-cancel">
+                                <i data-lucide="arrow-left"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-save">
+                                <i data-lucide="save"></i> Salvar Pesquisa
+                            </button>
+                        </div>
+                    </footer>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script src="../js/pesquisas.js"></script>
+
+</body>
+
+</html>
