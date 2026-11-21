@@ -1,0 +1,433 @@
+
+/* ========================================
+   VARIÁVEIS E CONFIGURAÇÕES GERAIS
+======================================== */
+
+:root {
+    --login-bg: #080d19;
+    --login-card: #131d2d;
+    --login-input: #080f20;
+    --login-border: #1b2740;
+
+    --login-text: #e8edf7;
+    --login-muted: #71809e;
+
+    --login-green: #80ffb8;
+    --login-cyan: #4cc9ee;
+    --login-amber: #f3b74f;
+
+    --login-font: "Space Grotesk", sans-serif;
+    --login-mono: "JetBrains Mono", monospace;
+}
+
+/* ========================================
+   CONFIGURAÇÕES DA PÁGINA
+======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--login-bg);
+    color: var(--login-text);
+    font-family: var(--login-font);
+}
+
+/* ========================================
+   CABEÇALHO SUPERIOR
+======================================== */
+
+.topbar {
+    width: 100%;
+    padding: 34px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--login-mono);
+    font-size: 9px;
+    color: var(--login-muted);
+}
+
+.system-name,
+.system-info,
+.system-info span {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.system-info {
+    gap: 20px;
+}
+
+.encryption {
+    color: var(--login-green);
+}
+
+/* Indicadores luminosos */
+
+.status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--login-green);
+    display: inline-block;
+    box-shadow: 0 0 7px rgba(128, 255, 184, 0.5);
+}
+
+/* ========================================
+   ÁREA PRINCIPAL
+======================================== */
+
+.login-main {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* ========================================
+   IDENTIFICAÇÃO DO ACESSO
+======================================== */
+
+.access-labels {
+    width: 100%;
+    max-width: 430px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    font-family: var(--login-mono);
+    font-size: 9px;
+}
+
+.gateway-label {
+    color: var(--login-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.restricted-label {
+    color: var(--login-amber);
+    background: rgba(243, 183, 79, 0.10);
+    padding: 4px 7px;
+    border-radius: 3px;
+    font-size: 8px;
+}
+
+/* ========================================
+   CARTÃO DE LOGIN
+======================================== */
+
+.login-container {
+    width: 100%;
+    max-width: 430px;
+    background: var(--login-card);
+    border: 1px solid rgba(255, 255, 255, 0.025);
+    border-radius: 8px;
+    padding: 25px 20px 20px;
+    text-align: center;
+}
+
+/* Ícone da marca */
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--login-bg);
+    border-radius: 4px;
+    color: var(--login-green);
+    font-size: 20px;
+}
+
+/* Títulos */
+
+.login-container h1 {
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--login-text);
+}
+
+.system-title {
+    font-size: 12px;
+    color: #a3afc5;
+    margin-top: 2px;
+}
+
+.system-description {
+    font-family: var(--login-mono);
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: var(--login-muted);
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+/* ========================================
+   CAMPOS DO FORMULÁRIO
+======================================== */
+
+.form-group {
+    text-align: left;
+    margin-bottom: 16px;
+}
+
+.form-group label,
+.password-label {
+    font-family: var(--login-mono);
+    font-size: 9px;
+    color: var(--login-muted);
+}
+
+.form-group label i {
+    color: var(--login-cyan);
+    margin-right: 4px;
+}
+
+.form-group input {
+    width: 100%;
+    height: 40px;
+    margin-top: 7px;
+    padding: 0 12px;
+    background: var(--login-input);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    outline: none;
+
+    color: var(--login-text);
+    font-family: var(--login-mono);
+    font-size: 11px;
+
+    transition: border-color 0.2s;
+}
+
+.form-group input::placeholder {
+    color: #53617c;
+}
+
+.form-group input:focus {
+    border-color: var(--login-cyan);
+}
+
+/* ========================================
+   CAMPO DE SENHA
+======================================== */
+
+.password-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.security-level {
+    font-size: 8px;
+    color: var(--login-muted);
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-35%);
+
+    background: none;
+    border: none;
+    color: var(--login-muted);
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* ========================================
+   OPÇÕES DE LOGIN
+======================================== */
+
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0 18px;
+    font-size: 9px;
+}
+
+.remember-option {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #a3afc5;
+    cursor: pointer;
+}
+
+.remember-option input {
+    accent-color: var(--login-green);
+}
+
+.forgot-password {
+    color: var(--login-cyan);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* ========================================
+   BOTÃO DE LOGIN
+======================================== */
+
+.login-button {
+    width: 100%;
+    height: 40px;
+
+    background: var(--login-green);
+    border: none;
+    border-radius: 2px;
+
+    color: #08131a;
+    font-family: var(--login-font);
+    font-size: 13px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.login-button:hover {
+    background: #a0ffca;
+    transform: translateY(-1px);
+}
+
+.login-button i {
+    margin-right: 5px;
+}
+
+/* ========================================
+   INFORMAÇÃO DE AUTENTICAÇÃO
+======================================== */
+
+.authentication-info {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid var(--login-border);
+
+    font-family: var(--login-mono);
+    font-size: 8px;
+    line-height: 1.6;
+    color: var(--login-muted);
+}
+
+.authentication-info i {
+    color: var(--login-cyan);
+    margin-right: 4px;
+}
+
+/* ========================================
+   RODAPÉ DE SEGURANÇA
+======================================== */
+
+.security-footer {
+    max-width: 430px;
+    margin-top: 15px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 14px;
+
+    font-family: var(--login-mono);
+    font-size: 8px;
+    color: var(--login-muted);
+    text-align: center;
+}
+
+.security-footer i {
+    color: var(--login-green);
+    font-size: 6px;
+}
+
+/* ========================================
+   RESPONSIVIDADE
+======================================== */
+
+@media (max-width: 600px) {
+
+    .topbar {
+        padding: 20px 12px;
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .system-info {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .login-main {
+        min-height: calc(100vh - 80px);
+        padding: 20px 15px;
+    }
+
+    .login-container {
+        padding: 25px 16px 18px;
+    }
+
+    .security-footer {
+        font-size: 7px;
+    }
+}
+
+@media (max-width: 360px) {
+
+    .system-info {
+        font-size: 8px;
+    }
+
+    .login-options {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .access-labels {
+        font-size: 8px;
+    }
+}
+
+/* ========================================
+   MENSAGEM DE LOGIN
+======================================== */
+
+.login-message {
+    margin-top: 12px;
+    font-size: 11px;
+    font-family: var(--login-mono);
+    text-align: center;
+}
+
+.login-message.error {
+    color: var(--login-amber);
+}
+
+.login-message.success {
+    color: var(--login-green);
+}
