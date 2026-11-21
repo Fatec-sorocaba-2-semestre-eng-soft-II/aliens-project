@@ -1,388 +1,349 @@
+
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMS - Central Tática | Pesquisas</title>
-    <!-- Fontes: Inter (UI) e JetBrains Mono (Dados Táticos) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AMS Central Tática – Pesquisas</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
-        rel="stylesheet">
-    <!-- Ícones Lucide -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="../css/pesquisa-visao-geral.css">
 </head>
 
 <body>
-    <div class="app-layout">
-        <!-- BARRA LATERAL (SIDEBAR) -->
+    <div class="app">
+
+        <!-- Menu lateral -->
         <aside class="sidebar">
-            <div>
-                <div class="brand">
-                    <div class="brand-logo">
-                        <span class="dot-status online"></span>
-                        <span class="brand-title">AMS</span>
-                    </div>
-                    <span class="brand-subtitle">CENTRAL<br>TÁTICA</span>
-                </div>
-
-                <nav class="nav-menu">
-                    <div class="nav-section">
-                        <span class="nav-label">COMANDO OPERACIONAL</span>
-                        <a href="visao-geral.html" class="nav-item">
-                            <i data-lucide="layout-grid"></i>
-                            <span>Visão Geral</span>
-                        </a>
-                        <a href="#" class="nav-item">
-                            <i data-lucide="compass"></i>
-                            <span>Missões</span>
-                        </a>
-                    </div>
-
-                    <div class="nav-section">
-                        <span class="nav-label">ESPÉCIMES & RECURSOS</span>
-                        <a href="gestao-humanos.html" class="nav-item">
-                            <i data-lucide="user"></i>
-                            <span>Humanos</span>
-                        </a>
-                        <a href="#" class="nav-item">
-                            <i data-lucide="users"></i>
-                            <span>Tripulação</span>
-                        </a>
-                        <a href="pesquisa-visao-geral.html" class="nav-item active" aria-current="page">
-                            <i data-lucide="flask-conical"></i>
-                            <span>Pesquisas</span>
-                            <span class="nav-badge">CIENTISTA</span>
-                        </a>
-                    </div>
-                </nav>
+            <div class="brand">
+                <strong>AMS</strong>
+                <span class="mono"><i class="dot"></i>Central Tática</span>
             </div>
 
-            <div class="telemetry-card">
-                <div class="telemetry-top">
-                    <span class="dot-status online"></span>
-                    <span class="telemetry-label">TELEMETRIA CORE</span>
-                    <span class="telemetry-value">99.98%</span>
+            <nav>
+                <p class="nav-title mono">Comando Operacional</p>
+
+                <a href="visao-geral.html" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="3" width="7" height="7" rx="1"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1"/>
+                    </svg>
+                    Visão Geral
+                </a>
+
+                <a href="missoes.html" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9"/>
+                        <path d="m15.5 8.5-2 5-5 2 2-5z"/>
+                    </svg>
+                    Missões
+                </a>
+
+                <a href="solicitacao-missao.html" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M21 12a9 9 0 1 1-5-8"/>
+                        <path d="m8 11 3 3 9-9"/>
+                    </svg>
+                    Solicitação de Missão
+                </a>
+
+                <p class="nav-title mono">Espécimes &amp; Recursos</p>
+
+                <a href="gestao-humanos.html" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M4 21a8 8 0 0 1 16 0"/>
+                    </svg>
+                    Humanos
+                </a>
+
+                <a href="#" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="9" cy="8" r="3.5"/>
+                        <path d="M2 20a7 7 0 0 1 14 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a7 7 0 0 1 4 6"/>
+                    </svg>
+                    Tripulação
+                </a>
+
+                <a href="#" class="nav-item">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2c3 3 4 7 4 11l-4 3-4-3c0-4 1-8 4-11z"/>
+                        <path d="M8 14l-3 4 4-1M16 14l3 4-4-1"/>
+                    </svg>
+                    Naves
+                </a>
+
+                <a href="pesquisa-visao-geral.html" class="nav-item active" aria-current="page">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>
+                    </svg>
+                    Pesquisas
+                    <span class="tag mono">CIENTISTA</span>
+                </a>
+            </nav>
+
+            <div class="telemetry mono">
+                <div class="telemetry-row">
+                    <span><i class="dot"></i>TELEMETRIA CORE</span>
+                    <b>99.98%</b>
                 </div>
-                <div class="telemetry-bottom">
-                    SECTOR 001-ORIONV 4.12.0
-                </div>
+                <div class="telemetry-sub">SECTOR 001-ORION V 4.12.0</div>
             </div>
         </aside>
 
-        <!-- ÁREA PRINCIPAL -->
-        <main class="main-content">
-            <!-- CABEÇALHO SUPERIOR -->
+        <!-- Conteúdo principal -->
+        <div class="main">
+
             <header class="topbar">
-                <div class="breadcrumb">
-                    <span class="muted">AMS_CORE</span>
-                    <span class="separator">/</span>
-                    <span class="current">VISÃO GERAL</span>
+                <div class="breadcrumb mono">
+                    AMS_CORE <span>/</span> <b>PESQUISAS</b>
                 </div>
 
-                <div class="topbar-actions">
-                    <div class="level-badge">
-                        <span class="dot-status online"></span>
-                        <span>NÍVEL: Cientista</span>
-                    </div>
+                <div class="topbar-right">
+                    <span class="level mono">
+                        <i class="dot"></i>NÍVEL: Comandante
+                    </span>
+
                     <button class="icon-btn" aria-label="Notificações">
-                        <i data-lucide="bell"></i>
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7z"/>
+                            <path d="M10 20a2 2 0 0 0 4 0"/>
+                        </svg>
                     </button>
-                    <div class="user-profile">
-                        <span class="user-name">Alierica</span>
-                        <span class="user-role">Operações Táticas</span>
+
+                    <div class="user">
+                        <strong>Cmd. Etvorkax</strong>
+                        <span>Operações Táticas</span>
                     </div>
                 </div>
             </header>
 
-            <!-- CONTEÚDO DO PAINEL -->
-            <div class="dashboard-body">
-                <!-- TÍTULO E AÇÃO PRINCIPAL -->
-                <section class="page-header">
-                    <div class="page-title-group">
-                        <div class="sector-tag">
-                            LAB-ORBITAL // SETOR BIOTECNOLÓGICO <span class="online-text">• ONLINE</span>
-                        </div>
-                        <div class="title-row">
-                            <div>
-                                <h1>Pesquisas</h1>
-                                <p class="subtitle">Gerencie e acompanhe as pesquisas científicas.</p>
-                            </div>
-                            <button class="btn-primary">
-                                <span>+ NOVA PESQUISA</span>
-                                <a href="pesquisa-cadastro.html" class="btn-link"></a>
-                            </button>
-                        </div>
+            <main class="content content-pesquisas">
+
+                <!-- Cabeçalho -->
+                <div class="page-head">
+                    <div>
+                        <h1>Central de Pesquisas</h1>
+                        <p>Gerenciamento, acompanhamento e controle das pesquisas científicas.</p>
                     </div>
+
+                    <button class="btn-primary">
+                        + Nova Pesquisa
+                    </button>
+                </div>
+
+                <!-- Indicadores -->
+                <section class="research-stats">
+
+                    <article class="card kpi-card total">
+                        <div class="research-stat-top">
+                            <span>Total de Pesquisas</span>
+                            <span class="research-stat-icon cyan">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <strong class="kpi-number">06</strong>
+                        <small>Pesquisas registradas</small>
+                    </article>
+
+                    <article class="card kpi-card progress">
+                        <div class="research-stat-top">
+                            <span>Em Progresso</span>
+                            <span class="research-stat-icon cyan">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <path d="M12 7v5l3 2"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <strong class="kpi-number">02</strong>
+                        <small>Pesquisas em andamento</small>
+                    </article>
+
+                    <article class="card kpi-card completed">
+                        <div class="research-stat-top">
+                            <span>Concluídas</span>
+                            <span class="research-stat-icon green">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="m5 12 4 4L19 6"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <strong class="kpi-number">02</strong>
+                        <small>Resultados finalizados</small>
+                    </article>
+
+                    <article class="card kpi-card inconclusive">
+                        <div class="research-stat-top">
+                            <span>Inconclusivas</span>
+                            <span class="research-stat-icon amber">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <path d="M12 7v5M12 16h.01"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <strong class="kpi-number">01</strong>
+                        <small>Sem resultado conclusivo</small>
+                    </article>
+
+                    <article class="card kpi-card aborted">
+                        <div class="research-stat-top">
+                            <span>Abortadas</span>
+                            <span class="research-stat-icon red">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="m6 6 12 12M18 6 6 18"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <strong class="kpi-number">01</strong>
+                        <small>Pesquisas interrompidas</small>
+                    </article>
+
                 </section>
 
-                <!-- CARDS DE MÉTRICAS (KPIs) -->
-                <section class="kpi-grid">
-                    <div class="kpi-card total">
-                        <div class="kpi-header">
-                            <span>TOTAL CADASTRADO</span>
-                            <i data-lucide="microscope"></i>
-                        </div>
-                        <div class="kpi-value-row">
-                            <span class="kpi-number">18</span>
-                            <span class="kpi-unit">protocolos</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" style="width: 100%;"></div>
-                        </div>
-                    </div>
+                <!-- Filtros -->
+                <section class="card research-filters">
 
-                    <div class="kpi-card progress">
-                        <div class="kpi-header">
-                            <span>EM PROGRESSO</span>
-                            <span class="dot-indicator cyan"></span>
-                        </div>
-                        <div class="kpi-value-row">
-                            <span class="kpi-number text-cyan">07</span>
-                            <span class="kpi-unit">ativos</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill bg-cyan" style="width: 39%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="kpi-card completed">
-                        <div class="kpi-header">
-                            <span>CONCLUÍDAS</span>
-                            <i data-lucide="check-circle-2" class="text-green"></i>
-                        </div>
-                        <div class="kpi-value-row">
-                            <span class="kpi-number text-green">08</span>
-                            <span class="kpi-unit">validadas</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill bg-green" style="width: 44%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="kpi-card inconclusive">
-                        <div class="kpi-header">
-                            <span>INCONCLUSIVAS</span>
-                            <i data-lucide="alert-triangle" class="text-amber"></i>
-                        </div>
-                        <div class="kpi-value-row">
-                            <span class="kpi-number text-amber">02</span>
-                            <span class="kpi-unit">revisão</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill bg-amber" style="width: 11%;"></div>
-                        </div>
-                    </div>
-
-                    <div class="kpi-card aborted">
-                        <div class="kpi-header">
-                            <span>ABORTADAS</span>
-                            <i data-lucide="ban" class="text-red"></i>
-                        </div>
-                        <div class="kpi-value-row">
-                            <span class="kpi-number text-red">01</span>
-                            <span class="kpi-unit">vetada</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill bg-red" style="width: 6%;"></div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- BARRA DE PESQUISA E FILTROS -->
-                <section class="filter-bar">
                     <div class="search-box">
-                        <i data-lucide="search"></i>
-                        <input type="text" placeholder="Buscar pesquisa por ID ou nome ...">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7"/>
+                            <path d="m16 16 4 4"/>
+                        </svg>
+                        <input type="search" placeholder="Buscar por código ou pesquisa..." aria-label="Buscar pesquisas">
                     </div>
 
                     <div class="filter-pills">
-                        <button class="pill active">TODOS (18)</button>
-                        <button class="pill">EM PROGRESSO (7)</button>
-                        <button class="pill">CONCLUÍDA (8)</button>
-                        <button class="pill">INCONCLUSIVA (2)</button>
-                        <button class="pill">ABORTADA (1)</button>
+                        <button class="pill active" type="button">Todas</button>
+                        <button class="pill" type="button">Em Progresso</button>
+                        <button class="pill" type="button">Concluídas</button>
+                        <button class="pill" type="button">Inconclusivas</button>
+                        <button class="pill" type="button">Abortadas</button>
                     </div>
+
                 </section>
 
-                <!-- TABELA DE PESQUISAS -->
-                <section class="table-section">
-                    <div class="table-meta-header">
-                        <div class="table-title">
-                            <i data-lucide="orbit" class="text-cyan"></i>
-                            <span>MATRIZ DE EXPERIMENTOS & AMOSTRAS SUB-ORBITAIS</span>
+                <!-- Lista de pesquisas -->
+                <section class="card table-container">
+
+                    <div class="research-table-head">
+                        <div>
+                            <h2>Registro de Pesquisas</h2>
+                            <p>Consulte e acompanhe as pesquisas cadastradas no sistema.</p>
                         </div>
-                        <div class="table-count">
-                            Exibindo <strong>6</strong> de 18 registros primários
-                        </div>
+
+                        <span class="table-count mono">06 REGISTROS</span>
                     </div>
 
-                    <div class="table-container">
-                        <table>
+                    <div class="research-table-wrapper">
+                        <table class="research-table">
                             <thead>
                                 <tr>
-                                    <th>ID TÁTICO</th>
-                                    <th>PESQUISA CIENTÍFICA</th>
-                                    <th>CATEGORIA</th>
-                                    <th>CIENTISTA LÍDER</th>
-                                    <th>STATUS</th>
+                                    <th>Código</th>
+                                    <th>Pesquisa</th>
+                                    <th>Área</th>
+                                    <th>Cientista Responsável</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
+
                             <tbody>
-                                <tr>
-                                    <td><span class="id-code text-cyan">• PESQ-001</span></td>
+                                <tr data-research-id="PESQ-001" tabindex="0">
+                                    <td><span class="id-code mono">• PESQ-001</span></td>
                                     <td>
-                                        <div class="research-title">Análise de Resposta Neural...</div>
-                                        <div class="research-sub">Amostra: 14 Espécimes // Setor Beta-3 // Taxa de
-                                            Adaptação: 68%</div>
+                                        <strong class="research-title">Análise de Organismos Extraterrestres</strong>
+                                        <small class="research-sub">Estudo biológico de espécimes encontrados em missões</small>
                                     </td>
-                                    <td><span class="category-badge">Neurologia Humana</span></td>
-                                    <td>
-                                        <div class="scientist">
-                                            <span class="avatar-icon cyan-tint">Ψ</span>
-                                            <span>Cientista Etriz</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="status-pill progress">• Em progresso</span></td>
+                                    <td><span class="category-badge">Biologia</span></td>
+                                    <td><span class="scientist">Dr. Alan Voss</span></td>
+                                    <td><span class="status-pill progress">Em Progresso</span></td>
                                 </tr>
 
-                                <tr>
-                                    <td><span class="id-code text-green">• PESQ-002</span></td>
+                                <tr data-research-id="PESQ-002" tabindex="0">
+                                    <td><span class="id-code mono">• PESQ-002</span></td>
                                     <td>
-                                        <div class="research-title">Mutação Genética Induzida por...</div>
-                                        <div class="research-sub">Sequenciamento Genômico Cruzado // Telômeros
-                                            Estabilizados</div>
+                                        <strong class="research-title">Tecnologia de Propulsão Quântica</strong>
+                                        <small class="research-sub">Desenvolvimento de novos sistemas de deslocamento</small>
+                                    </td>
+                                    <td><span class="category-badge">Engenharia</span></td>
+                                    <td><span class="scientist">Dra. Elena Kross</span></td>
+                                    <td><span class="status-pill progress">Em Progresso</span></td>
+                                </tr>
+
+                                <tr data-research-id="PESQ-003" tabindex="0">
+                                    <td><span class="id-code mono">• PESQ-003</span></td>
+                                    <td>
+                                        <strong class="research-title">Estudo da Atmosfera de Kepler-442b</strong>
+                                        <small class="research-sub">Investigação das condições ambientais do planeta</small>
+                                    </td>
+                                    <td><span class="category-badge">Astrofísica</span></td>
+                                    <td><span class="scientist">Dr. Marcus Hale</span></td>
+                                    <td><span class="status-pill completed">Concluída</span></td>
+                                </tr>
+
+                                <tr data-research-id="PESQ-004" tabindex="0">
+                                    <td><span class="id-code mono">• PESQ-004</span></td>
+                                    <td>
+                                        <strong class="research-title">Comunicação Extraterrestre</strong>
+                                        <small class="research-sub">Análise de sinais captados no setor Orion</small>
+                                    </td>
+                                    <td><span class="category-badge">Comunicação</span></td>
+                                    <td><span class="scientist">Dra. Sarah Quinn</span></td>
+                                    <td><span class="status-pill inconclusive">Inconclusiva</span></td>
+                                </tr>
+
+                                <tr data-research-id="PESQ-005" tabindex="0">
+                                    <td><span class="id-code mono">• PESQ-005</span></td>
+                                    <td>
+                                        <strong class="research-title">Comportamento de Espécies Hostis</strong>
+                                        <small class="research-sub">Observação de padrões de comportamento e reação</small>
                                     </td>
                                     <td><span class="category-badge">Xenobiologia</span></td>
-                                    <td>
-                                        <div class="scientist">
-                                            <span class="avatar-icon cyan-tint">Ω</span>
-                                            <span>Cientista Alielaine</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="status-pill completed"><i data-lucide="check-circle-2"></i>
-                                            Concluída</span></td>
+                                    <td><span class="scientist">Dr. Victor Kane</span></td>
+                                    <td><span class="status-pill aborted">Abortada</span></td>
                                 </tr>
 
-                                <tr>
-                                    <td><span class="id-code text-amber">• PESQ-003</span></td>
+                                <tr data-research-id="PESQ-006" tabindex="0">
+                                    <td><span class="id-code mono">• PESQ-006</span></td>
                                     <td>
-                                        <div class="research-title">Comportamento Social sob...</div>
-                                        <div class="research-sub">Câmara Hiperbárica 04 // Desvio Psicométrico
-                                            Inesperado</div>
+                                        <strong class="research-title">Minerais de Origem Desconhecida</strong>
+                                        <small class="research-sub">Identificação e análise de materiais coletados</small>
                                     </td>
-                                    <td><span class="category-badge">Comportamento Terrestre</span></td>
-                                    <td>
-                                        <div class="scientist">
-                                            <span class="avatar-icon purple-tint">Λ</span>
-                                            <span>Cientista Etmorg</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="status-pill inconclusive"><i data-lucide="alert-triangle"></i>
-                                            Inconclusiva</span></td>
-                                </tr>
-
-                                <tr>
-                                    <td><span class="id-code text-cyan">• PESQ-004</span></td>
-                                    <td>
-                                        <div class="research-title">Mapeamento Biocelular de...</div>
-                                        <div class="research-sub">Origem: Quadrante América do Sul // Proteínas
-                                            Sintéticas Estáveis</div>
-                                    </td>
-                                    <td><span class="category-badge">Bioquímica</span></td>
-                                    <td>
-                                        <div class="scientist">
-                                            <span class="avatar-icon cyan-tint">Ψ</span>
-                                            <span>Cientista Etriz</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="status-pill progress">• Em progresso</span></td>
-                                </tr>
-
-                                <tr>
-                                    <td><span class="id-code text-green">• PESQ-005</span></td>
-                                    <td>
-                                        <div class="research-title">Cinética de Regeneração...</div>
-                                        <div class="research-sub">Aceleração com Gel Dérmico Xenomorfo // Eficiência
-                                            +340%</div>
-                                    </td>
-                                    <td><span class="category-badge">Bioquímica</span></td>
-                                    <td>
-                                        <div class="scientist">
-                                            <span class="avatar-icon cyan-tint">Ω</span>
-                                            <span>Cientista Alielaine</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="status-pill completed"><i data-lucide="check-circle-2"></i>
-                                            Concluída</span></td>
-                                </tr>
-
-                                <tr>
-                                    <td><span class="id-code text-red">• PESQ-006</span></td>
-                                    <td>
-                                        <div class="research-title">Ressonância Quântica em...</div>
-                                        <div class="research-sub">Interrupção por Risco de Colapso Mental // Veto do
-                                            Comando Alpha</div>
-                                    </td>
-                                    <td><span class="category-badge">Neurologia Humana</span></td>
-                                    <td>
-                                        <div class="scientist">
-                                            <span class="avatar-icon purple-tint">Λ</span>
-                                            <span>Cientista Etmorg</span>
-                                        </div>
-                                    </td>
-                                    <td><span class="status-pill aborted"><i data-lucide="ban"></i> Abortada</span></td>
+                                    <td><span class="category-badge">Geologia</span></td>
+                                    <td><span class="scientist">Dra. Nina Sol</span></td>
+                                    <td><span class="status-pill completed">Concluída</span></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <!-- RODAPÉ DA TABELA E PAGINAÇÃO -->
-                    <div class="table-footer">
-                        <div class="sync-status">
-                            <span class="dot-status online"></span>
-                            <span>SINCRONIA COM BANCO DE DADOS // PROTOCOLO AMS-BIO-v4</span>
-                        </div>
+                    <div class="research-table-footer">
+                        <span class="page-info">Exibindo 6 de 6 pesquisas</span>
 
                         <div class="pagination">
-                            <span class="page-info">PÁGINA 01 DE 03</span>
-
                             <div class="page-controls">
-                                <button class="page-btn" disabled>&lt;</button>
-                                <button class="page-btn active">1</button>
-                                <button class="page-btn">2</button>
-                                <button class="page-btn">3</button>
-                                <button class="page-btn">&gt;</button>
+                                <button disabled aria-label="Página anterior">‹</button>
+                                <button class="selected">1</button>
+                                <button disabled aria-label="Próxima página">›</button>
                             </div>
                         </div>
-
                     </div>
+
                 </section>
 
-                <!-- WIDGET INFERIOR DE AMOSTRAS -->
-                <section class="bottom-widget">
-                    <div class="sample-card">
-                        <div class="sample-icon">
-                            <i data-lucide="flask-conical"></i>
-                        </div>
-                        <div class="sample-info">
-                            <div class="sample-count">24 Amostras</div>
-                            <div class="sample-sub">CRIOGENIZADAS NO SETOR 9</div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
 
-    <script>
-        lucide.createIcons();
-    </script>
+    <script src="../js/pesquisas.js"></script>
 </body>
-
-<script src="../js/pesquisas.js"></script>
 
 </html>

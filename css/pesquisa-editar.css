@@ -1,404 +1,307 @@
+
 /* ==========================================================================
-   FORMULÁRIO DE EDIÇÃO E CADASTRO DE PESQUISAS
+   AMS CENTRAL TÁTICA
+   TELA: EDITAR PESQUISA
+   Os estilos compartilhados estão em style.css.
    ========================================================================== */
-.form-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+
+/* --- Conteúdo da página --- */
+
+.content-edit {
+    max-width: 1100px;
 }
 
-.metadata-item label,
-.text-block label {
-    display: block;
-    font-family: var(--font-mono);
+.edit-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.edit-indicator {
+    color: var(--green);
     font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.6px;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    margin-bottom: 6px;
+    letter-spacing: .08em;
 }
 
-.text-block>span {
-    display: block;
-    margin-bottom: 8px;
+/* --- Seções do formulário --- */
+
+.formulario-section {
+    padding: 24px;
+    margin-bottom: 22px;
 }
 
-.form-grid input[type="text"],
-.form-grid input[type="date"],
-.form-grid select,
-.form-grid textarea {
-    width: 100%;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    padding: 10px 12px;
-    color: var(--text-primary);
-    font-family: var(--font-sans);
-    font-size: 13px;
-    line-height: 1.5;
-    outline: none;
-    transition: border-color 0.2s, background-color 0.2s;
+.formulario-titulo {
+    margin-bottom: 26px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
 }
 
-.form-grid input[type="text"],
-.form-grid input[type="date"],
-.form-grid select {
-    height: 40px;
-}
-
-.form-grid input[readonly] {
-    color: var(--accent-cyan);
-    font-family: var(--font-mono);
-    font-weight: 600;
-    background-color: rgba(13, 17, 26, 0.75);
-    cursor: not-allowed;
-}
-
-.form-grid input[type="date"] {
-    font-family: var(--font-mono);
+.formulario-titulo span {
+    display: inline-block;
+    color: var(--green);
+    font-family: var(--mono);
     font-size: 12px;
-    color-scheme: dark;
+    margin-right: 8px;
 }
 
-.form-grid input:focus,
-.form-grid select:focus,
-.form-grid textarea:focus {
-    border-color: var(--accent-cyan);
-    background-color: var(--bg-card-hover);
+.formulario-titulo h2 {
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
 }
 
-.form-grid textarea {
-    min-height: 110px;
-    resize: vertical;
+.formulario-titulo p {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 6px;
 }
 
-.form-grid #descricao-metodologia {
-    min-height: 140px;
-}
+/* --- Organização dos campos --- */
 
-/* Opções de estado (Radio buttons) */
-.radio-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 4px;
-}
-
-.radio-option {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 12px;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.radio-option:hover {
-    border-color: var(--text-muted);
-    color: var(--text-primary);
-}
-
-.radio-option input[type="radio"] {
-    accent-color: var(--accent-cyan);
-    cursor: pointer;
-}
-
-.radio-option.active-progress,
-.radio-option:has(input[type="radio"]:checked) {
-    background-color: rgba(56, 189, 248, 0.1);
-    border-color: rgba(56, 189, 248, 0.35);
-    color: var(--accent-cyan);
-}
-
-/* Cartões de cientistas auxiliares */
-.assistants-grid {
+.formulario-campos {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 18px;
 }
 
-.assistant-card {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
+.formulario-campos-vertical {
+    grid-template-columns: 1fr;
 }
 
-.assistant-card:hover {
-    border-color: var(--text-muted);
-    background-color: var(--bg-card-hover);
-}
-
-.assistant-card.checked,
-.assistant-card:has(input[type="checkbox"]:checked) {
-    border-color: rgba(52, 211, 153, 0.4);
-    background-color: rgba(52, 211, 153, 0.08);
-}
-
-.assistant-card input[type="checkbox"] {
-    accent-color: var(--accent-green);
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-    cursor: pointer;
-}
-
-.assistant-info {
+.campo {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 8px;
     min-width: 0;
 }
 
-.assistant-info strong {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-primary);
+.campo-full {
+    grid-column: 1 / -1;
 }
 
-.assistant-info small {
-    font-family: var(--font-mono);
+.campo-protocolo {
+    grid-column: 1 / -1;
+}
+
+.campo label {
+    color: #aab5cc;
+    font-family: var(--mono);
     font-size: 10px;
-    color: var(--text-muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
 }
 
-/* Associações táticas */
-.assoc-block {
-    margin-bottom: 20px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--border-color);
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    min-width: 0;
+    padding: 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    outline: none;
+    transition: border-color .15s;
 }
 
-.assoc-block .panel-heading {
+.campo input,
+.campo select {
+    height: 42px;
+}
+
+.campo textarea {
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: var(--green);
+}
+
+.campo input::placeholder,
+.campo textarea::placeholder {
+    color: var(--muted);
+}
+
+.campo input[type="date"] {
+    color-scheme: dark;
+}
+
+/* --- Opções de situação --- */
+
+.status-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.status-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+}
+
+.status-option:hover {
+    border-color: var(--green);
+}
+
+.status-option input {
+    accent-color: var(--green);
+}
+
+.status-option strong,
+.status-option small {
+    display: block;
+}
+
+.status-option strong {
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.status-option small {
+    color: var(--muted);
+    font-size: 10.5px;
+    margin-top: 4px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+}
+
+.status-green {
+    background: var(--green);
+}
+
+.status-amber {
+    background: var(--amber);
+}
+
+.status-cyan {
+    background: var(--cyan);
+}
+
+/* --- Associações e recursos --- */
+
+.association-block {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.association-block:first-of-type {
+    padding-top: 0;
+}
+
+.association-block:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.association-block h3 {
+    color: #c3cce0;
+    font-size: 13px;
+    font-weight: 600;
     margin-bottom: 12px;
 }
 
-.assoc-block .panel-heading h3 {
-    font-size: 12px;
-    font-family: var(--font-mono);
-    font-weight: 600;
-    color: var(--text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.link-action {
-    margin-left: auto;
-    background: none;
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    color: var(--accent-cyan);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    font-weight: 600;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.link-action:hover {
-    background-color: rgba(56, 189, 248, 0.12);
-    border-color: rgba(56, 189, 248, 0.5);
-}
-
-.chips-row {
+.chips-row,
+.monitored-list,
+.file-list {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-}
-
-.mission-chip {
-    display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 10px;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-primary);
+    min-height: 28px;
 }
 
-.mission-chip button,
-.remove-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 14px;
-    line-height: 1;
-    cursor: pointer;
-    padding: 0 2px;
-    transition: color 0.2s;
-}
-
-.mission-chip button:hover,
-.remove-btn:hover {
-    color: var(--accent-red);
-}
-
-.monitored-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.monitored-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 12px;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-}
-
-.monitored-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background-color: rgba(56, 189, 248, 0.12);
-    color: var(--accent-cyan);
-    font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 700;
-    flex-shrink: 0;
-}
-
-.monitored-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.monitored-info strong {
+.empty-association {
+    color: var(--muted);
     font-size: 12px;
-    color: var(--text-primary);
+    font-style: italic;
 }
 
-.monitored-info .mono {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-muted);
-}
+/* --- Ações do formulário --- */
 
-.monitored-item .remove-btn {
-    margin-left: auto;
-}
-
-/* Dropzone e lista de ficheiros */
-.dropzone {
+.edit-actions {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 24px 16px;
-    background-color: var(--bg-input);
-    border: 1px dashed var(--border-color);
-    border-radius: 8px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.dropzone:hover,
-.dropzone.drag-over {
-    border-color: var(--accent-cyan);
-    background-color: rgba(56, 189, 248, 0.06);
-}
-
-.dropzone svg {
-    width: 22px;
-    height: 22px;
-    color: var(--accent-cyan);
-}
-
-.dropzone p {
-    font-size: 12px;
-    color: var(--text-secondary);
-}
-
-.form-grid .file-list {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.file-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    background-color: var(--bg-input);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-}
-
-.file-item svg {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-}
-
-.file-name {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-primary);
-}
-
-.file-size {
-    margin-left: auto;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-muted);
-}
-
-/* Botões do rodapé do formulário */
-.form-grid .action-row {
     justify-content: flex-end;
+    align-items: center;
     gap: 12px;
-    margin-top: 4px;
-    margin-bottom: 0;
+    margin: 8px 0 30px;
 }
 
 .btn-cancel {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 10px 18px;
-    border-radius: 6px;
+    padding: 11px 20px;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font: 500 13px var(--font);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: background .15s, color .15s;
 }
 
 .btn-cancel:hover {
-    color: var(--text-primary);
-    border-color: var(--text-muted);
-    background-color: var(--bg-card-hover);
+    background: var(--card-2);
+    color: var(--text);
 }
 
+/* --- Responsividade --- */
+
 @media (max-width: 900px) {
-    .assistants-grid {
+    .status-options {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .formulario-campos {
+        grid-template-columns: 1fr;
+    }
+
+    .campo-full,
+    .campo-protocolo {
+        grid-column: 1;
+    }
+
+    .edit-navigation {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 560px) {
+    .formulario-section {
+        padding: 18px;
+    }
+
+    .formulario-titulo h2 {
+        font-size: 15px;
+    }
+
+    .edit-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .edit-actions button {
+        width: 100%;
     }
 }
