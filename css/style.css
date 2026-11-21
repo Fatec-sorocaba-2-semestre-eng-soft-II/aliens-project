@@ -793,3 +793,8 @@ h1 {
     justify-content: flex-end;
     margin-top: 8px;
 }
+
+/* Estilos exclusivos da Gestão de Humanos */
+.content-humanos {
+    max-width: none;
+}
