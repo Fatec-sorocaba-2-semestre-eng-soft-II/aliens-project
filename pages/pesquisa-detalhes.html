@@ -2,465 +2,484 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AMS - Detalhes da Pesquisa</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/pesquisa-detalhes.css">
-
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMS - Detalhes da Pesquisa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="stylesheet" href="../css/pesquisa.css">
 </head>
 
 <body>
-    <div class="app" data-research-details>
-
-        <!-- Menu lateral -->
-        <aside class="sidebar">
-            <div class="brand">
-                <strong>AMS</strong>
-                <span class="mono"><i class="dot"></i>Central Tática</span>
-            </div>
-
-            <nav>
-                <p class="nav-title mono">Comando Operacional</p>
-
-                <a href="visao-geral.html" class="nav-item">
-                    <i data-lucide="layout-dashboard"></i>
-                    Visão Geral
-                </a>
-
-                <a href="missoes.html" class="nav-item">
-                    <i data-lucide="crosshair"></i>
-                    Missões
-                </a>
-
-                <a href="solicitacao-missao.html" class="nav-item">
-                    <i data-lucide="clipboard-check"></i>
-                    Solicitação de Missão
-                </a>
-
-                <p class="nav-title mono">Espécimes &amp; Recursos</p>
-
-                <a href="gestao-humanos.html" class="nav-item">
-                    <i data-lucide="user-round"></i>
-                    Humanos
-                </a>
-
-                <a href="#" class="nav-item">
-                    <i data-lucide="users-round"></i>
-                    Tripulação
-                </a>
-
-                <a href="#" class="nav-item">
-                    <i data-lucide="rocket"></i>
-                    Naves
-                </a>
-
-                <a href="pesquisa-visao-geral.html" class="nav-item active" aria-current="page">
-                    <i data-lucide="flask-conical"></i>
-                    Pesquisas
-                    <span class="tag mono">CIENTISTA</span>
-                </a>
-            </nav>
-
-            <div class="telemetry mono">
-                <div class="telemetry-row">
-                    <span><i class="dot"></i>TELEMETRIA CORE</span>
-                    <b>99.98%</b>
-                </div>
-                <div class="telemetry-sub">
-                    SECTOR 001-ORION V 4.12.0
-                </div>
-            </div>
-        </aside>
-
-        <!-- Conteúdo principal -->
-        <div class="main">
-
-            <header class="topbar">
-                <div class="breadcrumb mono">
-                    AMS_CORE <span>/</span> PESQUISAS <span>/</span>
-                    <b>DETALHES</b>
-                </div>
-
-                <div class="topbar-right">
-                    <span class="level mono">
-                        <i class="dot"></i>NÍVEL: Comandante
-                    </span>
-
-                    <button class="icon-btn" aria-label="Notificações" type="button">
-                        <i data-lucide="bell"></i>
-                    </button>
-
-                    <div class="user">
-                        <strong>Cmd. Etvorkax</strong>
-                        <span>Operações Táticas</span>
-                    </div>
-                </div>
-            </header>
-
-            <main class="content details-content">
-
-                <!-- Ações superiores -->
-                <div class="details-actions">
-                    <a href="pesquisa-visao-geral.html" class="back-link" data-action="back">
-                        <i data-lucide="arrow-left"></i>
-                        Voltar para pesquisas
-                    </a>
-
-                    <div class="details-actions-right">
-                        <a href="pesquisa-editar.html" class="btn-edit" data-action="edit">
-                            <i data-lucide="pencil"></i>
-                            Editar pesquisa
-                        </a>
-
-                        <button type="button" class="btn-danger" data-action="delete">
-                            <i data-lucide="trash-2"></i>
-                            Solicitar exclusão
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Cabeçalho da pesquisa -->
-                <section class="card research-hero">
-
-                    <div class="hero-top">
-                        <div class="hero-identification mono">
-                            <span data-field="id">PESQ-000</span>
-                            <span class="hero-separator">/</span>
-                            <span data-field="area">ÁREA CIENTÍFICA</span>
-                        </div>
-
-                        <span class="badge ok detail-status" data-field="status">
-                            Em andamento
-                        </span>
-                    </div>
-
-                    <div class="hero-main">
-                        <span class="eyebrow mono">
-                            REGISTRO DE PESQUISA
-                        </span>
-
-                        <h1 data-field="nome">Nome da pesquisa</h1>
-
-                        <p class="hero-summary" data-field="resumo">
-                            Carregando descrição da pesquisa...
-                        </p>
-                    </div>
-
-                    <div class="hero-dates">
-                        <div class="hero-date">
-                            <span class="mono">INÍCIO</span>
-                            <strong data-field="data-inicio">--/--/----</strong>
-                        </div>
-
-                        <div class="hero-date">
-                            <span class="mono">CADASTRO</span>
-                            <strong data-field="data-criacao">--/--/----</strong>
-                        </div>
-
-                        <div class="hero-date">
-                            <span class="mono">CONCLUSÃO PREVISTA</span>
-                            <strong data-field="data-conclusao">--/--/----</strong>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Navegação das abas -->
-                <nav class="details-tabs" aria-label="Seções da pesquisa">
-                    <button type="button" class="tab active" data-tab="parametros">
-                        <i data-lucide="file-text"></i>
-                        Parâmetros
-                    </button>
-
-                    <button type="button" class="tab" data-tab="associacoes">
-                        <i data-lucide="network"></i>
-                        Associações
-                    </button>
-
-                    <button type="button" class="tab" data-tab="relatorio">
-                        <i data-lucide="file-bar-chart"></i>
-                        Relatório
-                    </button>
-
-                    <button type="button" class="tab" data-tab="historico">
-                        <i data-lucide="history"></i>
-                        Histórico
-                    </button>
-                </nav>
-
-                <!-- Aba: Parâmetros -->
-                <section class="tab-panel active" data-panel="parametros">
-
-                    <div class="section-heading">
-                        <div>
-                            <span class="section-code mono">01 // CONFIGURAÇÃO</span>
-                            <h2>Parâmetros da pesquisa</h2>
-                            <p>Informações gerais e configurações do estudo.</p>
-                        </div>
-                    </div>
-
-                    <div class="details-grid">
-                        <article class="card info-card">
-                            <span class="info-label mono">ÁREA CIENTÍFICA</span>
-                            <strong data-field="area">Não informado</strong>
-                        </article>
-
-                        <article class="card info-card">
-                            <span class="info-label mono">CIENTISTA RESPONSÁVEL</span>
-                            <strong data-field="cientista">Não informado</strong>
-                        </article>
-
-                        <article class="card info-card">
-                            <span class="info-label mono">DATA DE INÍCIO</span>
-                            <strong data-field="data-inicio">Não informado</strong>
-                        </article>
-
-                        <article class="card info-card">
-                            <span class="info-label mono">DATA DE CONCLUSÃO</span>
-                            <strong data-field="data-conclusao">Não informado</strong>
-                        </article>
-                    </div>
-
-                    <article class="card text-card">
-                        <div class="card-heading">
-                            <i data-lucide="target"></i>
-                            <h3>Objetivo central</h3>
-                        </div>
-                        <p data-field="objetivo">
-                            Nenhum objetivo informado para esta pesquisa.
-                        </p>
-                    </article>
-
-                    <article class="card text-card">
-                        <div class="card-heading">
-                            <i data-lucide="microscope"></i>
-                            <h3>Metodologia</h3>
-                        </div>
-                        <p data-field="metodologia">
-                            Nenhuma metodologia informada para esta pesquisa.
-                        </p>
-                    </article>
-
-                </section>
-
-                <!-- Aba: Associações -->
-                <section class="tab-panel" data-panel="associacoes" hidden>
-
-                    <div class="section-heading">
-                        <div>
-                            <span class="section-code mono">02 // VÍNCULOS</span>
-                            <h2>Associações da pesquisa</h2>
-                            <p>Recursos, espécimes e operações vinculados ao estudo.</p>
-                        </div>
-                    </div>
-
-                    <div class="association-grid">
-
-                        <article class="card association-card">
-                            <div class="association-heading">
-                                <div class="association-icon">
-                                    <i data-lucide="users"></i>
-                                </div>
-                                <div>
-                                    <h3>Auxiliares</h3>
-                                    <p>Equipe de apoio científico</p>
-                                </div>
-                            </div>
-                            <ul class="association-list" data-list="auxiliares">
-                                <li class="empty-state">Nenhum auxiliar associado.</li>
-                            </ul>
-                        </article>
-
-                        <article class="card association-card">
-                            <div class="association-heading">
-                                <div class="association-icon">
-                                    <i data-lucide="test-tube"></i>
-                                </div>
-                                <div>
-                                    <h3>Amostras</h3>
-                                    <p>Espécimes utilizados no estudo</p>
-                                </div>
-                            </div>
-                            <div class="association-counter">
-                                <strong data-field="total-amostras">0</strong>
-                                <span>amostras vinculadas</span>
-                            </div>
-                            <ul class="association-list" data-list="amostras">
-                                <li class="empty-state">Nenhuma amostra associada.</li>
-                            </ul>
-                        </article>
-
-                        <article class="card association-card">
-                            <div class="association-heading">
-                                <div class="association-icon">
-                                    <i data-lucide="folder"></i>
-                                </div>
-                                <div>
-                                    <h3>Arquivos</h3>
-                                    <p>Documentos e materiais da pesquisa</p>
-                                </div>
-                            </div>
-                            <ul class="association-list" data-list="arquivos">
-                                <li class="empty-state">Nenhum arquivo vinculado.</li>
-                            </ul>
-                        </article>
-
-                        <article class="card association-card">
-                            <div class="association-heading">
-                                <div class="association-icon">
-                                    <i data-lucide="crosshair"></i>
-                                </div>
-                                <div>
-                                    <h3>Missões</h3>
-                                    <p>Operações relacionadas ao estudo</p>
-                                </div>
-                            </div>
-                            <ul class="association-list" data-list="missoes">
-                                <li class="empty-state">Nenhuma missão associada.</li>
-                            </ul>
-                        </article>
-
-                        <article class="card association-card">
-                            <div class="association-heading">
-                                <div class="association-icon">
-                                    <i data-lucide="user-round"></i>
-                                </div>
-                                <div>
-                                    <h3>Humanos</h3>
-                                    <p>Indivíduos relacionados à pesquisa</p>
-                                </div>
-                            </div>
-                            <ul class="association-list" data-list="humanos">
-                                <li class="empty-state">Nenhum humano associado.</li>
-                            </ul>
-                        </article>
-
-                    </div>
-                </section>
-
-                <!-- Aba: Relatório -->
-                <section class="tab-panel" data-panel="relatorio" hidden>
-
-                    <div class="section-heading">
-                        <div>
-                            <span class="section-code mono">03 // DOCUMENTAÇÃO</span>
-                            <h2>Relatório científico</h2>
-                            <p>Resultados e observações registrados para esta pesquisa.</p>
-                        </div>
-                    </div>
-
-                    <article class="card report-card">
-                        <div class="card-heading">
-                            <i data-lucide="file-check"></i>
-                            <h3>Conteúdo do relatório</h3>
-                        </div>
-
-                        <div class="report-content" data-field="relatorio">
-                            <p class="empty-state">
-                                Nenhum relatório foi registrado para esta pesquisa.
-                            </p>
-                        </div>
-                    </article>
-
-                </section>
-
-                <!-- Aba: Histórico -->
-                <section class="tab-panel" data-panel="historico" hidden>
-
-                    <div class="section-heading">
-                        <div>
-                            <span class="section-code mono">04 // AUDITORIA</span>
-                            <h2>Histórico de atividades</h2>
-                            <p>Registro de alterações e eventos relacionados à pesquisa.</p>
-                        </div>
-                    </div>
-
-                    <article class="card history-card">
-                        <div class="card-heading">
-                            <i data-lucide="history"></i>
-                            <h3>Registros</h3>
-                        </div>
-
-                        <div class="history-list" data-field="historico">
-                            <p class="empty-state">
-                                Nenhum registro de histórico disponível.
-                            </p>
-                        </div>
-                    </article>
-
-                </section>
-
-                <footer class="page-footer mono">
-                    AMS CENTRAL TÁTICA <span>//</span> SISTEMA DE PESQUISAS
-                </footer>
-
-            </main>
+  <div class="app-layout" data-research-details>
+    <aside class="sidebar">
+      <div>
+        <!-- Identidade / Brand -->
+        <div class="brand">
+          <div class="brand-logo">
+            <span class="dot-status online"></span>
+          </div>
+          <div class="brand-info">
+            <span class="brand-title">AMS</span>
+            <span class="brand-subtitle">CENTRAL TÁTICA</span>
+          </div>
         </div>
-    </div>
 
-    <!-- Modal de solicitação de exclusão -->
-    <div class="modal-backdrop" id="modalSolicitarExclusao"
-        data-modal="delete-research" hidden aria-hidden="true">
+        <!-- Navegação Principal -->
+        <nav class="sidebar-nav">
+          <!-- Seção 1: Comando Operacional -->
+          <div class="nav-group">
+            <span class="nav-label">COMANDO OPERACIONAL</span>
+            <ul class="nav-list">
+              <li>
+                <a href="visao-geral.html" class="nav-link">
+                  <i data-lucide="layout-grid"></i>
+                  <span>Visão Geral</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link">
+                  <i data-lucide="compass"></i>
+                  <span>Missões</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link">
+                  <i data-lucide="file-check-2"></i>
+                  <span>Solicitação de Missão</span>
+                </a>
+              </li>
+            </ul>
+          </div>
 
-        <section class="modal-card" role="dialog" aria-modal="true"
-            aria-labelledby="modalTitulo">
+          <!-- Seção 2: Espécimes & Recursos -->
+          <div class="nav-group">
+            <span class="nav-label">ESPÉCIMES & RECURSOS</span>
+            <ul class="nav-list">
+              <li>
+                <a href="#" class="nav-link">
+                  <i data-lucide="user"></i>
+                  <span>Humanos</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link">
+                  <i data-lucide="users"></i>
+                  <span>Tripulação</span>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="nav-link">
+                  <i data-lucide="rocket"></i>
+                  <span>Naves</span>
+                </a>
+              </li>
+              <li>
+                <a href="pesquisa-visao-geral.html" class="nav-link active">
+                  <i data-lucide="flask-conical"></i>
+                  <span>Pesquisas</span>
+                  <span class="nav-badge">CIENTISTA</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
 
-            <div class="modal-header">
-                <div class="modal-icon">
-                    <i data-lucide="alert-triangle"></i>
-                </div>
+      <!-- Rodapé: Telemetria -->
+      <div class="sidebar-footer">
+        <div class="telemetry-card">
+          <div class="telemetry-status">
+            <span class="dot-status online"></span>
+            <span>TELEMETRIA CORE</span>
+            <span class="telemetry-value">99.98%</span>
+          </div>
+          <div class="telemetry-sector">SECTOR 001-ORION V 4.12.0</div>
+        </div>
+      </div>
+    </aside>
 
-                <button type="button" class="modal-close"
-                    data-modal-close aria-label="Fechar modal">
-                    <i data-lucide="x"></i>
-                </button>
+
+    <!-- Conteúdo principal -->
+    <div class="main">
+
+      <header class="topbar">
+        <div class="breadcrumb mono">
+          AMS_CORE <span>/</span> PESQUISAS <span>/</span>
+          <b>DETALHES</b>
+        </div>
+
+        <div class="topbar-right">
+          <span class="level mono">
+            <i class="dot"></i>NÍVEL: Comandante
+          </span>
+
+          <button class="icon-btn" aria-label="Notificações" type="button">
+            <i data-lucide="bell"></i>
+          </button>
+
+          <div class="user">
+            <strong>Cmd. Etvorkax</strong>
+            <span>Operações Táticas</span>
+          </div>
+        </div>
+      </header>
+
+      <main class="content details-content">
+
+        <!-- Ações superiores -->
+        <div class="details-actions">
+          <a href="pesquisa-visao-geral.html" class="back-link" data-action="back">
+            <i data-lucide="arrow-left"></i>
+            Voltar para pesquisas
+          </a>
+
+          <div class="details-actions-right">
+            <a href="pesquisa-editar.html" class="btn-edit" data-action="edit">
+              <i data-lucide="pencil"></i>
+              Editar pesquisa
+            </a>
+
+            <button type="button" class="btn-danger" data-action="delete">
+              <i data-lucide="trash-2"></i>
+              Solicitar exclusão
+            </button>
+          </div>
+        </div>
+
+        <!-- Cabeçalho da pesquisa -->
+        <section class="card research-hero">
+
+          <div class="hero-top">
+            <div class="hero-identification mono">
+              <span data-field="id">PESQ-000</span>
+              <span class="hero-separator">/</span>
+              <span data-field="area">ÁREA CIENTÍFICA</span>
             </div>
 
-            <div class="modal-body">
-                <span class="section-code mono">SOLICITAÇÃO ADMINISTRATIVA</span>
-                <h2 id="modalTitulo">Solicitar exclusão</h2>
+            <span class="badge ok detail-status" data-field="status">
+              Em andamento
+            </span>
+          </div>
 
-                <p>
-                    A exclusão desta pesquisa depende de análise e autorização.
-                    Informe o motivo da solicitação para encaminhamento.
-                </p>
+          <div class="hero-main">
+            <span class="eyebrow mono">
+              REGISTRO DE PESQUISA
+            </span>
 
-                <form class="modal-form" id="formSolicitarExclusao">
-                    <label for="motivoExclusao">Motivo da solicitação</label>
+            <h1 data-field="nome">Nome da pesquisa</h1>
 
-                    <textarea id="motivoExclusao" name="motivoExclusao"
-                        placeholder="Descreva o motivo da solicitação..."
-                        required></textarea>
+            <p class="hero-summary" data-field="resumo">
+              Carregando descrição da pesquisa...
+            </p>
+          </div>
 
-                    <div class="modal-actions">
-                        <button type="button" class="btn-cancel" data-modal-close>
-                            Cancelar
-                        </button>
-
-                        <button type="submit" class="btn-danger">
-                            Enviar solicitação
-                            <i data-lucide="send"></i>
-                        </button>
-                    </div>
-                </form>
+          <div class="hero-dates">
+            <div class="hero-date">
+              <span class="mono">INÍCIO</span>
+              <strong data-field="data-inicio">--/--/----</strong>
             </div>
+
+            <div class="hero-date">
+              <span class="mono">CADASTRO</span>
+              <strong data-field="data-criacao">--/--/----</strong>
+            </div>
+
+            <div class="hero-date">
+              <span class="mono">CONCLUSÃO PREVISTA</span>
+              <strong data-field="data-conclusao">--/--/----</strong>
+            </div>
+          </div>
         </section>
-    </div>
 
-    <script src="../js/pesquisas.js"></script>
-    <script>
-        if (window.lucide) {
-            lucide.createIcons();
-        }
-    </script>
+        <!-- Navegação das abas -->
+        <nav class="details-tabs" aria-label="Seções da pesquisa">
+          <button type="button" class="tab active" data-tab="parametros">
+            <i data-lucide="file-text"></i>
+            Parâmetros
+          </button>
+
+          <button type="button" class="tab" data-tab="associacoes">
+            <i data-lucide="network"></i>
+            Associações
+          </button>
+
+          <button type="button" class="tab" data-tab="relatorio">
+            <i data-lucide="file-bar-chart"></i>
+            Relatório
+          </button>
+
+          <button type="button" class="tab" data-tab="historico">
+            <i data-lucide="history"></i>
+            Histórico
+          </button>
+        </nav>
+
+        <!-- Aba: Parâmetros -->
+        <section class="tab-panel active" data-panel="parametros">
+
+          <div class="section-heading">
+            <div>
+              <span class="section-code mono">01 // CONFIGURAÇÃO</span>
+              <h2>Parâmetros da pesquisa</h2>
+              <p>Informações gerais e configurações do estudo.</p>
+            </div>
+          </div>
+
+          <div class="details-grid">
+            <article class="card info-card">
+              <span class="info-label mono">ÁREA CIENTÍFICA</span>
+              <strong data-field="area">Não informado</strong>
+            </article>
+
+            <article class="card info-card">
+              <span class="info-label mono">CIENTISTA RESPONSÁVEL</span>
+              <strong data-field="cientista">Não informado</strong>
+            </article>
+
+            <article class="card info-card">
+              <span class="info-label mono">DATA DE INÍCIO</span>
+              <strong data-field="data-inicio">Não informado</strong>
+            </article>
+
+            <article class="card info-card">
+              <span class="info-label mono">DATA DE CONCLUSÃO</span>
+              <strong data-field="data-conclusao">Não informado</strong>
+            </article>
+          </div>
+
+          <article class="card text-card">
+            <div class="card-heading">
+              <i data-lucide="target"></i>
+              <h3>Objetivo central</h3>
+            </div>
+            <p data-field="objetivo">
+              Nenhum objetivo informado para esta pesquisa.
+            </p>
+          </article>
+
+          <article class="card text-card">
+            <div class="card-heading">
+              <i data-lucide="microscope"></i>
+              <h3>Metodologia</h3>
+            </div>
+            <p data-field="metodologia">
+              Nenhuma metodologia informada para esta pesquisa.
+            </p>
+          </article>
+
+        </section>
+
+        <!-- Aba: Associações -->
+        <section class="tab-panel" data-panel="associacoes" hidden>
+
+          <div class="section-heading">
+            <div>
+              <span class="section-code mono">02 // VÍNCULOS</span>
+              <h2>Associações da pesquisa</h2>
+              <p>Recursos, espécimes e operações vinculados ao estudo.</p>
+            </div>
+          </div>
+
+          <div class="association-grid">
+
+            <article class="card association-card">
+              <div class="association-heading">
+                <div class="association-icon">
+                  <i data-lucide="users"></i>
+                </div>
+                <div>
+                  <h3>Auxiliares</h3>
+                  <p>Equipe de apoio científico</p>
+                </div>
+              </div>
+              <ul class="association-list" data-list="auxiliares">
+                <li class="empty-state">Nenhum auxiliar associado.</li>
+              </ul>
+            </article>
+
+            <article class="card association-card">
+              <div class="association-heading">
+                <div class="association-icon">
+                  <i data-lucide="test-tube"></i>
+                </div>
+                <div>
+                  <h3>Amostras</h3>
+                  <p>Espécimes utilizados no estudo</p>
+                </div>
+              </div>
+              <div class="association-counter">
+                <strong data-field="total-amostras">0</strong>
+                <span>amostras vinculadas</span>
+              </div>
+              <ul class="association-list" data-list="amostras">
+                <li class="empty-state">Nenhuma amostra associada.</li>
+              </ul>
+            </article>
+
+            <article class="card association-card">
+              <div class="association-heading">
+                <div class="association-icon">
+                  <i data-lucide="folder"></i>
+                </div>
+                <div>
+                  <h3>Arquivos</h3>
+                  <p>Documentos e materiais da pesquisa</p>
+                </div>
+              </div>
+              <ul class="association-list" data-list="arquivos">
+                <li class="empty-state">Nenhum arquivo vinculado.</li>
+              </ul>
+            </article>
+
+            <article class="card association-card">
+              <div class="association-heading">
+                <div class="association-icon">
+                  <i data-lucide="crosshair"></i>
+                </div>
+                <div>
+                  <h3>Missões</h3>
+                  <p>Operações relacionadas ao estudo</p>
+                </div>
+              </div>
+              <ul class="association-list" data-list="missoes">
+                <li class="empty-state">Nenhuma missão associada.</li>
+              </ul>
+            </article>
+
+            <article class="card association-card">
+              <div class="association-heading">
+                <div class="association-icon">
+                  <i data-lucide="user-round"></i>
+                </div>
+                <div>
+                  <h3>Humanos</h3>
+                  <p>Indivíduos relacionados à pesquisa</p>
+                </div>
+              </div>
+              <ul class="association-list" data-list="humanos">
+                <li class="empty-state">Nenhum humano associado.</li>
+              </ul>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- Aba: Relatório -->
+        <section class="tab-panel" data-panel="relatorio" hidden>
+
+          <div class="section-heading">
+            <div>
+              <span class="section-code mono">03 // DOCUMENTAÇÃO</span>
+              <h2>Relatório científico</h2>
+              <p>Resultados e observações registrados para esta pesquisa.</p>
+            </div>
+          </div>
+
+          <article class="card report-card">
+            <div class="card-heading">
+              <i data-lucide="file-check"></i>
+              <h3>Conteúdo do relatório</h3>
+            </div>
+
+            <div class="report-content" data-field="relatorio">
+              <p class="empty-state">
+                Nenhum relatório foi registrado para esta pesquisa.
+              </p>
+            </div>
+          </article>
+
+        </section>
+
+        <!-- Aba: Histórico -->
+        <section class="tab-panel" data-panel="historico" hidden>
+
+          <div class="section-heading">
+            <div>
+              <span class="section-code mono">04 // AUDITORIA</span>
+              <h2>Histórico de atividades</h2>
+              <p>Registro de alterações e eventos relacionados à pesquisa.</p>
+            </div>
+          </div>
+
+          <article class="card history-card">
+            <div class="card-heading">
+              <i data-lucide="history"></i>
+              <h3>Registros</h3>
+            </div>
+
+            <div class="history-list" data-field="historico">
+              <p class="empty-state">
+                Nenhum registro de histórico disponível.
+              </p>
+            </div>
+          </article>
+
+        </section>
+
+        <footer class="page-footer mono">
+          AMS CENTRAL TÁTICA <span>//</span> SISTEMA DE PESQUISAS
+        </footer>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal de solicitação de exclusão -->
+  <div class="modal-backdrop" id="modalSolicitarExclusao" data-modal="delete-research" hidden aria-hidden="true">
+
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+
+      <div class="modal-header">
+        <div class="modal-icon">
+          <i data-lucide="alert-triangle"></i>
+        </div>
+
+        <button type="button" class="modal-close" data-modal-close aria-label="Fechar modal">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <span class="section-code mono">SOLICITAÇÃO ADMINISTRATIVA</span>
+        <h2 id="modalTitulo">Solicitar exclusão</h2>
+
+        <p>
+          A exclusão desta pesquisa depende de análise e autorização.
+          Informe o motivo da solicitação para encaminhamento.
+        </p>
+
+        <form class="modal-form" id="formSolicitarExclusao">
+          <label for="motivoExclusao">Motivo da solicitação</label>
+
+          <textarea id="motivoExclusao" name="motivoExclusao" placeholder="Descreva o motivo da solicitação..."
+            required></textarea>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-cancel" data-modal-close>
+              Cancelar
+            </button>
+
+            <button type="submit" class="btn-danger">
+              Enviar solicitação
+              <i data-lucide="send"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+
+  <script src="../js/pesquisas.js"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
 </body>
 
 </html>

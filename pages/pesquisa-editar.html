@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -9,10 +8,11 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/pesquisa-editar.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/pesquisa.css">
 </head>
 
 <body>
@@ -20,80 +20,89 @@
 
         <!-- Menu lateral -->
         <aside class="sidebar">
-            <div class="brand">
-                <strong>AMS</strong>
-                <span class="mono"><i class="dot"></i>Central Tática</span>
+            <div>
+                <!-- Identidade / Brand -->
+                <div class="brand">
+                    <div class="brand-logo">
+                        <span class="dot-status online"></span>
+                    </div>
+                    <div class="brand-info">
+                        <span class="brand-title">AMS</span>
+                        <span class="brand-subtitle">CENTRAL TÁTICA</span>
+                    </div>
+                </div>
+
+                <!-- Navegação Principal -->
+                <nav class="sidebar-nav">
+                    <!-- Seção 1: Comando Operacional -->
+                    <div class="nav-group">
+                        <span class="nav-label">COMANDO OPERACIONAL</span>
+                        <ul class="nav-list">
+                            <li>
+                                <a href="visao-geral.html" class="nav-link">
+                                    <i data-lucide="layout-grid"></i>
+                                    <span>Visão Geral</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="compass"></i>
+                                    <span>Missões</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="file-check-2"></i>
+                                    <span>Solicitação de Missão</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Seção 2: Espécimes & Recursos -->
+                    <div class="nav-group">
+                        <span class="nav-label">ESPÉCIMES & RECURSOS</span>
+                        <ul class="nav-list">
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="user"></i>
+                                    <span>Humanos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="users"></i>
+                                    <span>Tripulação</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="rocket"></i>
+                                    <span>Naves</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pesquisa-visao-geral.html" class="nav-link active">
+                                    <i data-lucide="flask-conical"></i>
+                                    <span>Pesquisas</span>
+                                    <span class="nav-badge">CIENTISTA</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
 
-            <nav>
-                <p class="nav-title mono">Comando Operacional</p>
-
-                <a href="visao-geral.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="7" height="7" rx="1"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1"/>
-                    </svg>
-                    Visão Geral
-                </a>
-
-                <a href="missoes.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="9"/>
-                        <path d="m15.5 8.5-2 5-5 2 2-5z"/>
-                    </svg>
-                    Missões
-                </a>
-
-                <a href="solicitacao-missao.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M21 12a9 9 0 1 1-5-8"/>
-                        <path d="m8 11 3 3 9-9"/>
-                    </svg>
-                    Solicitação de Missão
-                </a>
-
-                <p class="nav-title mono">Espécimes &amp; Recursos</p>
-
-                <a href="gestao-humanos.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="8" r="4"/>
-                        <path d="M4 21a8 8 0 0 1 16 0"/>
-                    </svg>
-                    Humanos
-                </a>
-
-                <a href="#" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="9" cy="8" r="3.5"/>
-                        <path d="M2 20a7 7 0 0 1 14 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a7 7 0 0 1 4 6"/>
-                    </svg>
-                    Tripulação
-                </a>
-
-                <a href="#" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2c3 3 4 7 4 11l-4 3-4-3c0-4 1-8 4-11z"/>
-                        <path d="M8 14l-3 4 4-1M16 14l3 4-4-1"/>
-                    </svg>
-                    Naves
-                </a>
-
-                <a href="pesquisa-visao-geral.html" class="nav-item active">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>
-                    </svg>
-                    Pesquisas <span class="tag mono">CIENTISTA</span>
-                </a>
-            </nav>
-
-            <div class="telemetry mono">
-                <div class="telemetry-row">
-                    <span><i class="dot"></i>TELEMETRIA CORE</span>
-                    <b>99.98%</b>
+            <!-- Rodapé: Telemetria -->
+            <div class="sidebar-footer">
+                <div class="telemetry-card">
+                    <div class="telemetry-status">
+                        <span class="dot-status online"></span>
+                        <span>TELEMETRIA CORE</span>
+                        <span class="telemetry-value">99.98%</span>
+                    </div>
+                    <div class="telemetry-sector">SECTOR 001-ORION V 4.12.0</div>
                 </div>
-                <div class="telemetry-sub">SECTOR 001-ORION V 4.12.0</div>
             </div>
         </aside>
 
@@ -113,8 +122,8 @@
 
                     <button class="icon-btn" type="button" aria-label="Notificações">
                         <svg viewBox="0 0 24 24">
-                            <path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7z"/>
-                            <path d="M10 20a2 2 0 0 0 4 0"/>
+                            <path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7z" />
+                            <path d="M10 20a2 2 0 0 0 4 0" />
                         </svg>
                     </button>
 
@@ -135,9 +144,7 @@
                 </div>
 
                 <div class="edit-navigation">
-                    <a href="pesquisa-detalhes.html"
-                       class="link"
-                       data-action="back-details">
+                    <a href="pesquisa-detalhes.html" class="link" data-action="back-details">
                         ← Voltar aos detalhes
                     </a>
 
@@ -146,53 +153,63 @@
                     </span>
                 </div>
 
-                <form id="formEditarPesquisa" data-edit-form>
+                <section class="hero-card">
+                    <div class="hero-main">
+                        <div class="eyebrow">
+                            <span data-edit-id>PESQ-000</span>
+                            <span class="separator">|</span>
+                            <span class="detail-status progress">MODO EDIÇÃO</span>
+                        </div>
+                        <h1>Editar Pesquisa Científica</h1>
+                        <p class="hero-summary">
+                            Atualize os parâmetros, equipe, associações táticas e evidências da pesquisa selecionada.
+                            Alterações salvas atualizam o registro local.
+                        </p>
+                    </div>
+                </section>
 
-                    <input type="hidden" name="id" data-edit-id>
-
-                    <!-- Identificação -->
-                    <section class="card formulario-section">
-                        <div class="formulario-titulo">
-                            <span>01 //</span>
-                            <h2>Identificação da Pesquisa</h2>
-                            <p>Informações principais para identificação e classificação.</p>
+                <form class="form-grid form-edit" data-edit-form>
+                    <section class="panel-card">
+                        <div class="panel-heading">
+                            <span class="section-number">01 //</span>
+                            <h2>Identificação &amp; Escopo (Edição)</h2>
+                            <span class="panel-meta">PARÂMETROS PRINCIPAIS</span>
                         </div>
 
                         <div class="formulario-campos">
                             <div class="campo campo-protocolo">
                                 <label for="protocolo">Protocolo</label>
-                                <input type="text" id="protocolo" name="protocolo"
-                                    placeholder="Ex.: PESQ-001" data-edit-field="protocolo">
+                                <input type="text" id="protocolo" name="protocolo" placeholder="Ex.: PESQ-001"
+                                    data-edit-field="protocolo">
                             </div>
 
                             <div class="campo">
                                 <label for="dataInicio">Data de início</label>
-                                <input type="date" id="dataInicio" name="dataInicio"
-                                    data-edit-field="dataInicio" required>
+                                <input type="date" id="dataInicio" name="dataInicio" data-edit-field="dataInicio"
+                                    required>
                             </div>
 
                             <div class="campo">
                                 <label for="titulo">Nome da pesquisa</label>
-                                <input type="text" id="titulo" name="titulo"
-                                    placeholder="Nome da pesquisa" data-edit-field="titulo" required>
+                                <input type="text" id="titulo" name="titulo" placeholder="Nome da pesquisa"
+                                    data-edit-field="titulo" required>
                             </div>
 
                             <div class="campo">
                                 <label for="area">Área de pesquisa</label>
                                 <select id="area" name="area" data-edit-field="area" required>
-                                    
+
                                     <option value="xenobiologia" selected>Xenobiologia</option>
                                     <option value="neurologia">Neurologia Humana</option>
                                     <option value="bioquimica">Bioquímica</option>
                                     <option value="comportamento">Comportamento Terrestre</option>
-                                
+
                                 </select>
                             </div>
 
                             <div class="campo">
                                 <label for="cientista">Cientista responsável</label>
-                                <input type="text" id="cientista" name="cientista"
-                                    placeholder="Nome do responsável"
+                                <input type="text" id="cientista" name="cientista" placeholder="Nome do responsável"
                                     data-edit-field="cientista" required>
                             </div>
                         </div>
@@ -293,8 +310,7 @@
 
                     <!-- Ações -->
                     <div class="formulario-acoes edit-actions">
-                        <button type="button" class="btn-cancel"
-                            data-action="cancel-edit">
+                        <button type="button" class="btn-cancel" data-action="cancel-edit">
                             Cancelar
                         </button>
 

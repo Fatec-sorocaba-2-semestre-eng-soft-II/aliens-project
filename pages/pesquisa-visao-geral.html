@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -9,91 +8,100 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/pesquisa-visao-geral.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/pesquisa.css">
 </head>
 
 <body>
-    <div class="app">
-
-        <!-- Menu lateral -->
+    <div class="app-layout">
         <aside class="sidebar">
-            <div class="brand">
-                <strong>AMS</strong>
-                <span class="mono"><i class="dot"></i>Central Tática</span>
+            <div>
+                <!-- Identidade / Brand -->
+                <div class="brand">
+                    <div class="brand-logo">
+                        <span class="dot-status online"></span>
+                    </div>
+                    <div class="brand-info">
+                        <span class="brand-title">AMS</span>
+                        <span class="brand-subtitle">CENTRAL TÁTICA</span>
+                    </div>
+                </div>
+
+                <!-- Navegação Principal -->
+                <nav class="sidebar-nav">
+                    <!-- Seção 1: Comando Operacional -->
+                    <div class="nav-group">
+                        <span class="nav-label">COMANDO OPERACIONAL</span>
+                        <ul class="nav-list">
+                            <li>
+                                <a href="visao-geral.html" class="nav-link">
+                                    <i data-lucide="layout-grid"></i>
+                                    <span>Visão Geral</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="compass"></i>
+                                    <span>Missões</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="file-check-2"></i>
+                                    <span>Solicitação de Missão</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Seção 2: Espécimes & Recursos -->
+                    <div class="nav-group">
+                        <span class="nav-label">ESPÉCIMES & RECURSOS</span>
+                        <ul class="nav-list">
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="user"></i>
+                                    <span>Humanos</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="users"></i>
+                                    <span>Tripulação</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i data-lucide="rocket"></i>
+                                    <span>Naves</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="pesquisa-visao-geral.html" class="nav-link active">
+                                    <i data-lucide="flask-conical"></i>
+                                    <span>Pesquisas</span>
+                                    <span class="nav-badge">CIENTISTA</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
 
-            <nav>
-                <p class="nav-title mono">Comando Operacional</p>
-
-                <a href="visao-geral.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <rect x="3" y="3" width="7" height="7" rx="1"/>
-                        <rect x="14" y="3" width="7" height="7" rx="1"/>
-                        <rect x="3" y="14" width="7" height="7" rx="1"/>
-                        <rect x="14" y="14" width="7" height="7" rx="1"/>
-                    </svg>
-                    Visão Geral
-                </a>
-
-                <a href="missoes.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="9"/>
-                        <path d="m15.5 8.5-2 5-5 2 2-5z"/>
-                    </svg>
-                    Missões
-                </a>
-
-                <a href="solicitacao-missao.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M21 12a9 9 0 1 1-5-8"/>
-                        <path d="m8 11 3 3 9-9"/>
-                    </svg>
-                    Solicitação de Missão
-                </a>
-
-                <p class="nav-title mono">Espécimes &amp; Recursos</p>
-
-                <a href="gestao-humanos.html" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="12" cy="8" r="4"/>
-                        <path d="M4 21a8 8 0 0 1 16 0"/>
-                    </svg>
-                    Humanos
-                </a>
-
-                <a href="#" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="9" cy="8" r="3.5"/>
-                        <path d="M2 20a7 7 0 0 1 14 0M16 4.5a3.5 3.5 0 0 1 0 7M18 14a7 7 0 0 1 4 6"/>
-                    </svg>
-                    Tripulação
-                </a>
-
-                <a href="#" class="nav-item">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2c3 3 4 7 4 11l-4 3-4-3c0-4 1-8 4-11z"/>
-                        <path d="M8 14l-3 4 4-1M16 14l3 4-4-1"/>
-                    </svg>
-                    Naves
-                </a>
-
-                <a href="pesquisa-visao-geral.html" class="nav-item active" aria-current="page">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>
-                    </svg>
-                    Pesquisas
-                    <span class="tag mono">CIENTISTA</span>
-                </a>
-            </nav>
-
-            <div class="telemetry mono">
-                <div class="telemetry-row">
-                    <span><i class="dot"></i>TELEMETRIA CORE</span>
-                    <b>99.98%</b>
+            <!-- Rodapé: Telemetria -->
+            <div class="sidebar-footer">
+                <div class="telemetry-card">
+                    <div class="telemetry-status">
+                        <span class="dot-status online"></span>
+                        <span>TELEMETRIA CORE</span>
+                        <span class="telemetry-value">99.98%</span>
+                    </div>
+                    <div class="telemetry-sector">SECTOR 001-ORION V 4.12.0</div>
                 </div>
-                <div class="telemetry-sub">SECTOR 001-ORION V 4.12.0</div>
             </div>
         </aside>
 
@@ -112,8 +120,8 @@
 
                     <button class="icon-btn" aria-label="Notificações">
                         <svg viewBox="0 0 24 24">
-                            <path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7z"/>
-                            <path d="M10 20a2 2 0 0 0 4 0"/>
+                            <path d="M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7z" />
+                            <path d="M10 20a2 2 0 0 0 4 0" />
                         </svg>
                     </button>
 
@@ -146,7 +154,7 @@
                             <span>Total de Pesquisas</span>
                             <span class="research-stat-icon cyan">
                                 <svg viewBox="0 0 24 24">
-                                    <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/>
+                                    <path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3" />
                                 </svg>
                             </span>
                         </div>
@@ -159,8 +167,8 @@
                             <span>Em Progresso</span>
                             <span class="research-stat-icon cyan">
                                 <svg viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="9"/>
-                                    <path d="M12 7v5l3 2"/>
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M12 7v5l3 2" />
                                 </svg>
                             </span>
                         </div>
@@ -173,7 +181,7 @@
                             <span>Concluídas</span>
                             <span class="research-stat-icon green">
                                 <svg viewBox="0 0 24 24">
-                                    <path d="m5 12 4 4L19 6"/>
+                                    <path d="m5 12 4 4L19 6" />
                                 </svg>
                             </span>
                         </div>
@@ -186,8 +194,8 @@
                             <span>Inconclusivas</span>
                             <span class="research-stat-icon amber">
                                 <svg viewBox="0 0 24 24">
-                                    <circle cx="12" cy="12" r="9"/>
-                                    <path d="M12 7v5M12 16h.01"/>
+                                    <circle cx="12" cy="12" r="9" />
+                                    <path d="M12 7v5M12 16h.01" />
                                 </svg>
                             </span>
                         </div>
@@ -200,7 +208,7 @@
                             <span>Abortadas</span>
                             <span class="research-stat-icon red">
                                 <svg viewBox="0 0 24 24">
-                                    <path d="m6 6 12 12M18 6 6 18"/>
+                                    <path d="m6 6 12 12M18 6 6 18" />
                                 </svg>
                             </span>
                         </div>
@@ -215,10 +223,11 @@
 
                     <div class="search-box">
                         <svg viewBox="0 0 24 24">
-                            <circle cx="11" cy="11" r="7"/>
-                            <path d="m16 16 4 4"/>
+                            <circle cx="11" cy="11" r="7" />
+                            <path d="m16 16 4 4" />
                         </svg>
-                        <input type="search" placeholder="Buscar por código ou pesquisa..." aria-label="Buscar pesquisas">
+                        <input type="search" placeholder="Buscar por código ou pesquisa..."
+                            aria-label="Buscar pesquisas">
                     </div>
 
                     <div class="filter-pills">
@@ -260,7 +269,8 @@
                                     <td><span class="id-code mono">• PESQ-001</span></td>
                                     <td>
                                         <strong class="research-title">Análise de Organismos Extraterrestres</strong>
-                                        <small class="research-sub">Estudo biológico de espécimes encontrados em missões</small>
+                                        <small class="research-sub">Estudo biológico de espécimes encontrados em
+                                            missões</small>
                                     </td>
                                     <td><span class="category-badge">Biologia</span></td>
                                     <td><span class="scientist">Dr. Alan Voss</span></td>
@@ -271,7 +281,8 @@
                                     <td><span class="id-code mono">• PESQ-002</span></td>
                                     <td>
                                         <strong class="research-title">Tecnologia de Propulsão Quântica</strong>
-                                        <small class="research-sub">Desenvolvimento de novos sistemas de deslocamento</small>
+                                        <small class="research-sub">Desenvolvimento de novos sistemas de
+                                            deslocamento</small>
                                     </td>
                                     <td><span class="category-badge">Engenharia</span></td>
                                     <td><span class="scientist">Dra. Elena Kross</span></td>
@@ -282,7 +293,8 @@
                                     <td><span class="id-code mono">• PESQ-003</span></td>
                                     <td>
                                         <strong class="research-title">Estudo da Atmosfera de Kepler-442b</strong>
-                                        <small class="research-sub">Investigação das condições ambientais do planeta</small>
+                                        <small class="research-sub">Investigação das condições ambientais do
+                                            planeta</small>
                                     </td>
                                     <td><span class="category-badge">Astrofísica</span></td>
                                     <td><span class="scientist">Dr. Marcus Hale</span></td>
@@ -304,7 +316,8 @@
                                     <td><span class="id-code mono">• PESQ-005</span></td>
                                     <td>
                                         <strong class="research-title">Comportamento de Espécies Hostis</strong>
-                                        <small class="research-sub">Observação de padrões de comportamento e reação</small>
+                                        <small class="research-sub">Observação de padrões de comportamento e
+                                            reação</small>
                                     </td>
                                     <td><span class="category-badge">Xenobiologia</span></td>
                                     <td><span class="scientist">Dr. Victor Kane</span></td>
@@ -315,7 +328,8 @@
                                     <td><span class="id-code mono">• PESQ-006</span></td>
                                     <td>
                                         <strong class="research-title">Minerais de Origem Desconhecida</strong>
-                                        <small class="research-sub">Identificação e análise de materiais coletados</small>
+                                        <small class="research-sub">Identificação e análise de materiais
+                                            coletados</small>
                                     </td>
                                     <td><span class="category-badge">Geologia</span></td>
                                     <td><span class="scientist">Dra. Nina Sol</span></td>
