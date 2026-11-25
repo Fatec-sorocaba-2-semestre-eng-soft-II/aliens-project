@@ -1,0 +1,549 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>Naves – AMS Central Tática</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=Space+Grotesk:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="app">
+
+        <!-- Menu lateral -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <strong>AMS</strong>
+                <span>
+                    <i class="dot"></i>
+                    CENTRAL TÁTICA
+                </span>
+            </div>
+
+            <div class="nav-title">COMANDO OPERACIONAL</div>
+
+            <a class="nav-item" href="visao-geral.html">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                </svg>
+                Visão Geral
+            </a>
+
+            <a class="nav-item" href="#">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M15 9l-2 5-5 1 2-5z" />
+                </svg>
+                Missões
+            </a>
+
+            <a class="nav-item" href="#">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 3h8l4 4v14H6z" />
+                    <path d="M9 13l2 2 4-4" />
+                </svg>
+                Solicitação de Missão
+            </a>
+
+            <div class="nav-title">ESPÉCIES & RECURSOS</div>
+
+            <a class="nav-item" href="humanos.html">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+                </svg>
+                Humanos
+            </a>
+
+            <a class="nav-item" href="tripulacao.html">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="9" cy="8" r="3.5" />
+                    <path d="M2 20c0-3 3-5 7-5s7 2 7 5" />
+                    <path d="M16 4.5a3.5 3.5 0 010 7M22 20c0-2.5-2-4-4-4.5" />
+                </svg>
+                Tripulação
+            </a>
+
+            <a class="nav-item active" href="naves.html">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 2l7 18-7-4-7 4z" />
+                </svg>
+                Naves
+            </a>
+
+            <div class="telemetry">
+
+                <div class="telemetry-row">
+                    <span>
+                        <i class="dot"></i>
+                        TELEMETRIA CORE
+                    </span>
+                    <b>99.98%</b>
+                </div>
+
+                <div class="telemetry-sub">
+                    SECTOR 001-ORION V 4.12.0
+                </div>
+
+            </div>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <div class="main">
+
+            <!-- Cabeçalho -->
+            <header class="topbar">
+
+                <div class="topbar-left">
+                    <span>
+                        AMS_CORE /
+                        <b>SETOR TÁTICO</b>
+                    </span>
+
+                    <span class="badge ok" style="min-width:0">
+                        REDE ORBITAL ONLINE
+                    </span>
+                </div>
+
+                <div class="topbar-right">
+
+                    <span class="level mono">
+                        NÍVEL: Comandante [Operações Táticas]
+                    </span>
+
+                    <button class="icon-btn" aria-label="Notificações">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M6 16V11a6 6 0 0112 0v5l2 2H4z" />
+                            <path d="M10 21h4" />
+                        </svg>
+                    </button>
+
+                    <button class="icon-btn" aria-label="Ajuda">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="9" />
+                            <path d="M9.5 9.5a2.5 2.5 0 015 .5c0 1.5-2.5 2-2.5 3.5M12 17h.01" />
+                        </svg>
+                    </button>
+
+                    <a class="user" href="meu-perfil.html"
+                        style="text-decoration:none;color:inherit">
+                        <strong>Cmd. Etvorkax</strong>
+                        <span class="mono">COMANDO ATIVO</span>
+                    </a>
+
+                </div>
+            </header>
+
+            <!-- Página -->
+            <main class="content">
+
+                <!-- Breadcrumb -->
+                <div class="breadcrumb">
+                    <a href="visao-geral.html">AMS_CORE</a>
+                    <span>/</span>
+                    <b>Recursos</b>
+                    <span>/</span>
+                    <b>Naves & Estação Orbital</b>
+                </div>
+
+                <!-- Título da página -->
+                <div class="page-head">
+
+                    <div>
+                        <h1>Inventário e Gestão de Naves</h1>
+
+                        <p>
+                            Monitoramento de condição estrutural, Estação Orbital,
+                            integridade do reator, disponibilidade para missão
+                            e vínculo tático intergaláctico.
+                        </p>
+                    </div>
+
+                    <div class="page-actions">
+                    </div>
+
+                </div>
+
+                <!-- Estatísticas -->
+                <div class="stats">
+
+                    <div class="card stat">
+
+                        <div class="stat-top">
+                            Registro geral
+
+                            <span class="stat-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2l7 18-7-4-7 4z" />
+                                </svg>
+                            </span>
+                        </div>
+
+                        <div class="stat-value">
+                            <b class="">14</b>
+                            <small>capacidade 87%</small>
+                        </div>
+
+                    </div>
+
+                    <div class="card stat">
+
+                        <div class="stat-top">
+                            Disponíveis p/ saída
+
+                            <span class="stat-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 3l8 3v6c0 5-4 8-8 9-4-1-8-4-8-9V6z" />
+                                </svg>
+                            </span>
+                        </div>
+
+                        <div class="stat-value">
+                            <b class="green">09</b>
+                            <small>Nominal</small>
+                        </div>
+
+                    </div>
+
+                    <div class="card stat">
+
+                        <div class="stat-top">
+                            Restrição de protocolo
+
+                            <span class="stat-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M14 6a4 4 0 005 5l-9 9a2 2 0 01-3-3z" />
+                                </svg>
+                            </span>
+                        </div>
+
+                        <div class="stat-value">
+                            <b class="amber">02</b>
+                            <small>RN01 bloqueada</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Barra de pesquisa e filtros -->
+                <div class="humanos-toolbar">
+
+                    <div class="campo-pesquisa">
+                        <input id="busca"
+                            placeholder="Buscar por código, nome da nave, classe ou estação orbital…">
+                    </div>
+
+                    <div class="chips">
+                        <button class="chip active" data-filtro="todas">
+                            Todas (14)
+                        </button>
+
+                        <button class="chip" data-filtro="operacional">
+                            Operacionais (09)
+                        </button>
+
+                        <button class="chip" data-filtro="missao">
+                            Em missão (03)
+                        </button>
+
+                        <button class="chip" data-filtro="manutencao">
+                            Em manutenção (02)
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Matriz de naves -->
+                <div class="card">
+
+                    <div class="sec-head">
+
+                        <h2>
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2l7 18-7-4-7 4z" />
+                            </svg>
+                            Matriz Tática de Prontidão
+                        </h2>
+
+                        <small>Pronta · Em execução · Bloqueio RN01</small>
+
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table class="tbl">
+
+                            <thead>
+                                <tr>
+                                    <th>Identificador / Nave</th>
+                                    <th>ID</th>
+                                    <th>Local</th>
+                                    <th>Status operacional</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="tb">
+
+                                <tr data-st="ok">
+                                    <td>
+                                        <b>Nave 01 nome-marca</b>
+                                        <small>REG-001-MCA // SN-40137</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="id g" href="ficha-nave.html">
+                                            NAV-ID000001
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        Estação Orbital Alpha-01
+                                        <small>Setor Orbital Principal</small>
+                                    </td>
+
+                                    <td>
+                                        <span class="pill ok">
+                                            OPERACIONAL / PRONTA
+                                        </span>
+                                        <small>Pronta p/ Missão</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-ghost btn-sm" href="ficha-nave.html">
+                                            Ficha
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-st="route">
+                                    <td>
+                                        <b>Nave 02 nome-marca</b>
+                                        <small>REG-002-MCA // SN-40274</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="id g" href="ficha-nave.html">
+                                            NAV-ID000002
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        Estação Orbital Alpha-01
+                                        <small>Setor Orbital Principal</small>
+                                    </td>
+
+                                    <td>
+                                        <span class="pill route">EM MISSÃO</span>
+                                        <small>Missão 042 (18h ZULU)</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-ghost btn-sm" href="ficha-nave.html">
+                                            Ficha
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-st="pending">
+                                    <td>
+                                        <b>Nave 03 nome-marca</b>
+                                        <small>REG-003-MCA // SN-40411</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="id g" href="ficha-nave.html">
+                                            NAV-ID000003
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        Estação Orbital Alpha-01
+                                        <small>Setor Orbital Principal</small>
+                                    </td>
+
+                                    <td>
+                                        <span class="pill pending">EM MANUTENÇÃO</span>
+                                        <small>Bloqueada · RN01</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-ghost btn-sm" href="ficha-nave.html">
+                                            Ficha
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-st="ok">
+                                    <td>
+                                        <b>Nave 04 nome-marca</b>
+                                        <small>REG-004-MCA // SN-40548</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="id g" href="ficha-nave.html">
+                                            NAV-ID000004
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        Estação Orbital Alpha-01
+                                        <small>Setor Orbital Principal</small>
+                                    </td>
+
+                                    <td>
+                                        <span class="pill ok">
+                                            OPERACIONAL / PRONTA
+                                        </span>
+                                        <small>Pronta p/ Missão</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-ghost btn-sm" href="ficha-nave.html">
+                                            Ficha
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-st="route">
+                                    <td>
+                                        <b>Nave 05 nome-marca</b>
+                                        <small>REG-005-MCA // SN-40685</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="id g" href="ficha-nave.html">
+                                            NAV-ID000005
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        Estação Orbital Alpha-01
+                                        <small>Setor Orbital Principal</small>
+                                    </td>
+
+                                    <td>
+                                        <span class="pill route">EM MISSÃO</span>
+                                        <small>Missão 038 (45h ZULU)</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-ghost btn-sm" href="ficha-nave.html">
+                                            Ficha
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-st="ok">
+                                    <td>
+                                        <b>Nave 06 nome-marca</b>
+                                        <small>REG-006-MCA // SN-40822</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="id g" href="ficha-nave.html">
+                                            NAV-ID000006
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        Estação Orbital Alpha-01
+                                        <small>Setor Orbital Principal</small>
+                                    </td>
+
+                                    <td>
+                                        <span class="pill ok">
+                                            OPERACIONAL / PRONTA
+                                        </span>
+                                        <small>Pronta p/ Missão</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-ghost btn-sm" href="ficha-nave.html">
+                                            Ficha
+                                        </a>
+                                    </td>
+                                </tr>
+
+                                <tr data-st="ok">
+                                    <td>
+                                        <b>Nave 07 nome-marca</b>
+                                        <small>REG-007-MCA // SN-40959</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="id g" href="ficha-nave.html">
+                                            NAV-ID000007
+                                        </a>
+                                    </td>
+
+                                    <td>
+                                        Estação Orbital Alpha-01
+                                        <small>Setor Orbital Principal</small>
+                                    </td>
+
+                                    <td>
+                                        <span class="pill ok">
+                                            OPERACIONAL / PRONTA
+                                        </span>
+                                        <small>Pronta p/ Missão</small>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn-ghost btn-sm" href="ficha-nave.html">
+                                            Ficha
+                                        </a>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <!-- Rodapé da tabela -->
+                    <div class="table-foot">
+
+                        <span>Exibindo 1-7 de 14 naves registradas</span>
+
+                        <div class="pager">
+                            <a class="active" href="#">1</a>
+                            <a href="#">2</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Pesquisa dinâmica -->
+    <script>
+        document.getElementById("busca").oninput = e =>
+            document.querySelectorAll("#tb tr").forEach(r =>
+                r.style.display = r.textContent.toLowerCase()
+                    .includes(e.target.value.toLowerCase())
+                    ? ""
+                    : "none"
+            );
+    </script>
+
+    <script src="./js/naves.js"></script>
+
+</body>
+</html>
