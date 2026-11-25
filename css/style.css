@@ -909,3 +909,34 @@ h1 {
     padding: 30px 12px;
     color: var(--muted);
 }
+
+
+/* ==========================================
+   TELA: NAVES - FILTROS
+   ========================================== */
+
+.chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.chip {
+    font-family: var(--mono);
+    font-size: 10.5px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 5px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.chip.active,
+.chip:hover {
+    color: var(--green);
+    border-color: var(--green);
+    background: var(--green-bg);
+}
