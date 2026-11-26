@@ -807,7 +807,7 @@ h1 {
     gap: 8px;
     padding: 16px;
     margin-bottom: 24px;
-    background: var(--panel);
+    background: var(--card);
     border: 1px solid var(--border);
 }
 
@@ -845,7 +845,7 @@ h1 {
 
 .btn-filtro:hover,
 .btn-setor:hover {
-    border-color: var(--accent);
+    border-color: var(--green);
 }
 
 .humanos-toolbar .btn-primary {
@@ -854,7 +854,7 @@ h1 {
 
 /* Lista de humanos */
 .humanos-lista {
-    background: var(--panel);
+    background: var(--card);
     border: 1px solid var(--border);
     margin-top: 24px;
     padding: 20px;
