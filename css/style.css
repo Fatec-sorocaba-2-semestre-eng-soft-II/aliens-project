@@ -792,7 +792,25 @@ h1 {
 .formulario-acoes {
     display: flex;
     justify-content: flex-end;
+    gap: 12px;
     margin-top: 8px;
+}
+
+.btn-cancelar {
+    padding: 12px 18px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-cancelar:hover {
+    border-color: var(--green);
+    color: var(--green);
 }
 
 /* Estilos exclusivos da Gestão de Humanos */
