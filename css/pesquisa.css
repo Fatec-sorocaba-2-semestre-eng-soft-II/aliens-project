@@ -13,7 +13,6 @@
    11. Responsividade (todas as media queries)
    ========================================================================== */
 
-
 /* ==========================================================================
    01. VARIÁVEIS GLOBAIS
    Centraliza cores, fontes e medidas para manter a consistência visual.
@@ -70,6 +69,7 @@
 
     /* Medidas */
     --sidebar-width: 260px;
+
 }
 
 
